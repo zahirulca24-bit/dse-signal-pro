@@ -1,0 +1,3277 @@
+{
+  "Bank": {
+    "count": 36,
+    "stocks": [
+      {
+        "code": "ABBANK",
+        "ltp": 4.4,
+        "category": "Z"
+      },
+      {
+        "code": "ALARABANK",
+        "ltp": 0,
+        "category": "Z"
+      },
+      {
+        "code": "BANKASIA",
+        "ltp": 16.7,
+        "category": "A"
+      },
+      {
+        "code": "BRACBANK",
+        "ltp": 66.2,
+        "category": "A"
+      },
+      {
+        "code": "CITYBANK",
+        "ltp": 29.6,
+        "category": "A"
+      },
+      {
+        "code": "DHAKABANK",
+        "ltp": 10.8,
+        "category": "A"
+      },
+      {
+        "code": "DUTCHBANGL",
+        "ltp": 45.3,
+        "category": "A"
+      },
+      {
+        "code": "EBL",
+        "ltp": 22.9,
+        "category": "A"
+      },
+      {
+        "code": "EXIMBANK",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "FIRSTSBANK",
+        "ltp": 0,
+        "category": "Z"
+      },
+      {
+        "code": "GIB",
+        "ltp": 0,
+        "category": "Z"
+      },
+      {
+        "code": "ICBIBANK",
+        "ltp": 2.6,
+        "category": "Z"
+      },
+      {
+        "code": "IFIC",
+        "ltp": 4.8,
+        "category": "Z"
+      },
+      {
+        "code": "ISLAMIBANK",
+        "ltp": 25.2,
+        "category": "Z"
+      },
+      {
+        "code": "JAMUNABANK",
+        "ltp": 23.1,
+        "category": "A"
+      },
+      {
+        "code": "MERCANBANK",
+        "ltp": 6.3,
+        "category": "Z"
+      },
+      {
+        "code": "MIDLANDBNK",
+        "ltp": 16.3,
+        "category": "B"
+      },
+      {
+        "code": "MTB",
+        "ltp": 13,
+        "category": "A"
+      },
+      {
+        "code": "NBL",
+        "ltp": 3.9,
+        "category": "Z"
+      },
+      {
+        "code": "NCCBANK",
+        "ltp": 14.6,
+        "category": "A"
+      },
+      {
+        "code": "NRBBANK",
+        "ltp": 6.8,
+        "category": "Z"
+      },
+      {
+        "code": "NRBCBANK",
+        "ltp": 9.2,
+        "category": "Z"
+      },
+      {
+        "code": "ONEBANKPLC",
+        "ltp": 7,
+        "category": "Z"
+      },
+      {
+        "code": "PREMIERBAN",
+        "ltp": 5.6,
+        "category": "Z"
+      },
+      {
+        "code": "PRIMEBANK",
+        "ltp": 28.2,
+        "category": "A"
+      },
+      {
+        "code": "PUBALIBANK",
+        "ltp": 40.4,
+        "category": "A"
+      },
+      {
+        "code": "RUPALIBANK",
+        "ltp": 16,
+        "category": "Z"
+      },
+      {
+        "code": "SBACBANK",
+        "ltp": 6.8,
+        "category": "Z"
+      },
+      {
+        "code": "SHAHJABANK",
+        "ltp": 17.3,
+        "category": "A"
+      },
+      {
+        "code": "SIBL",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "SOUTHEASTB",
+        "ltp": 11.4,
+        "category": "A"
+      },
+      {
+        "code": "STANDBANKL",
+        "ltp": 4.3,
+        "category": "Z"
+      },
+      {
+        "code": "TRUSTBANK",
+        "ltp": 13,
+        "category": "A"
+      },
+      {
+        "code": "UCB",
+        "ltp": 8.3,
+        "category": "Z"
+      },
+      {
+        "code": "UNIONBANK",
+        "ltp": 0,
+        "category": "Z"
+      },
+      {
+        "code": "UTTARABANK",
+        "ltp": 20.9,
+        "category": "A"
+      }
+    ]
+  },
+  "Cement": {
+    "count": 7,
+    "stocks": [
+      {
+        "code": "ARAMITCEM",
+        "ltp": 11,
+        "category": "Z"
+      },
+      {
+        "code": "CONFIDCEM",
+        "ltp": 58.4,
+        "category": "A"
+      },
+      {
+        "code": "CROWNCEMNT",
+        "ltp": 57.3,
+        "category": "A"
+      },
+      {
+        "code": "HEIDELBCEM",
+        "ltp": 207.1,
+        "category": "A"
+      },
+      {
+        "code": "LHB",
+        "ltp": 52.3,
+        "category": "A"
+      },
+      {
+        "code": "MEGHNACEM",
+        "ltp": 29,
+        "category": "Z"
+      },
+      {
+        "code": "PREMIERCEM",
+        "ltp": 41.3,
+        "category": "A"
+      }
+    ]
+  },
+  "Ceramic": {
+    "count": 5,
+    "stocks": [
+      {
+        "code": "FUWANGCER",
+        "ltp": 11.5,
+        "category": "B"
+      },
+      {
+        "code": "MONNOCERA",
+        "ltp": 78.3,
+        "category": "B"
+      },
+      {
+        "code": "RAKCERAMIC",
+        "ltp": 24.9,
+        "category": "A"
+      },
+      {
+        "code": "SPCERAMICS",
+        "ltp": 22.4,
+        "category": "B"
+      },
+      {
+        "code": "STANCERAM",
+        "ltp": 64.9,
+        "category": "Z"
+      }
+    ]
+  },
+  "CorpBond": {
+    "count": 16,
+    "stocks": [
+      {
+        "code": "ABBLPBOND",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "AIBLPBOND",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "APSCLBOND",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "BANKASI1PB",
+        "ltp": 0,
+        "category": "N"
+      },
+      {
+        "code": "BEXGSUKUK",
+        "ltp": 73.5,
+        "category": "A"
+      },
+      {
+        "code": "CBLPBOND",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "DBLPBOND",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "IBBL2PBOND",
+        "ltp": 3657.5,
+        "category": "N"
+      },
+      {
+        "code": "IBBLPBOND",
+        "ltp": 645,
+        "category": "A"
+      },
+      {
+        "code": "MBPLCPBOND",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "MTBPBOND",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "PBLPBOND",
+        "ltp": 4900,
+        "category": "A"
+      },
+      {
+        "code": "PREBPBOND",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "SEB1PBOND",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "SJIBLPBOND",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "UCB2PBOND",
+        "ltp": 0,
+        "category": "A"
+      }
+    ]
+  },
+  "Debenture": {
+    "count": 8,
+    "stocks": [
+      {
+        "code": "DEBARACEM",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "DEBBDLUGG",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "DEBBDWELD",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "DEBBDZIPP",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "DEBBXDENIM",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "DEBBXFISH",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "DEBBXKNI",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "DEBBXTEX",
+        "ltp": 0,
+        "category": "A"
+      }
+    ]
+  },
+  "Engineering": {
+    "count": 42,
+    "stocks": [
+      {
+        "code": "AFTABAUTO",
+        "ltp": 25.5,
+        "category": "Z"
+      },
+      {
+        "code": "ANWARGALV",
+        "ltp": 119,
+        "category": "A"
+      },
+      {
+        "code": "APOLOISPAT",
+        "ltp": 2.5,
+        "category": "Z"
+      },
+      {
+        "code": "ATLASBANG",
+        "ltp": 82.3,
+        "category": "Z"
+      },
+      {
+        "code": "AZIZPIPES",
+        "ltp": 99.9,
+        "category": "Z"
+      },
+      {
+        "code": "BBS",
+        "ltp": 9.9,
+        "category": "B"
+      },
+      {
+        "code": "BBSCABLES",
+        "ltp": 14.6,
+        "category": "B"
+      },
+      {
+        "code": "BDAUTOCA",
+        "ltp": 182,
+        "category": "B"
+      },
+      {
+        "code": "BDLAMPS",
+        "ltp": 245.5,
+        "category": "A"
+      },
+      {
+        "code": "BDTHAI",
+        "ltp": 12.6,
+        "category": "B"
+      },
+      {
+        "code": "BENGALWTL",
+        "ltp": 20.5,
+        "category": "B"
+      },
+      {
+        "code": "BSRMLTD",
+        "ltp": 96.6,
+        "category": "A"
+      },
+      {
+        "code": "BSRMSTEEL",
+        "ltp": 89.3,
+        "category": "A"
+      },
+      {
+        "code": "COPPERTECH",
+        "ltp": 21.5,
+        "category": "B"
+      },
+      {
+        "code": "DESHBANDHU",
+        "ltp": 15.2,
+        "category": "B"
+      },
+      {
+        "code": "DOMINAGE",
+        "ltp": 62.2,
+        "category": "B"
+      },
+      {
+        "code": "ECABLES",
+        "ltp": 121.3,
+        "category": "B"
+      },
+      {
+        "code": "GOLDENSON",
+        "ltp": 10.9,
+        "category": "B"
+      },
+      {
+        "code": "GPHISPAT",
+        "ltp": 15.8,
+        "category": "B"
+      },
+      {
+        "code": "IFADAUTOS",
+        "ltp": 22.6,
+        "category": "B"
+      },
+      {
+        "code": "KAY&QUE",
+        "ltp": 400.6,
+        "category": "B"
+      },
+      {
+        "code": "KDSALTD",
+        "ltp": 41.8,
+        "category": "A"
+      },
+      {
+        "code": "MIRAKHTER",
+        "ltp": 32,
+        "category": "A"
+      },
+      {
+        "code": "MONNOAGML",
+        "ltp": 299,
+        "category": "B"
+      },
+      {
+        "code": "NAHEEACP",
+        "ltp": 37.6,
+        "category": "B"
+      },
+      {
+        "code": "NAVANACNG",
+        "ltp": 18.9,
+        "category": "Z"
+      },
+      {
+        "code": "NPOLYMER",
+        "ltp": 28.8,
+        "category": "B"
+      },
+      {
+        "code": "NTLTUBES",
+        "ltp": 59.5,
+        "category": "B"
+      },
+      {
+        "code": "OAL",
+        "ltp": 5.5,
+        "category": "Z"
+      },
+      {
+        "code": "OIMEX",
+        "ltp": 13.5,
+        "category": "Z"
+      },
+      {
+        "code": "QUASEMIND",
+        "ltp": 37.3,
+        "category": "A"
+      },
+      {
+        "code": "RANFOUNDRY",
+        "ltp": 149,
+        "category": "A"
+      },
+      {
+        "code": "RENWICKJA",
+        "ltp": 842.7,
+        "category": "Z"
+      },
+      {
+        "code": "RSRMSTEEL",
+        "ltp": 6.6,
+        "category": "Z"
+      },
+      {
+        "code": "RUNNERAUTO",
+        "ltp": 43.2,
+        "category": "A"
+      },
+      {
+        "code": "SALAMCRST",
+        "ltp": 11.7,
+        "category": "Z"
+      },
+      {
+        "code": "SHURWID",
+        "ltp": 4.9,
+        "category": "Z"
+      },
+      {
+        "code": "SINGERBD",
+        "ltp": 76.2,
+        "category": "Z"
+      },
+      {
+        "code": "SSSTEEL",
+        "ltp": 5.3,
+        "category": "Z"
+      },
+      {
+        "code": "WALTONHIL",
+        "ltp": 330.1,
+        "category": "A"
+      },
+      {
+        "code": "WMSHIPYARD",
+        "ltp": 7.8,
+        "category": "Z"
+      },
+      {
+        "code": "YPL",
+        "ltp": 20.1,
+        "category": "Z"
+      }
+    ]
+  },
+  "Financial In": {
+    "count": 23,
+    "stocks": [
+      {
+        "code": "BAYLEASING",
+        "ltp": 4.2,
+        "category": "Z"
+      },
+      {
+        "code": "BDFINANCE",
+        "ltp": 10.5,
+        "category": "Z"
+      },
+      {
+        "code": "BIFC",
+        "ltp": 3.3,
+        "category": "Z"
+      },
+      {
+        "code": "DBH",
+        "ltp": 39,
+        "category": "A"
+      },
+      {
+        "code": "FAREASTFIN",
+        "ltp": 0,
+        "category": "Z"
+      },
+      {
+        "code": "FASFIN",
+        "ltp": 0,
+        "category": "Z"
+      },
+      {
+        "code": "FIRSTFIN",
+        "ltp": 4,
+        "category": "Z"
+      },
+      {
+        "code": "GSPFINANCE",
+        "ltp": 3.4,
+        "category": "Z"
+      },
+      {
+        "code": "ICB",
+        "ltp": 38,
+        "category": "B"
+      },
+      {
+        "code": "IDLC",
+        "ltp": 41.3,
+        "category": "A"
+      },
+      {
+        "code": "ILFSL",
+        "ltp": 0,
+        "category": "Z"
+      },
+      {
+        "code": "IPDC",
+        "ltp": 29.4,
+        "category": "A"
+      },
+      {
+        "code": "ISLAMICFIN",
+        "ltp": 10,
+        "category": "Z"
+      },
+      {
+        "code": "LANKABAFIN",
+        "ltp": 13.4,
+        "category": "A"
+      },
+      {
+        "code": "MIDASFIN",
+        "ltp": 4.6,
+        "category": "Z"
+      },
+      {
+        "code": "NHFIL",
+        "ltp": 26.1,
+        "category": "A"
+      },
+      {
+        "code": "PHOENIXFIN",
+        "ltp": 3.3,
+        "category": "Z"
+      },
+      {
+        "code": "PLFSL",
+        "ltp": 1.6,
+        "category": "Z"
+      },
+      {
+        "code": "PREMIERLEA",
+        "ltp": 1.9,
+        "category": "Z"
+      },
+      {
+        "code": "PRIMEFIN",
+        "ltp": 2.5,
+        "category": "Z"
+      },
+      {
+        "code": "UNIONCAP",
+        "ltp": 4.1,
+        "category": "Z"
+      },
+      {
+        "code": "UNITEDFIN",
+        "ltp": 16.1,
+        "category": "A"
+      },
+      {
+        "code": "UTTARAFIN",
+        "ltp": 11.1,
+        "category": "Z"
+      }
+    ]
+  },
+  "FoodAllied": {
+    "count": 21,
+    "stocks": [
+      {
+        "code": "AMCL(PRAN)",
+        "ltp": 211.4,
+        "category": "A"
+      },
+      {
+        "code": "APEXFOODS",
+        "ltp": 312.9,
+        "category": "A"
+      },
+      {
+        "code": "BANGAS",
+        "ltp": 113.7,
+        "category": "B"
+      },
+      {
+        "code": "BATBC",
+        "ltp": 218.6,
+        "category": "A"
+      },
+      {
+        "code": "BDTHAIFOOD",
+        "ltp": 17.5,
+        "category": "B"
+      },
+      {
+        "code": "BEACHHATCH",
+        "ltp": 23.6,
+        "category": "Z"
+      },
+      {
+        "code": "EMERALDOIL",
+        "ltp": 27.9,
+        "category": "Z"
+      },
+      {
+        "code": "FINEFOODS",
+        "ltp": 437.8,
+        "category": "A"
+      },
+      {
+        "code": "FUWANGFOOD",
+        "ltp": 9,
+        "category": "Z"
+      },
+      {
+        "code": "GEMINISEA",
+        "ltp": 107.9,
+        "category": "Z"
+      },
+      {
+        "code": "GHAIL",
+        "ltp": 11.6,
+        "category": "B"
+      },
+      {
+        "code": "LOVELLO",
+        "ltp": 49.4,
+        "category": "A"
+      },
+      {
+        "code": "MEGCONMILK",
+        "ltp": 28.8,
+        "category": "Z"
+      },
+      {
+        "code": "MEGHNAPET",
+        "ltp": 73.8,
+        "category": "Z"
+      },
+      {
+        "code": "NTC",
+        "ltp": 152,
+        "category": "Z"
+      },
+      {
+        "code": "OLYMPIC",
+        "ltp": 139.8,
+        "category": "A"
+      },
+      {
+        "code": "RAHIMAFOOD",
+        "ltp": 68.7,
+        "category": "Z"
+      },
+      {
+        "code": "RDFOOD",
+        "ltp": 22,
+        "category": "B"
+      },
+      {
+        "code": "SHYAMPSUG",
+        "ltp": 303.8,
+        "category": "Z"
+      },
+      {
+        "code": "UNILEVERCL",
+        "ltp": 1978.8,
+        "category": "A"
+      },
+      {
+        "code": "ZEALBANGLA",
+        "ltp": 176.9,
+        "category": "Z"
+      }
+    ]
+  },
+  "FuelPower": {
+    "count": 23,
+    "stocks": [
+      {
+        "code": "AOL",
+        "ltp": 17.6,
+        "category": "Z"
+      },
+      {
+        "code": "BARKAPOWER",
+        "ltp": 9.7,
+        "category": "Z"
+      },
+      {
+        "code": "BDWELDING",
+        "ltp": 10.5,
+        "category": "Z"
+      },
+      {
+        "code": "BPPL",
+        "ltp": 19.5,
+        "category": "B"
+      },
+      {
+        "code": "CVOPRL",
+        "ltp": 159.8,
+        "category": "A"
+      },
+      {
+        "code": "DESCO",
+        "ltp": 23.3,
+        "category": "Z"
+      },
+      {
+        "code": "DOREENPWR",
+        "ltp": 31.8,
+        "category": "A"
+      },
+      {
+        "code": "EASTRNLUB",
+        "ltp": 2015.1,
+        "category": "A"
+      },
+      {
+        "code": "EPGL",
+        "ltp": 15.3,
+        "category": "B"
+      },
+      {
+        "code": "GBBPOWER",
+        "ltp": 11.3,
+        "category": "Z"
+      },
+      {
+        "code": "INTRACO",
+        "ltp": 23,
+        "category": "Z"
+      },
+      {
+        "code": "JAMUNAOIL",
+        "ltp": 179.1,
+        "category": "A"
+      },
+      {
+        "code": "KPCL",
+        "ltp": 10,
+        "category": "Z"
+      },
+      {
+        "code": "LINDEBD",
+        "ltp": 656.4,
+        "category": "A"
+      },
+      {
+        "code": "LRBDL",
+        "ltp": 12.3,
+        "category": "Z"
+      },
+      {
+        "code": "MJLBD",
+        "ltp": 90.1,
+        "category": "A"
+      },
+      {
+        "code": "MPETROLEUM",
+        "ltp": 204.9,
+        "category": "A"
+      },
+      {
+        "code": "PADMAOIL",
+        "ltp": 194.7,
+        "category": "A"
+      },
+      {
+        "code": "POWERGRID",
+        "ltp": 37.8,
+        "category": "Z"
+      },
+      {
+        "code": "SPCL",
+        "ltp": 52.8,
+        "category": "A"
+      },
+      {
+        "code": "SUMITPOWER",
+        "ltp": 15.5,
+        "category": "A"
+      },
+      {
+        "code": "TITASGAS",
+        "ltp": 17,
+        "category": "B"
+      },
+      {
+        "code": "UPGDCL",
+        "ltp": 113.2,
+        "category": "A"
+      }
+    ]
+  },
+  "IT": {
+    "count": 11,
+    "stocks": [
+      {
+        "code": "AAMRANET",
+        "ltp": 18.4,
+        "category": "Z"
+      },
+      {
+        "code": "AAMRATECH",
+        "ltp": 16.4,
+        "category": "Z"
+      },
+      {
+        "code": "ADNTEL",
+        "ltp": 56,
+        "category": "A"
+      },
+      {
+        "code": "AGNISYSL",
+        "ltp": 26.1,
+        "category": "B"
+      },
+      {
+        "code": "BDCOM",
+        "ltp": 26.8,
+        "category": "A"
+      },
+      {
+        "code": "DAFODILCOM",
+        "ltp": 156.2,
+        "category": "B"
+      },
+      {
+        "code": "EGEN",
+        "ltp": 20.4,
+        "category": "B"
+      },
+      {
+        "code": "GENEXIL",
+        "ltp": 30.3,
+        "category": "B"
+      },
+      {
+        "code": "INTECH",
+        "ltp": 22.1,
+        "category": "Z"
+      },
+      {
+        "code": "ISNLTD",
+        "ltp": 49,
+        "category": "B"
+      },
+      {
+        "code": "ITC",
+        "ltp": 40.7,
+        "category": "A"
+      }
+    ]
+  },
+  "Insurance": {
+    "count": 58,
+    "stocks": [
+      {
+        "code": "AGRANINS",
+        "ltp": 27.7,
+        "category": "A"
+      },
+      {
+        "code": "ASIAINS",
+        "ltp": 39,
+        "category": "A"
+      },
+      {
+        "code": "ASIAPACINS",
+        "ltp": 45.3,
+        "category": "A"
+      },
+      {
+        "code": "BGIC",
+        "ltp": 38.8,
+        "category": "A"
+      },
+      {
+        "code": "BNIPLC",
+        "ltp": 155,
+        "category": "A"
+      },
+      {
+        "code": "CENTRALINS",
+        "ltp": 43.3,
+        "category": "A"
+      },
+      {
+        "code": "CITYGENINS",
+        "ltp": 130.5,
+        "category": "A"
+      },
+      {
+        "code": "CLICL",
+        "ltp": 45.6,
+        "category": "B"
+      },
+      {
+        "code": "CONTININS",
+        "ltp": 30.9,
+        "category": "B"
+      },
+      {
+        "code": "CRYSTALINS",
+        "ltp": 64,
+        "category": "A"
+      },
+      {
+        "code": "DELTALIFE",
+        "ltp": 68.2,
+        "category": "A"
+      },
+      {
+        "code": "DGIC",
+        "ltp": 41.3,
+        "category": "B"
+      },
+      {
+        "code": "DHAKAINS",
+        "ltp": 42.1,
+        "category": "A"
+      },
+      {
+        "code": "EASTERNINS",
+        "ltp": 57.4,
+        "category": "A"
+      },
+      {
+        "code": "EASTLAND",
+        "ltp": 26.1,
+        "category": "A"
+      },
+      {
+        "code": "EIL",
+        "ltp": 31.6,
+        "category": "B"
+      },
+      {
+        "code": "FAREASTLIF",
+        "ltp": 17.2,
+        "category": "Z"
+      },
+      {
+        "code": "FEDERALINS",
+        "ltp": 25.6,
+        "category": "A"
+      },
+      {
+        "code": "GLOBALINS",
+        "ltp": 40,
+        "category": "A"
+      },
+      {
+        "code": "GREENDELT",
+        "ltp": 65.7,
+        "category": "A"
+      },
+      {
+        "code": "ICICL",
+        "ltp": 36.9,
+        "category": "A"
+      },
+      {
+        "code": "ISLAMIINS",
+        "ltp": 71.1,
+        "category": "A"
+      },
+      {
+        "code": "JANATAINS",
+        "ltp": 30.5,
+        "category": "A"
+      },
+      {
+        "code": "KARNAPHULI",
+        "ltp": 49.6,
+        "category": "A"
+      },
+      {
+        "code": "MEGHNAINS",
+        "ltp": 31.8,
+        "category": "A"
+      },
+      {
+        "code": "MEGHNALIFE",
+        "ltp": 49.8,
+        "category": "A"
+      },
+      {
+        "code": "MERCINS",
+        "ltp": 44.7,
+        "category": "A"
+      },
+      {
+        "code": "NATLIFEINS",
+        "ltp": 90.7,
+        "category": "A"
+      },
+      {
+        "code": "NITOLINS",
+        "ltp": 54.2,
+        "category": "A"
+      },
+      {
+        "code": "NORTHRNINS",
+        "ltp": 33.3,
+        "category": "A"
+      },
+      {
+        "code": "PADMALIFE",
+        "ltp": 15.1,
+        "category": "Z"
+      },
+      {
+        "code": "PARAMOUNT",
+        "ltp": 63.8,
+        "category": "A"
+      },
+      {
+        "code": "PEOPLESINS",
+        "ltp": 57.8,
+        "category": "A"
+      },
+      {
+        "code": "PHENIXINS",
+        "ltp": 45.3,
+        "category": "A"
+      },
+      {
+        "code": "PIONEERINS",
+        "ltp": 65.8,
+        "category": "A"
+      },
+      {
+        "code": "POPULARLIF",
+        "ltp": 54.1,
+        "category": "A"
+      },
+      {
+        "code": "PRAGATIINS",
+        "ltp": 69.2,
+        "category": "A"
+      },
+      {
+        "code": "PRAGATILIF",
+        "ltp": 135.1,
+        "category": "A"
+      },
+      {
+        "code": "PRIMEINSUR",
+        "ltp": 45.1,
+        "category": "A"
+      },
+      {
+        "code": "PRIMELIFE",
+        "ltp": 35.9,
+        "category": "B"
+      },
+      {
+        "code": "PROGRESLIF",
+        "ltp": 34.9,
+        "category": "Z"
+      },
+      {
+        "code": "PROVATIINS",
+        "ltp": 51.8,
+        "category": "A"
+      },
+      {
+        "code": "PURABIGEN",
+        "ltp": 26.1,
+        "category": "A"
+      },
+      {
+        "code": "RELIANCINS",
+        "ltp": 92.5,
+        "category": "A"
+      },
+      {
+        "code": "REPUBLIC",
+        "ltp": 34.8,
+        "category": "A"
+      },
+      {
+        "code": "RUPALIINS",
+        "ltp": 26.2,
+        "category": "A"
+      },
+      {
+        "code": "RUPALILIFE",
+        "ltp": 78.1,
+        "category": "A"
+      },
+      {
+        "code": "SANDHANINS",
+        "ltp": 22.8,
+        "category": "A"
+      },
+      {
+        "code": "SICL",
+        "ltp": 32.2,
+        "category": "B"
+      },
+      {
+        "code": "SIPLC",
+        "ltp": 133.4,
+        "category": "A"
+      },
+      {
+        "code": "SONALILIFE",
+        "ltp": 106.6,
+        "category": "A"
+      },
+      {
+        "code": "SONARBAINS",
+        "ltp": 38.7,
+        "category": "A"
+      },
+      {
+        "code": "STANDARINS",
+        "ltp": 46.8,
+        "category": "A"
+      },
+      {
+        "code": "SUNLIFEINS",
+        "ltp": 53.6,
+        "category": "B"
+      },
+      {
+        "code": "TAKAFULINS",
+        "ltp": 47,
+        "category": "A"
+      },
+      {
+        "code": "TILIL",
+        "ltp": 44.8,
+        "category": "B"
+      },
+      {
+        "code": "UNIONINS",
+        "ltp": 44.4,
+        "category": "A"
+      },
+      {
+        "code": "UNITEDINS",
+        "ltp": 57.1,
+        "category": "A"
+      }
+    ]
+  },
+  "Jute": {
+    "count": 3,
+    "stocks": [
+      {
+        "code": "JUTESPINN",
+        "ltp": 204,
+        "category": "Z"
+      },
+      {
+        "code": "NORTHERN",
+        "ltp": 95.3,
+        "category": "Z"
+      },
+      {
+        "code": "SONALIANSH",
+        "ltp": 238.4,
+        "category": "A"
+      }
+    ]
+  },
+  "Misc": {
+    "count": 15,
+    "stocks": [
+      {
+        "code": "AMANFEED",
+        "ltp": 28.6,
+        "category": "A"
+      },
+      {
+        "code": "ARAMIT",
+        "ltp": 174,
+        "category": "A"
+      },
+      {
+        "code": "BERGERPBL",
+        "ltp": 1459,
+        "category": "A"
+      },
+      {
+        "code": "BEXIMCO",
+        "ltp": 21.8,
+        "category": "B"
+      },
+      {
+        "code": "BSC",
+        "ltp": 107.4,
+        "category": "A"
+      },
+      {
+        "code": "GQBALLPEN",
+        "ltp": 610.7,
+        "category": "A"
+      },
+      {
+        "code": "HAMI",
+        "ltp": 145,
+        "category": "Z"
+      },
+      {
+        "code": "INDEXAGRO",
+        "ltp": 68.2,
+        "category": "A"
+      },
+      {
+        "code": "KBPPWBIL",
+        "ltp": 33.9,
+        "category": "A"
+      },
+      {
+        "code": "MIRACLEIND",
+        "ltp": 25,
+        "category": "Z"
+      },
+      {
+        "code": "NFML",
+        "ltp": 13.3,
+        "category": "B"
+      },
+      {
+        "code": "SAVAREFR",
+        "ltp": 0,
+        "category": "Z"
+      },
+      {
+        "code": "SINOBANGLA",
+        "ltp": 46.9,
+        "category": "A"
+      },
+      {
+        "code": "SKTRIMS",
+        "ltp": 13,
+        "category": "Z"
+      },
+      {
+        "code": "USMANIAGL",
+        "ltp": 54.2,
+        "category": "Z"
+      }
+    ]
+  },
+  "MutFund": {
+    "count": 35,
+    "stocks": [
+      {
+        "code": "1JANATAMF",
+        "ltp": 3.5,
+        "category": "A"
+      },
+      {
+        "code": "1STPRIMFMF",
+        "ltp": 30.8,
+        "category": "A"
+      },
+      {
+        "code": "ABB1STMF",
+        "ltp": 3.6,
+        "category": "A"
+      },
+      {
+        "code": "AIBL1STIMF",
+        "ltp": 5.6,
+        "category": "A"
+      },
+      {
+        "code": "CAPITECGBF",
+        "ltp": 8,
+        "category": "A"
+      },
+      {
+        "code": "CAPMBDBLMF",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "CAPMIBBLMF",
+        "ltp": 15.8,
+        "category": "A"
+      },
+      {
+        "code": "DBH1STMF",
+        "ltp": 5.4,
+        "category": "A"
+      },
+      {
+        "code": "EBL1STMF",
+        "ltp": 4.2,
+        "category": "A"
+      },
+      {
+        "code": "EBLNRBMF",
+        "ltp": 3.3,
+        "category": "A"
+      },
+      {
+        "code": "EXIM1STMF",
+        "ltp": 5.6,
+        "category": "A"
+      },
+      {
+        "code": "FBFIF",
+        "ltp": 3.3,
+        "category": "A"
+      },
+      {
+        "code": "GLDNJMF",
+        "ltp": 8.4,
+        "category": "A"
+      },
+      {
+        "code": "GRAMEENS2",
+        "ltp": 11.7,
+        "category": "A"
+      },
+      {
+        "code": "GREENDELMF",
+        "ltp": 4.8,
+        "category": "A"
+      },
+      {
+        "code": "ICB3RDNRB",
+        "ltp": 6,
+        "category": "A"
+      },
+      {
+        "code": "ICBAGRANI1",
+        "ltp": 7.9,
+        "category": "A"
+      },
+      {
+        "code": "ICBAMCL2ND",
+        "ltp": 9.7,
+        "category": "A"
+      },
+      {
+        "code": "ICBEPMF1S1",
+        "ltp": 6,
+        "category": "A"
+      },
+      {
+        "code": "ICBSONALI1",
+        "ltp": 8,
+        "category": "A"
+      },
+      {
+        "code": "IFIC1STMF",
+        "ltp": 3.6,
+        "category": "A"
+      },
+      {
+        "code": "IFILISLMF1",
+        "ltp": 5.5,
+        "category": "A"
+      },
+      {
+        "code": "LRGLOBMF1",
+        "ltp": 4.2,
+        "category": "A"
+      },
+      {
+        "code": "MBL1STMF",
+        "ltp": 9.1,
+        "category": "A"
+      },
+      {
+        "code": "NCCBLMF1",
+        "ltp": 6,
+        "category": "A"
+      },
+      {
+        "code": "PF1STMF",
+        "ltp": 12.8,
+        "category": "A"
+      },
+      {
+        "code": "PHPMF1",
+        "ltp": 3.4,
+        "category": "A"
+      },
+      {
+        "code": "POPULAR1MF",
+        "ltp": 3.5,
+        "category": "A"
+      },
+      {
+        "code": "PRIME1ICBA",
+        "ltp": 7.1,
+        "category": "A"
+      },
+      {
+        "code": "RELIANCE1",
+        "ltp": 11.6,
+        "category": "A"
+      },
+      {
+        "code": "SEMLFBSLGF",
+        "ltp": 6.8,
+        "category": "A"
+      },
+      {
+        "code": "SEMLIBBLSF",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TRUSTB1MF",
+        "ltp": 3.4,
+        "category": "A"
+      },
+      {
+        "code": "VAMLBDMF1",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "VAMLRBBF",
+        "ltp": 0,
+        "category": "A"
+      }
+    ]
+  },
+  "PaperPrint": {
+    "count": 6,
+    "stocks": [
+      {
+        "code": "BPML",
+        "ltp": 28.3,
+        "category": "Z"
+      },
+      {
+        "code": "HAKKANIPUL",
+        "ltp": 67,
+        "category": "B"
+      },
+      {
+        "code": "KPPL",
+        "ltp": 13,
+        "category": "Z"
+      },
+      {
+        "code": "MAGURAPLEX",
+        "ltp": 79.1,
+        "category": "A"
+      },
+      {
+        "code": "MONOSPOOL",
+        "ltp": 103.8,
+        "category": "A"
+      },
+      {
+        "code": "SONALIPAPR",
+        "ltp": 221.9,
+        "category": "A"
+      }
+    ]
+  },
+  "PharmaChem": {
+    "count": 34,
+    "stocks": [
+      {
+        "code": "ACI",
+        "ltp": 180.1,
+        "category": "A"
+      },
+      {
+        "code": "ACIFORMULA",
+        "ltp": 151.3,
+        "category": "A"
+      },
+      {
+        "code": "ACMELAB",
+        "ltp": 77.7,
+        "category": "A"
+      },
+      {
+        "code": "ACMEPL",
+        "ltp": 24.5,
+        "category": "B"
+      },
+      {
+        "code": "ACTIVEFINE",
+        "ltp": 4.8,
+        "category": "Z"
+      },
+      {
+        "code": "ADVENT",
+        "ltp": 13.2,
+        "category": "Z"
+      },
+      {
+        "code": "AFCAGRO",
+        "ltp": 5,
+        "category": "Z"
+      },
+      {
+        "code": "AMBEEPHA",
+        "ltp": 735.6,
+        "category": "A"
+      },
+      {
+        "code": "ASIATICLAB",
+        "ltp": 103.4,
+        "category": "A"
+      },
+      {
+        "code": "BEACONPHAR",
+        "ltp": 101.8,
+        "category": "A"
+      },
+      {
+        "code": "BXPHARMA",
+        "ltp": 145.8,
+        "category": "A"
+      },
+      {
+        "code": "CENTRALPHL",
+        "ltp": 8.3,
+        "category": "Z"
+      },
+      {
+        "code": "FARCHEM",
+        "ltp": 15.9,
+        "category": "B"
+      },
+      {
+        "code": "GHCL",
+        "ltp": 19.1,
+        "category": "Z"
+      },
+      {
+        "code": "IBNSINA",
+        "ltp": 309.6,
+        "category": "A"
+      },
+      {
+        "code": "IBP",
+        "ltp": 13.2,
+        "category": "B"
+      },
+      {
+        "code": "JHRML",
+        "ltp": 41.4,
+        "category": "B"
+      },
+      {
+        "code": "JMISMDL",
+        "ltp": 127.8,
+        "category": "A"
+      },
+      {
+        "code": "KEYACOSMET",
+        "ltp": 5,
+        "category": "Z"
+      },
+      {
+        "code": "KOHINOOR",
+        "ltp": 511.5,
+        "category": "A"
+      },
+      {
+        "code": "LIBRAINFU",
+        "ltp": 522,
+        "category": "Z"
+      },
+      {
+        "code": "MARICO",
+        "ltp": 2646.3,
+        "category": "A"
+      },
+      {
+        "code": "NAVANAPHAR",
+        "ltp": 61.8,
+        "category": "A"
+      },
+      {
+        "code": "ORIONINFU",
+        "ltp": 251.1,
+        "category": "A"
+      },
+      {
+        "code": "ORIONPHARM",
+        "ltp": 29.1,
+        "category": "Z"
+      },
+      {
+        "code": "PHARMAID",
+        "ltp": 553.1,
+        "category": "A"
+      },
+      {
+        "code": "RECKITTBEN",
+        "ltp": 3250.1,
+        "category": "A"
+      },
+      {
+        "code": "RENATA",
+        "ltp": 449.2,
+        "category": "A"
+      },
+      {
+        "code": "SALVO",
+        "ltp": 28,
+        "category": "B"
+      },
+      {
+        "code": "SILCOPHL",
+        "ltp": 15.1,
+        "category": "B"
+      },
+      {
+        "code": "SILVAPHL",
+        "ltp": 9.8,
+        "category": "B"
+      },
+      {
+        "code": "SQURPHARMA",
+        "ltp": 219.7,
+        "category": "A"
+      },
+      {
+        "code": "TECHNODRUG",
+        "ltp": 33.6,
+        "category": "A"
+      },
+      {
+        "code": "WATACHEM",
+        "ltp": 127.8,
+        "category": "A"
+      }
+    ]
+  },
+  "ServRealEst": {
+    "count": 4,
+    "stocks": [
+      {
+        "code": "EHL",
+        "ltp": 76,
+        "category": "A"
+      },
+      {
+        "code": "SAIFPOWER",
+        "ltp": 6.3,
+        "category": "Z"
+      },
+      {
+        "code": "SAMORITA",
+        "ltp": 84.1,
+        "category": "B"
+      },
+      {
+        "code": "SAPORTL",
+        "ltp": 57.2,
+        "category": "A"
+      }
+    ]
+  },
+  "TBond": {
+    "count": 214,
+    "stocks": [
+      {
+        "code": "TB10Y0127",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0130",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0132",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0135",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0231",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0234",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0333",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0335",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0429",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0434",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0530",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0531",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0532",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0535",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0628",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0629",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0630",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0632",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0634",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0730",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0731",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0735",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0829",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0833",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y0932",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y1027",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y1030",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y1031",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y1128",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y1135",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y1229",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB10Y1232",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0127",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0128",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0129",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0227",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0228",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0229",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0327",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0328",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0329",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0339",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0340",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0427",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0428",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0429",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0431",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0437",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0527",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0528",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0529",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0535",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0627",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0628",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0629",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0635",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0637",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0727",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0728",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0729",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0730",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0736",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0828",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0829",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0840",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0927",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0928",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0929",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0930",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y0933",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y1026",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y1027",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y1028",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y1029",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y1126",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y1127",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y1128",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y1129",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y1133",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y1226",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y1227",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB15Y1228",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0128",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0129",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0131",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0132",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0133",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0134",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0143",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0228",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0229",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0230",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0231",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0232",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0233",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0234",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0328",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0329",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0330",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0331",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0332",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0333",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0334",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0342",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0428",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0429",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0430",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0431",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0432",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0433",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0434",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0436",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0528",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0529",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0530",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0531",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0532",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0533",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0534",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0540",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0545",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0628",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0629",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0630",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0631",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0632",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0633",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0634",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0639",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0640",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0641",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0642",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0727",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0728",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0729",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0730",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0731",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0732",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0733",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0734",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0735",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0744",
+        "ltp": 140.12,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0827",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0828",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0829",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0830",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0831",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0832",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0833",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0834",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0845",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0927",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0928",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0930",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0931",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0932",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0933",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y0934",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1027",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1028",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1029",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1030",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1031",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1032",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1033",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1034",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1127",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1128",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1130",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1131",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1132",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1133",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1134",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1135",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1138",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1227",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1228",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1229",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1230",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1231",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1232",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1233",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB20Y1242",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB2Y0127",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB2Y0227",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB2Y0327",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB2Y0427",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB2Y0527",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB2Y0627",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB2Y0727",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB2Y0927",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB2Y1126",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB2Y1127",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y0128",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y0230",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y0327",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y0428",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y0429",
+        "ltp": 110.29,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y0430",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y0527",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y0529",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y0628",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y0630",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y0727",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y0828",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y0928",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y0930",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y1029",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y1126",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y1127",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y1128",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y1130",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y1228",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "TB5Y1229",
+        "ltp": 0,
+        "category": "A"
+      }
+    ]
+  },
+  "Tannery": {
+    "count": 6,
+    "stocks": [
+      {
+        "code": "APEXFOOT",
+        "ltp": 0,
+        "category": "A"
+      },
+      {
+        "code": "APEXTANRY",
+        "ltp": 76.7,
+        "category": "Z"
+      },
+      {
+        "code": "BATASHOE",
+        "ltp": 894.9,
+        "category": "A"
+      },
+      {
+        "code": "FORTUNE",
+        "ltp": 13.3,
+        "category": "Z"
+      },
+      {
+        "code": "LEGACYFOOT",
+        "ltp": 66,
+        "category": "B"
+      },
+      {
+        "code": "SAMATALETH",
+        "ltp": 96.1,
+        "category": "B"
+      }
+    ]
+  },
+  "Telecom": {
+    "count": 3,
+    "stocks": [
+      {
+        "code": "BSCPLC",
+        "ltp": 146.8,
+        "category": "A"
+      },
+      {
+        "code": "GP",
+        "ltp": 238,
+        "category": "A"
+      },
+      {
+        "code": "ROBI",
+        "ltp": 29.7,
+        "category": "A"
+      }
+    ]
+  },
+  "Textile": {
+    "count": 58,
+    "stocks": [
+      {
+        "code": "ACFL",
+        "ltp": 21.9,
+        "category": "A"
+      },
+      {
+        "code": "AIL",
+        "ltp": 28.2,
+        "category": "Z"
+      },
+      {
+        "code": "AL-HAJTEX",
+        "ltp": 75.6,
+        "category": "B"
+      },
+      {
+        "code": "ALIF",
+        "ltp": 4.5,
+        "category": "Z"
+      },
+      {
+        "code": "ALLTEX",
+        "ltp": 27.8,
+        "category": "Z"
+      },
+      {
+        "code": "ANLIMAYARN",
+        "ltp": 30.3,
+        "category": "Z"
+      },
+      {
+        "code": "APEXSPINN",
+        "ltp": 408.9,
+        "category": "A"
+      },
+      {
+        "code": "ARGONDENIM",
+        "ltp": 20.3,
+        "category": "A"
+      },
+      {
+        "code": "CNATEX",
+        "ltp": 2.7,
+        "category": "Z"
+      },
+      {
+        "code": "DACCADYE",
+        "ltp": 15.5,
+        "category": "Z"
+      },
+      {
+        "code": "DELTASPINN",
+        "ltp": 7.5,
+        "category": "Z"
+      },
+      {
+        "code": "DSHGARME",
+        "ltp": 141.4,
+        "category": "B"
+      },
+      {
+        "code": "DSSL",
+        "ltp": 9.4,
+        "category": "B"
+      },
+      {
+        "code": "DULAMIACOT",
+        "ltp": 200.5,
+        "category": "Z"
+      },
+      {
+        "code": "ENVOYTEX",
+        "ltp": 69.5,
+        "category": "A"
+      },
+      {
+        "code": "ESQUIRENIT",
+        "ltp": 21.8,
+        "category": "A"
+      },
+      {
+        "code": "ETL",
+        "ltp": 14.1,
+        "category": "B"
+      },
+      {
+        "code": "FAMILYTEX",
+        "ltp": 2.2,
+        "category": "Z"
+      },
+      {
+        "code": "FEKDIL",
+        "ltp": 20.6,
+        "category": "A"
+      },
+      {
+        "code": "GENNEXT",
+        "ltp": 2.6,
+        "category": "Z"
+      },
+      {
+        "code": "HFL",
+        "ltp": 10.4,
+        "category": "Z"
+      },
+      {
+        "code": "HRTEX",
+        "ltp": 16.4,
+        "category": "Z"
+      },
+      {
+        "code": "HWAWELLTEX",
+        "ltp": 45.2,
+        "category": "A"
+      },
+      {
+        "code": "KTL",
+        "ltp": 13.3,
+        "category": "Z"
+      },
+      {
+        "code": "MAKSONSPIN",
+        "ltp": 4.7,
+        "category": "Z"
+      },
+      {
+        "code": "MALEKSPIN",
+        "ltp": 45.6,
+        "category": "A"
+      },
+      {
+        "code": "MATINSPINN",
+        "ltp": 73.5,
+        "category": "A"
+      },
+      {
+        "code": "METROSPIN",
+        "ltp": 9.2,
+        "category": "Z"
+      },
+      {
+        "code": "MHSML",
+        "ltp": 17.5,
+        "category": "B"
+      },
+      {
+        "code": "MITHUNKNIT",
+        "ltp": 12.8,
+        "category": "Z"
+      },
+      {
+        "code": "MLDYEING",
+        "ltp": 10.9,
+        "category": "B"
+      },
+      {
+        "code": "MONNOFABR",
+        "ltp": 17.2,
+        "category": "B"
+      },
+      {
+        "code": "NEWLINE",
+        "ltp": 4.7,
+        "category": "Z"
+      },
+      {
+        "code": "NURANI",
+        "ltp": 2.8,
+        "category": "Z"
+      },
+      {
+        "code": "PDL",
+        "ltp": 5.2,
+        "category": "Z"
+      },
+      {
+        "code": "PRIMETEX",
+        "ltp": 13.4,
+        "category": "Z"
+      },
+      {
+        "code": "PTL",
+        "ltp": 75.1,
+        "category": "A"
+      },
+      {
+        "code": "QUEENSOUTH",
+        "ltp": 12.8,
+        "category": "B"
+      },
+      {
+        "code": "RAHIMTEXT",
+        "ltp": 174.6,
+        "category": "A"
+      },
+      {
+        "code": "REGENTTEX",
+        "ltp": 5.2,
+        "category": "Z"
+      },
+      {
+        "code": "RINGSHINE",
+        "ltp": 3.5,
+        "category": "Z"
+      },
+      {
+        "code": "SAFKOSPINN",
+        "ltp": 21.5,
+        "category": "Z"
+      },
+      {
+        "code": "SAIHAMCOT",
+        "ltp": 21.5,
+        "category": "B"
+      },
+      {
+        "code": "SAIHAMTEX",
+        "ltp": 46.7,
+        "category": "B"
+      },
+      {
+        "code": "SHARPIND",
+        "ltp": 13.7,
+        "category": "B"
+      },
+      {
+        "code": "SHASHADNIM",
+        "ltp": 27.2,
+        "category": "B"
+      },
+      {
+        "code": "SHEPHERD",
+        "ltp": 11.3,
+        "category": "B"
+      },
+      {
+        "code": "SIMTEX",
+        "ltp": 25,
+        "category": "A"
+      },
+      {
+        "code": "SONARGAON",
+        "ltp": 119.9,
+        "category": "B"
+      },
+      {
+        "code": "SQUARETEXT",
+        "ltp": 48.5,
+        "category": "A"
+      },
+      {
+        "code": "STYLECRAFT",
+        "ltp": 50.2,
+        "category": "Z"
+      },
+      {
+        "code": "TALLUSPIN",
+        "ltp": 5.9,
+        "category": "Z"
+      },
+      {
+        "code": "TAMIJTEX",
+        "ltp": 109.9,
+        "category": "A"
+      },
+      {
+        "code": "TOSRIFA",
+        "ltp": 18.3,
+        "category": "B"
+      },
+      {
+        "code": "TUNGHAI",
+        "ltp": 5.2,
+        "category": "Z"
+      },
+      {
+        "code": "VFSTDL",
+        "ltp": 11.5,
+        "category": "B"
+      },
+      {
+        "code": "ZAHEENSPIN",
+        "ltp": 4.6,
+        "category": "Z"
+      },
+      {
+        "code": "ZAHINTEX",
+        "ltp": 7.4,
+        "category": "Z"
+      }
+    ]
+  },
+  "TravelLeisur": {
+    "count": 5,
+    "stocks": [
+      {
+        "code": "BDSERVICE",
+        "ltp": 0,
+        "category": "Z"
+      },
+      {
+        "code": "BESTHLDNG",
+        "ltp": 14.1,
+        "category": "Z"
+      },
+      {
+        "code": "PENINSULA",
+        "ltp": 17.3,
+        "category": "B"
+      },
+      {
+        "code": "SEAPEARL",
+        "ltp": 34.5,
+        "category": "B"
+      },
+      {
+        "code": "UNIQUEHRL",
+        "ltp": 40.3,
+        "category": "A"
+      }
+    ]
+  }
+}

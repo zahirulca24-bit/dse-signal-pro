@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DSE Signal Pro — Analytics, Dashboard & Multi-Pane Charting</title>
+  <link rel="stylesheet" href="css/style.css?v=16">
+  <!-- Offline Standalone Lightweight Charts by TradingView -->
+  <script src="js/lightweight-charts.standalone.production.js"></script>
+</head>
+<body>
+
+  <!-- 1. Master Global Navigation Sidebar (Left) -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="brand">
+        <div class="brand-icon">D</div>
+        <div class="brand-text">DSE SIGNAL</div>
+      </div>
+      <button class="collapse-btn" id="collapseBtn" title="Toggle Navigation Sidebar">☰</button>
+    </div>
+
+    <nav class="nav-menu">
+      <!-- PAGE 1: DASHBOARD -->
+      <div class="nav-item active" data-page="dashboard">
+        <span class="nav-icon">📊</span>
+        <span class="nav-text">Dashboard</span>
+      </div>
+      <!-- PAGE 2: CHART STUDIO -->
+      <div class="nav-item" data-page="chart">
+        <span class="nav-icon">📈</span>
+        <span class="nav-text">Chart Studio</span>
+      </div>
+      <!-- PAGE 3: SMART SCREENER -->
+      <div class="nav-item" data-page="screener">
+        <span class="nav-icon">🔍</span>
+        <span class="nav-text">Smart Screener</span>
+      </div>
+      <!-- PAGE 4: SECTOR MATRIX -->
+      <div class="nav-item" data-page="sectors">
+        <span class="nav-icon">🏢</span>
+        <span class="nav-text">Sector Matrix</span>
+      </div>
+      <!-- PAGE 5: WATCHLIST & PORTFOLIO -->
+      <div class="nav-item" data-page="portfolio">
+        <span class="nav-icon">💼</span>
+        <span class="nav-text">Watchlist & Portfolio</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="status-dot"></div>
+      <div class="footer-text">
+        <span style="font-weight: 600; color: #cbd5e1;">Data Engine Online</span>
+        <div style="font-size: 10px; color: #64748b;">393 Stocks • 2Y OHLCV</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 2. Main Wrapper -->
+  <div class="main-wrapper">
+    
+    <!-- Top Header Ribbon -->
+    <header class="top-header">
+      <div class="market-ribbon">
+        <div class="pill-card">
+          <span class="pill-title">DSEX</span>
+          <span class="pill-val" id="dsexVal">5,452.10</span>
+          <span class="pill-change green" id="dsexChange">+22.69 (+0.42%)</span>
+        </div>
+
+        <div class="pill-card">
+          <span class="pill-title">TURNOVER</span>
+          <span class="pill-val" id="turnoverVal">Loading...</span>
+        </div>
+
+        <div class="breadth-bar">
+          <div class="breadth-item green">
+            <span>▲</span> <span id="advCount">0</span> Adv
+          </div>
+          <span style="color: var(--border-light)">|</span>
+          <div class="breadth-item red">
+            <span>▼</span> <span id="decCount">0</span> Dec
+          </div>
+          <span style="color: var(--border-light)">|</span>
+          <div class="breadth-item neutral">
+            <span>■</span> <span id="unchCount">0</span> Unch
+          </div>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="globalSearch" placeholder="Search 393 stocks... (Press /)">
+        </div>
+
+        <!-- Right Watchlist Drawer Toggle Button (Only on Chart Page) -->
+        <button class="drawer-toggle-btn" id="drawerToggleBtn" title="Hide/Unhide Right Watchlist Panel">
+          <span>📑 Panel</span>
+          <span id="drawerToggleIcon">⫸</span>
+        </button>
+
+        <div class="pill-card" style="font-size: 10.5px; padding: 3px 8px;">
+          <span style="color: var(--text-dim);">Date:</span>
+          <span style="font-weight: 600; color: var(--text-main);" id="marketDate">2026-10-15</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 3. Modular Content Area -->
+    <main class="content-area">
+      
+      <!-- ========================================================
+           PAGE 1: EXECUTIVE MARKET DASHBOARD
+           ======================================================== -->
+      <section class="page-view active" id="page-dashboard">
+        <div class="dashboard-scrollable">
+          
+          <!-- Top Hero Stats Grid -->
+          <div class="dash-hero-grid">
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <span class="dash-card-title">DSEX Benchmark</span>
+                <span class="dash-card-icon">📈</span>
+              </div>
+              <div class="dash-card-value">5,452.10</div>
+              <div class="dash-card-sub">
+                <span class="pill-change green">+22.69 (+0.42%)</span>
+                <span>Session Closed</span>
+              </div>
+            </div>
+
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <span class="dash-card-title">Daily Market Turnover</span>
+                <span class="dash-card-icon">💰</span>
+              </div>
+              <div class="dash-card-value" id="cardTurnover">-- Cr ৳</div>
+              <div class="dash-card-sub" id="cardVolume">Total Traded: -- Shares</div>
+            </div>
+
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <span class="dash-card-title">Market Breadth Ratio</span>
+                <span class="dash-card-icon">⚖️</span>
+              </div>
+              <div class="dash-card-value" id="cardRatio" style="color: var(--color-green);">--</div>
+              <div class="dash-card-sub" id="cardBreadthDetail">-- Advancing vs -- Declining</div>
+            </div>
+
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <span class="dash-card-title">Top Sector Today</span>
+                <span class="dash-card-icon">🏆</span>
+              </div>
+              <div class="dash-card-value" id="cardTopSector" style="font-size: 17px;">--</div>
+              <div class="dash-card-sub" id="cardTopSectorDetail">Avg Change: --</div>
+            </div>
+          </div>
+
+          <!-- Middle Row: Market Overview & Top Movers -->
+          <div class="dash-mid-grid">
+            
+            <!-- Quick Trend Banner / Jump to Chart Studio Card -->
+            <div class="dash-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div class="dash-card-header">
+                  <span class="dash-card-title">Quick Chart Launcher</span>
+                  <span style="font-size: 11px; color: var(--color-ma14);">Click stock to view full chart</span>
+                </div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.5;">
+                  DSE-এর ৩৯৩টি স্টকের টেকনিক্যাল ক্যান্ডেলস্টিক, MA 14, Volume 20 SMA, RSI 14 ও MACD চার্ট দেখতে যেকোনো স্টকে ক্লিক করুন:
+                </p>
+                <div class="quick-jump-pills" id="dashQuickPills">
+                  <button class="dash-pill-btn" data-sym="SQURPHARMA">SQURPHARMA ↗</button>
+                  <button class="dash-pill-btn" data-sym="FEKDIL">FEKDIL ↗</button>
+                  <button class="dash-pill-btn" data-sym="LOVELLO">LOVELLO ↗</button>
+                  <button class="dash-pill-btn" data-sym="ORIONPHARM">ORIONPHARM ↗</button>
+                  <button class="dash-pill-btn" data-sym="MATINSPINN">MATINSPINN ↗</button>
+                  <button class="dash-pill-btn" data-sym="BATBC">BATBC ↗</button>
+                  <button class="dash-pill-btn" data-sym="GP">GP ↗</button>
+                </div>
+              </div>
+
+              <div style="margin-top: 20px; padding: 12px; background: #0a0a0a; border: 1px solid #1f1f1f; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-size: 12.5px; font-weight: 700; color: #fff;">Open Full Multi-Pane Chart Studio</div>
+                  <div style="font-size: 10.5px; color: var(--text-dim);">Candles + MA 14 + RSI 14 + MACD + Drawing Tools</div>
+                </div>
+                <button class="btn-primary" id="openChartStudioBtn">Open Chart Studio 📈</button>
+              </div>
+            </div>
+
+            <!-- Top Movers Table Card -->
+            <div class="dash-card" style="padding: 0;">
+              <div class="movers-header">
+                <div class="movers-tabs">
+                  <button class="movers-tab active" data-tab="gainers">🔥 Top Gainers</button>
+                  <button class="movers-tab" data-tab="losers">🔻 Top Losers</button>
+                  <button class="movers-tab" data-tab="active">⚡ Turnover</button>
+                </div>
+                <span style="font-size: 10px; color: var(--text-dim); margin-right: 12px;">Click to open chart</span>
+              </div>
+
+              <div style="max-height: 290px; overflow-y: auto;">
+                <table class="drawer-table">
+                  <thead>
+                    <tr>
+                      <th>Stock</th>
+                      <th>Sector</th>
+                      <th style="text-align: right;">LTP (৳)</th>
+                      <th style="text-align: right;">Change %</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dashMoversTableBody">
+                    <tr><td colspan="4" style="text-align: center; color: var(--text-dim); padding: 20px;">Loading movers...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Row: Sector Barometer + Favorites Watchlist -->
+          <div class="dash-bottom-grid">
+            
+            <!-- Sector Barometer -->
+            <div class="dash-card" style="padding: 0;">
+              <div class="movers-header">
+                <span class="dash-card-title">Sector Performance Barometer</span>
+                <span style="font-size: 10.5px; color: var(--text-dim); margin-right: 12px;">Avg Daily Return</span>
+              </div>
+              <div style="max-height: 250px; overflow-y: auto;" id="sectorsBarList">
+                <!-- Injected via JavaScript -->
+              </div>
+            </div>
+
+            <!-- Favorites Watchlist Grid -->
+            <div class="dash-card" style="padding: 0;">
+              <div class="movers-header">
+                <span class="dash-card-title">Your Watchlist (Favorites)</span>
+                <span style="font-size: 10.5px; color: var(--text-dim); margin-right: 12px;">From 'Trade' Watchlist</span>
+              </div>
+              <div class="fav-grid" id="favoritesGrid">
+                <!-- Injected via JavaScript -->
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ========================================================
+           PAGE 2: EXACT STOCKNOW-STYLE MULTI-PANE CHART STUDIO
+           ======================================================== -->
+      <section class="page-view" id="page-chart">
+        <div class="stocknow-workspace">
+          
+          <!-- Drawing Toolbar (Vertical Rail on Left of Chart - StockNow Style) -->
+          <div class="chart-draw-toolbar" id="drawToolbar">
+            <button class="draw-btn active" data-tool="crosshair" title="Crosshair [┼]">┼</button>
+            <button class="draw-btn" data-tool="trendline" title="Trend Line [╱]">╱</button>
+            <button class="draw-btn" data-tool="horzline" title="Horizontal Line [―]">―</button>
+            <button class="draw-btn" data-tool="fib" title="Pitchfork / Fibonacci [⋔]">⋔</button>
+            <button class="draw-btn" data-tool="brush" title="Brush / Box [🖌️]">🖌️</button>
+            <button class="draw-btn" data-tool="text" title="Text Annotation [T]">T</button>
+            <button class="draw-btn" data-tool="measure" title="Measure Ruler [📏]">📏</button>
+            <button class="draw-btn" data-tool="zoom" title="Zoom In [🔍]">🔍</button>
+            <div class="draw-divider"></div>
+            <button class="draw-btn" id="magnetBtn" title="Magnet Mode [🧲]">🧲</button>
+            <button class="draw-btn" id="lockBtn" title="Lock All [🔒]">🔒</button>
+            <button class="draw-btn" id="hideDrawBtn" title="Hide Drawings [👁️]">👁️</button>
+            <button class="draw-btn" id="clearDrawBtn" title="Clear All Drawings [🗑️]">🗑️</button>
+          </div>
+
+          <!-- Main Multi-Pane Chart Stage -->
+          <div class="chart-main-stage">
+            
+            <!-- Top Readout Bar (StockNow Style) -->
+            <div class="chart-header-bar">
+              <div class="chart-symbol-group">
+                <span class="symbol-badge" id="chartSymbol">GP</span>
+                <span class="pill-change green" id="chartBadge">--</span>
+                <span class="interval-badge" id="chartTimeframeTag">D</span>
+                <span style="font-size: 13px; color: var(--text-dim); cursor: pointer;" title="Compare Symbol">+</span>
+                <span style="font-size: 13px; color: var(--text-dim); cursor: pointer;" title="Candle Style">🕯️</span>
+                <span style="font-size: 11px; color: #cbd5e1; background: #1a1a1a; padding: 2px 8px; border-radius: 4px; border: 1px solid #282828; cursor: pointer;"><i>fx</i> Indicators</span>
+                <span style="font-size: 10.5px; color: var(--text-dim); cursor: pointer;">Unadjusted</span>
+                <span style="font-size: 10px; background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); padding: 2px 8px; border-radius: 12px; font-weight: 600;">Skill Test</span>
+              </div>
+
+              <!-- Timeframe Selector -->
+              <div class="tf-selector">
+                <button class="tf-btn" data-range="1M">1M</button>
+                <button class="tf-btn" data-range="3M">3M</button>
+                <button class="tf-btn" data-range="6M">6M</button>
+                <button class="tf-btn" data-range="1Y">1Y</button>
+                <button class="tf-btn active" data-range="ALL">ALL (2Y)</button>
+              </div>
+            </div>
+
+            <!-- Analyst 6-Pillar Decision Deck (StockNow & Institutional Grade) -->
+            <div class="chart-analyst-deck" id="chartAnalystDeck">
+              <div class="deck-left">
+                <span class="deck-label">ANALYST VERDICT:</span>
+                <span class="verdict-badge verdict-wait" id="deckVerdictBadge">⏳ WAIT</span>
+                <span class="badge-cat badge-cat-a" id="deckCategoryBadge">CAT A</span>
+                <div class="deck-plan" id="deckTradePlan">
+                  <span class="plan-item">Entry: <b id="deckEntry">--</b></span>
+                  <span class="plan-item sl">SL: <b id="deckSL">--</b></span>
+                  <span class="plan-item t1">T1: <b id="deckT1">--</b></span>
+                  <span class="plan-item rrr">RRR: <b id="deckRRR">--</b></span>
+                </div>
+              </div>
+              <div class="deck-center" id="deckRationaleBlock" title="Click to view full 6-pillar analysis">
+                <span class="rationale-text" id="deckRationaleBn">মার্কেট ও সেক্টর অনুযায়ী প্রাতিষ্ঠানিক অ্যানালিসিস লোড হচ্ছে...</span>
+              </div>
+              <div class="deck-right">
+                <button class="deck-action-btn active" id="togglePlanLinesBtn" title="Toggle Stop-Loss & Target Guide Lines on Chart">🎯 Trade Lines: ON</button>
+              </div>
+            </div>
+
+            <!-- 3 Stacked Synchronized Chart Panes -->
+            <div class="panes-stack-container" id="panesStack">
+              
+              <!-- Pane 1: Main Candlestick + MA 14 + Volume & Volume 20 SMA -->
+              <div class="pane-wrapper" id="panePriceWrapper">
+                <!-- Floating StockNow In-Canvas Legend -->
+                <div class="pane-legend" id="legendPrice">
+                  <div class="legend-line-1">
+                    <span class="legend-sym" id="legSymbol">GP</span>
+                    <span class="legend-source">• StockNow • 1D</span>
+                    <span class="legend-dot green" id="legDot">●</span>
+                    <span>O <b id="legO">--</b></span>
+                    <span>H <b id="legH">--</b></span>
+                    <span>L <b id="legL">--</b></span>
+                    <span>C <b id="legC">--</b></span>
+                    <span class="pill-change green" id="legChgBadge">--</span>
+                    <span>Vol <b id="legVol">--</b></span>
+                  </div>
+                  <div class="legend-line-2">
+                    <span style="color: #64748b;">Volume 20 SMA</span>
+                    <span style="color: #26a69a; font-weight: 600;" id="legVolVal">--</span>
+                    <span style="color: #00b4d8; font-weight: 600;" id="legVolSMA">--</span>
+                  </div>
+                  <div class="legend-line-3">
+                    <span style="color: #64748b;">MA 14 close 0</span>
+                    <span style="color: #00b4d8; font-weight: 600;" id="legMA14">--</span>
+                  </div>
+                </div>
+
+                <div class="pane-canvas" id="canvasPrice"></div>
+                <!-- Drawing Overlay Canvas -->
+                <canvas id="drawingCanvas"></canvas>
+              </div>
+
+              <!-- Horizontal Resizer Splitter: Price & RSI -->
+              <div class="pane-resizer" id="resizerPriceRSI" data-resizer="price-rsi" title="Drag to resize Price and RSI charts"></div>
+
+              <!-- Pane 2: RSI 14 Panel -->
+              <div class="pane-wrapper" id="paneRSIWrapper">
+                <div class="pane-legend" id="legendRSI">
+                  <div class="legend-line-1">
+                    <span style="color: #ab47bc; font-weight: 700;">RSI 14</span>
+                    <span style="color: #ab47bc; font-weight: 700;" id="legRSI">--</span>
+                    <span style="color: #475569; font-size: 10px;">[70.00 Overbought / 30.00 Oversold]</span>
+                  </div>
+                </div>
+                <div class="pane-canvas" id="canvasRSI"></div>
+              </div>
+
+              <!-- Horizontal Resizer Splitter: RSI & MACD -->
+              <div class="pane-resizer" id="resizerRSIMACD" data-resizer="rsi-macd" title="Drag to resize RSI and MACD charts"></div>
+
+              <!-- Pane 3: MACD (12, 26, 9 EMA) Panel -->
+              <div class="pane-wrapper" id="paneMACDWrapper">
+                <div class="pane-legend" id="legendMACD">
+                  <div class="legend-line-1">
+                    <span style="color: #94a3b8; font-weight: 600;">MACD 12 26 close 9 EMA EMA</span>
+                    <span style="color: #26a69a; font-weight: 700;" id="legMACDHist">--</span>
+                    <span style="color: #2962ff; font-weight: 700;" id="legMACDLine">--</span>
+                    <span style="color: #ff6d00; font-weight: 700;" id="legMACDSig">--</span>
+                  </div>
+                </div>
+                <div class="pane-canvas" id="canvasMACD"></div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Vertical Resizer Handle for Watchlist Drawer -->
+          <div class="drawer-resizer" id="drawerResizer" title="Drag to resize Watchlist drawer"></div>
+
+          <!-- Right Interactive Market Drawer (StockNow Favorites) -->
+          <aside class="market-drawer" id="marketDrawer">
+            <!-- Header matching Image 2 -->
+            <div style="padding: 10px 14px; border-bottom: 1px solid var(--border-color); background: #0e0e10; display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="color: #ef4444; font-size: 13px;">❤️</span>
+                <span style="font-weight: 700; color: #fff; font-size: 13px;">Favorites</span>
+              </div>
+              <select id="drawerFolderSelect" class="screener-select" style="padding: 3px 6px; font-size: 11px;">
+                <option value="Trade">Trade ▾</option>
+                <option value="up trend">up trend ▾</option>
+                <option value="SME">SME ▾</option>
+                <option value="AI Watchlist">AI Watchlist ▾</option>
+              </select>
+            </div>
+
+            <div style="padding: 4px 14px; background: #0a0a0c; font-size: 10px; color: var(--text-dim); border-bottom: 1px solid #1a1a1a;">
+              <span>trading stock</span>
+            </div>
+
+            <!-- Drawer Tabs -->
+            <div class="drawer-tabs">
+              <button class="drawer-tab active" data-tab="favorites">Favorites</button>
+              <button class="drawer-tab" data-tab="gainers">Gainers</button>
+              <button class="drawer-tab" data-tab="active">Turnover</button>
+              <button class="drawer-tab" data-tab="all">All 393</button>
+            </div>
+
+            <div class="drawer-content">
+              <table class="drawer-table">
+                <thead id="drawerTableHead">
+                  <tr>
+                    <th>Code</th>
+                    <th>Sector</th>
+                    <th style="text-align: right;">Last (৳)</th>
+                    <th style="text-align: right;">Ch%</th>
+                  </tr>
+                </thead>
+                <tbody id="drawerTableBody">
+                  <tr><td colspan="4" style="text-align: center; color: var(--text-dim); padding: 30px;">Loading market list...</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Bottom Folder Links matching Image 2 -->
+            <div style="padding: 8px 12px; background: #0c0c0e; border-top: 1px solid #1a1a1a; display: flex; flex-direction: column; gap: 4px; font-size: 10.5px; color: var(--text-dim);">
+              <span style="cursor: pointer;" class="drawer-subfolder" data-f="up trend">📁 up trend</span>
+              <span style="cursor: pointer;" class="drawer-subfolder" data-f="SME">📁 SME</span>
+              <span style="cursor: pointer;" class="drawer-subfolder" data-f="AI Watchlist">📁 AI Watchlist</span>
+            </div>
+          </aside>
+
+        </div>
+      </section>
+
+      <!-- PAGE 3: SMART SCREENER -->
+      <section class="page-view" id="page-screener">
+        <div class="screener-scrollable">
+          
+          <!-- Header Banner -->
+          <div class="screener-header-card">
+            <div class="screener-title-block">
+              <h1><span>🔍</span> Smart Screener & Strategy Scanner</h1>
+              <p>DSE-এর ৩৯৩টি লিস্টেড স্টকের রিয়েল-টাইম টেকনিক্যাল স্ট্র্যাটেজি স্ক্যানার — MACD, RSI, Volume Surge ও Moving Average ফিল্টার</p>
+            </div>
+            <button class="btn-primary" id="refreshScreenerBtn" style="font-size: 11px; padding: 6px 12px;">🔄 Refresh Scanner</button>
+          </div>
+
+          <!-- Strategy Quick Filters Grid (Analyst Verdicts & Core Strategies) -->
+          <div class="screener-stats-grid">
+            <div class="strategy-card active" data-strategy="all">
+              <div class="strategy-header">
+                <span class="strategy-title">All Stocks</span>
+                <span>📋</span>
+              </div>
+              <div class="strategy-count" id="countAll">392</div>
+              <div class="strategy-desc">Total DSE Master Universe</div>
+            </div>
+
+            <div class="strategy-card" data-strategy="BUY_SETUP" style="border-left: 3px solid #2ebd85;">
+              <div class="strategy-header">
+                <span class="strategy-title" style="color: #2ebd85;">🟢 BUY SETUP</span>
+                <span>🔥</span>
+              </div>
+              <div class="strategy-count" id="countBuySetup" style="color: #2ebd85;">0</div>
+              <div class="strategy-desc">RRR ≥ 1:2.0 • Non-Z • Confluence</div>
+            </div>
+
+            <div class="strategy-card" data-strategy="WAIT" style="border-left: 3px solid #fbbf24;">
+              <div class="strategy-header">
+                <span class="strategy-title" style="color: #fbbf24;">⏳ WAIT / MONITOR</span>
+                <span>👀</span>
+              </div>
+              <div class="strategy-count" id="countWait" style="color: #fbbf24;">0</div>
+              <div class="strategy-desc">Overbought / Awaiting Dip</div>
+            </div>
+
+            <div class="strategy-card" data-strategy="AVOID" style="border-left: 3px solid #f6465d;">
+              <div class="strategy-header">
+                <span class="strategy-title" style="color: #f6465d;">⛔ AVOID</span>
+                <span>🛑</span>
+              </div>
+              <div class="strategy-count" id="countAvoid" style="color: #f6465d;">0</div>
+              <div class="strategy-desc">Z-Category & Bearish Traps</div>
+            </div>
+
+            <div class="strategy-card" data-strategy="CAT_A">
+              <div class="strategy-header">
+                <span class="strategy-title">🏛️ Category A</span>
+                <span>💎</span>
+              </div>
+              <div class="strategy-count" id="countCatA" style="color: #818cf8;">0</div>
+              <div class="strategy-desc">Top Fundamental Quality (≥10% Div)</div>
+            </div>
+
+            <div class="strategy-card" data-strategy="VOL_SURGE">
+              <div class="strategy-header">
+                <span class="strategy-title">Volume Surge</span>
+                <span>🚀</span>
+              </div>
+              <div class="strategy-count" id="countVolSurge" style="color: #fb923c;">0</div>
+              <div class="strategy-desc">≥ 1.8x of 20-Day Vol SMA</div>
+            </div>
+          </div>
+
+          <!-- Controls & Filters Bar -->
+          <div class="screener-controls-bar">
+            <div class="screener-filters-group">
+              <input type="text" id="screenerSearchInput" class="screener-input" placeholder="Search symbol or company name...">
+              
+              <select id="screenerSectorSelect" class="screener-select">
+                <option value="ALL">All Sectors (22)</option>
+              </select>
+
+              <select id="screenerVerdictSelect" class="screener-select">
+                <option value="ALL">All Analyst Verdicts</option>
+                <option value="BUY SETUP">🟢 BUY SETUP Only</option>
+                <option value="WAIT">⏳ WAIT Only</option>
+                <option value="AVOID">⛔ AVOID Only</option>
+              </select>
+
+              <select id="screenerCategorySelect" class="screener-select">
+                <option value="ALL">All Categories (A/B/Z)</option>
+                <option value="A">Category A (High Quality)</option>
+                <option value="B">Category B (Regular)</option>
+                <option value="Z">Category Z (Disqualified)</option>
+              </select>
+
+              <select id="screenerSortSelect" class="screener-select">
+                <option value="turnover">Sort: Highest Turnover</option>
+                <option value="rrr_desc">Sort: Highest RRR Ratio</option>
+                <option value="vol_ratio">Sort: Volume Surge Ratio</option>
+                <option value="change_desc">Sort: Top Gainers (%)</option>
+                <option value="change_asc">Sort: Top Losers (%)</option>
+                <option value="rsi_asc">Sort: RSI Low → High</option>
+                <option value="symbol">Sort: Symbol (A-Z)</option>
+              </select>
+            </div>
+
+            <div class="screener-match-badge" id="screenerMatchBadge">
+              Showing <b id="matchCount">--</b> of <b id="totalScreenerCount">--</b> stocks
+            </div>
+          </div>
+
+          <!-- Interactive Screener Data Table -->
+          <div class="screener-table-container">
+            <table class="screener-table">
+              <thead>
+                <tr>
+                  <th style="width: 150px;">Security</th>
+                  <th>Verdict</th>
+                  <th style="min-width: 170px;">Trade Plan (Entry | SL | T1)</th>
+                  <th style="text-align: center;">RRR</th>
+                  <th>Sector</th>
+                  <th style="text-align: right;">LTP (৳)</th>
+                  <th style="text-align: right;">Change %</th>
+                  <th style="text-align: right;">Vol Ratio</th>
+                  <th style="text-align: right;">Turnover (Cr)</th>
+                  <th style="text-align: right;">RSI (14)</th>
+                  <th style="min-width: 220px;">Institutional Rationale (বাংলা)</th>
+                  <th style="text-align: center;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="screenerTableBody">
+                <tr>
+                  <td colspan="12" style="text-align: center; color: var(--text-dim); padding: 40px;">
+                    Running 6-pillar algorithmic scanner...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PAGE 4: SECTOR MATRIX & DEEP DIVE -->
+      <section class="page-view" id="page-sectors">
+        <div class="sectors-scrollable">
+          
+          <!-- Hero Header Card -->
+          <div class="sectors-hero-card">
+            <div class="sectors-title-block">
+              <h1><span>🏢</span> Sector Matrix & Deep Dive</h1>
+              <p>DSE-এর ২২টি খাতের রিয়েল-টাইম পারফরম্যান্স হিটম্যাপ ও সেক্টর-ওয়াইজ পিয়ার স্টক বিশ্লেষণ</p>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 11px; color: var(--text-dim);">Sort Sectors:</span>
+              <select id="sectorMatrixSort" class="screener-select" style="min-width: 170px;">
+                <option value="turnover">Highest Turnover (Cr)</option>
+                <option value="gainers">Best Daily Return (%)</option>
+                <option value="losers">Most Declining (%)</option>
+                <option value="count">Most Securities Listed</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Sector Matrix 22 Tiles Grid -->
+          <div class="sector-matrix-grid" id="sectorMatrixGrid">
+            <!-- Dynamically populated via JS -->
+          </div>
+
+          <!-- Selected Sector Deep Dive Drilldown Table -->
+          <div class="sector-drilldown-card" id="sectorDrilldownSection">
+            <div class="sector-drilldown-header">
+              <div>
+                <div class="sector-drilldown-title" id="drilldownSectorTitle">
+                  <span>🏢</span>
+                  <span id="drilldownSectorName">Pharmaceuticals & Chemicals</span>
+                  <span class="pill-change green" id="drilldownSectorBadge">+0.85%</span>
+                </div>
+                <div class="sector-drilldown-meta" style="margin-top: 5px;">
+                  <span>Securities: <b id="drilldownCount">--</b></span>
+                  <span>Turnover: <b id="drilldownTurnover">-- Cr ৳</b></span>
+                  <span>Breadth: <b id="drilldownBreadth">-- Adv / -- Dec</b></span>
+                </div>
+              </div>
+
+              <!-- In-sector stock search -->
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <input type="text" id="drilldownSearch" class="screener-input" placeholder="Search stocks in this sector..." style="min-width: 220px;">
+              </div>
+            </div>
+
+            <!-- In-Sector Stocks Table -->
+            <div style="overflow-x: auto;">
+              <table class="screener-table">
+                <thead>
+                  <tr>
+                    <th style="width: 180px;">Stock</th>
+                    <th style="text-align: right;">LTP (৳)</th>
+                    <th style="text-align: right;">Change %</th>
+                    <th style="text-align: right;">Volume</th>
+                    <th style="text-align: right;">Turnover (Cr)</th>
+                    <th style="text-align: right;">RSI (14)</th>
+                    <th style="text-align: right;">MA 14 (৳)</th>
+                    <th>Signals</th>
+                    <th style="text-align: center;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="drilldownTableBody">
+                  <tr>
+                    <td colspan="9" style="text-align: center; color: var(--text-dim); padding: 30px;">
+                      Select a sector above to view its stocks.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PAGE 5: WATCHLIST & PORTFOLIO MANAGER -->
+      <section class="page-view" id="page-portfolio">
+        <div class="portfolio-scrollable">
+          
+          <!-- Top Switcher & Header Bar -->
+          <div class="sectors-hero-card">
+            <div class="sectors-title-block">
+              <h1><span>💼</span> Watchlist & Portfolio Manager</h1>
+              <p>আপনার কাস্টম ওয়াচলিস্ট ফোল্ডার (Trade, up trend, SME, AI Watchlist) ও লাইভ পোর্টফোলিও ট্র্যাকার</p>
+            </div>
+
+            <!-- Subnav Tabs -->
+            <div class="portfolio-subnav">
+              <button class="portfolio-subnav-btn active" id="tabWatchlistsBtn" data-view="watchlists">📋 My Watchlists</button>
+              <button class="portfolio-subnav-btn" id="tabPortfolioBtn" data-view="portfolio">💼 Portfolio Tracker</button>
+            </div>
+          </div>
+
+          <!-- ==============================================
+               SUB-VIEW 1: CUSTOM WATCHLIST FOLDERS
+               ============================================== -->
+          <div id="viewWatchlistsContainer" style="display: flex; flex-direction: column; gap: 14px;">
+            
+            <!-- Folder Selector Row -->
+            <div style="background: #111; border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <div class="folder-tabs-row" id="watchlistFoldersRow">
+                <!-- Dynamically populated folder tabs: Trade, up trend, SME, AI Watchlist -->
+              </div>
+
+              <!-- Add Stock to Current Folder -->
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <input type="text" id="addStockInput" class="screener-input" placeholder="Type symbol to add (e.g. SQURPHARMA)..." style="min-width: 240px; text-transform: uppercase;">
+                <button class="btn-primary" id="addStockBtn" style="font-size: 11px; padding: 6px 12px;">+ Add to Folder</button>
+              </div>
+            </div>
+
+            <!-- Folder Table Container -->
+            <div class="screener-table-container">
+              <div style="padding: 10px 14px; background: #141414; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-size: 12px; font-weight: 700; color: #fff;" id="activeFolderNameTitle">Folder: Trade</div>
+                <div style="font-size: 11px; color: var(--text-dim);" id="activeFolderStockCount">0 Stocks</div>
+              </div>
+
+              <div style="overflow-x: auto;">
+                <table class="screener-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 170px;">Security</th>
+                      <th>Sector</th>
+                      <th style="text-align: right;">LTP (৳)</th>
+                      <th style="text-align: right;">Change %</th>
+                      <th style="text-align: right;">Volume</th>
+                      <th style="text-align: right;">Turnover (Cr)</th>
+                      <th style="text-align: right;">RSI (14)</th>
+                      <th style="text-align: right;">MA 14 (৳)</th>
+                      <th>Signals</th>
+                      <th style="text-align: center; width: 130px;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="watchlistTableBody">
+                    <tr><td colspan="10" style="text-align: center; color: var(--text-dim); padding: 30px;">Loading watchlist...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ==============================================
+               SUB-VIEW 2: PORTFOLIO & HOLDINGS TRACKER
+               ============================================== -->
+          <div id="viewPortfolioContainer" style="display: none; flex-direction: column; gap: 14px;">
+            
+            <!-- Hero Stats Grid -->
+            <div class="portfolio-hero-grid">
+              <div class="dash-card">
+                <div class="dash-card-header">
+                  <span class="dash-card-title">Portfolio Value</span>
+                  <span class="dash-card-icon">💰</span>
+                </div>
+                <div class="dash-card-value" id="portTotalValue">৳ 0.00</div>
+                <div class="dash-card-sub" id="portStockCount">0 Holdings Active</div>
+              </div>
+
+              <div class="dash-card">
+                <div class="dash-card-header">
+                  <span class="dash-card-title">Total Invested Cost</span>
+                  <span class="dash-card-icon">🏦</span>
+                </div>
+                <div class="dash-card-value" id="portTotalCost">৳ 0.00</div>
+                <div class="dash-card-sub">Principal Capital</div>
+              </div>
+
+              <div class="dash-card">
+                <div class="dash-card-header">
+                  <span class="dash-card-title">Unrealized Gain / Loss</span>
+                  <span class="dash-card-icon">📊</span>
+                </div>
+                <div class="dash-card-value" id="portTotalProfit">৳ 0.00</div>
+                <div class="dash-card-sub" id="portProfitPct">0.00% Overall</div>
+              </div>
+
+              <div class="dash-card">
+                <div class="dash-card-header">
+                  <span class="dash-card-title">Today's Daily Return</span>
+                  <span class="dash-card-icon">⚡</span>
+                </div>
+                <div class="dash-card-value" id="portDailyProfit">৳ 0.00</div>
+                <div class="dash-card-sub" id="portDailyPct">Based on today's session</div>
+              </div>
+            </div>
+
+            <!-- Add Holding Form Bar -->
+            <div class="holding-input-card">
+              <span style="font-size: 11.5px; font-weight: 700; color: #fff;">+ Add Stock Holding:</span>
+              <input type="text" id="holdingSymbolInput" class="screener-input" placeholder="Symbol (e.g. SQURPHARMA)" style="width: 170px; text-transform: uppercase;">
+              <input type="number" id="holdingBuyPriceInput" class="screener-input" placeholder="Buy Price (৳)" style="width: 130px;" step="0.1">
+              <input type="number" id="holdingQtyInput" class="screener-input" placeholder="Quantity (Shares)" style="width: 140px;" step="1">
+              <button class="btn-primary" id="addHoldingBtn" style="font-size: 11px; padding: 6px 14px;">+ Record Buy</button>
+            </div>
+
+            <!-- Holdings Table Container -->
+            <div class="screener-table-container">
+              <div style="padding: 10px 14px; background: #141414; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-size: 12px; font-weight: 700; color: #fff;">Current Portfolio Holdings</div>
+                <div style="font-size: 10.5px; color: var(--text-dim);">Live prices synced with DSE master feed</div>
+              </div>
+
+              <div style="overflow-x: auto;">
+                <table class="screener-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 160px;">Stock</th>
+                      <th style="text-align: right;">Buy Price (৳)</th>
+                      <th style="text-align: right;">Shares</th>
+                      <th style="text-align: right;">Cost (৳)</th>
+                      <th style="text-align: right;">LTP (৳)</th>
+                      <th style="text-align: right;">Market Value (৳)</th>
+                      <th style="text-align: right;">Unrealized P/L (৳)</th>
+                      <th style="text-align: right;">Return (%)</th>
+                      <th style="text-align: center; width: 120px;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="holdingsTableBody">
+                    <tr><td colspan="9" style="text-align: center; color: var(--text-dim); padding: 30px;">No holdings added yet.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/app.js?v=16"></script>
+</body>
+</html>

@@ -1,0 +1,3255 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>DSE Sector-Wise Stock Analysis & Price Report</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm 12mm 12mm;
+    @bottom-right {
+      content: counter(page);
+    }
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Kalpurush", sans-serif;
+    color: #1e293b;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .header {
+    border-bottom: 3px solid #1e3a8a;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .header-left h1 {
+    font-size: 22px;
+    margin: 0 0 4px 0;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+  }
+  .header-left p {
+    margin: 0;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .header-right {
+    text-align: right;
+    font-size: 10px;
+    color: #64748b;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .badge-primary { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+  .badge-count { background: #f1f5f9; color: #334155; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .stat-card .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #64748b;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .stat-card .val {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 2px;
+  }
+  
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+    font-size: 10.5px;
+  }
+  .summary-table th {
+    background: #1e3a8a;
+    color: #fff;
+    text-align: left;
+    padding: 6px 10px;
+    font-weight: 600;
+  }
+  .summary-table td {
+    padding: 5px 10px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .summary-table tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+
+  .sector-section {
+    margin-bottom: 18px;
+    page-break-inside: avoid;
+  }
+  .sector-header {
+    background: #f1f5f9;
+    border-left: 4px solid #1e3a8a;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    border-radius: 0 4px 4px 0;
+  }
+  .sector-header span.sec-type {
+    font-size: 9.5px;
+    color: #64748b;
+    font-weight: normal;
+  }
+
+  .stock-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .stock-item {
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 5px 8px;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .stock-item .sym {
+    font-weight: 700;
+    font-size: 10.5px;
+    color: #1e293b;
+  }
+  .stock-item .sym-cat {
+    font-size: 8px;
+    color: #94a3b8;
+    margin-left: 3px;
+  }
+  .stock-item .price {
+    font-weight: 600;
+    font-size: 10.5px;
+    color: #047857;
+  }
+  .stock-item .price.zero {
+    color: #94a3b8;
+    font-weight: normal;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
+  
+  .footer-note {
+    margin-top: 30px;
+    border-top: 1px solid #cbd5e1;
+    padding-top: 8px;
+    font-size: 9px;
+    color: #64748b;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Dhaka Stock Exchange (DSE)</h1>
+    <p>Sector-Wise Comprehensive Market, Stock Listing & Price Analysis</p>
+  </div>
+  <div class="header-right">
+    <div><strong>Workspace:</strong> D:\My DSE signal</div>
+    <div><strong>Source:</strong> DSE Live Feed & Database</div>
+    <div><strong>Generated:</strong> 16 October 2026, 07:59 PM</div>
+  </div>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="label">Total Sectors</div>
+    <div class="val">22</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Total Listed Securities</div>
+    <div class="val">633</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Industry / Equity Sectors</div>
+    <div class="val">18</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Funds & Debt Instruments</div>
+    <div class="val">4</div>
+  </div>
+</div>
+
+<h3 style="font-size: 13px; margin: 15px 0 8px 0; color: #1e3a8a;">১. সেক্টরভিত্তিক সংক্ষিপ্ত পরিসংখ্যান (Sector Summary)</h3>
+<table class="summary-table">
+  <thead>
+    <tr>
+      <th style="width: 35px;">#</th>
+      <th>সেক্টরের নাম (Sector Name)</th>
+      <th>খাতের বিবরণ (Description)</th>
+      <th>ধরন (Type)</th>
+      <th style="text-align: right;">মোট স্টক সংখ্যা (Quantity)</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td>1</td>
+      <td><strong>Bank</strong></td>
+      <td>ব্যাংকিং খাত</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">36</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><strong>Financial In</strong></td>
+      <td>আর্থিক প্রতিষ্ঠান (NBFI)</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">23</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><strong>Insurance</strong></td>
+      <td>বীমা খাত (সাধারণ ও জীবন)</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">58</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><strong>FoodAllied</strong></td>
+      <td>খাদ্য ও আনুষঙ্গিক</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">21</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><strong>PharmaChem</strong></td>
+      <td>ওষুধ ও রসায়ন</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">34</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td><strong>Textile</strong></td>
+      <td>বস্ত্র ও পোশাক শিল্প</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">58</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td><strong>Engineering</strong></td>
+      <td>প্রকৌশল খাত</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">42</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td><strong>FuelPower</strong></td>
+      <td>জ্বালানি ও বিদ্যুৎ</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">23</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td><strong>Cement</strong></td>
+      <td>সিমেন্ট শিল্প</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">7</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td><strong>Telecom</strong></td>
+      <td>টেলিযোগাযোগ</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">3</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td><strong>IT</strong></td>
+      <td>তথ্যপ্রযুক্তি</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">11</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td><strong>Ceramic</strong></td>
+      <td>সিরামিক শিল্প</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">5</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td><strong>Tannery</strong></td>
+      <td>চামড়া শিল্প</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">6</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td><strong>PaperPrint</strong></td>
+      <td>কাগজ ও প্রকাশনা</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">6</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td><strong>Jute</strong></td>
+      <td>পাট শিল্প</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">3</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td><strong>ServRealEst</strong></td>
+      <td>সেবা ও আবাসন</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">4</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td><strong>TravelLeisur</strong></td>
+      <td>ভ্রমণ ও অবকাশ</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">5</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td><strong>Misc</strong></td>
+      <td>বিবিধ খাত</td>
+      <td><span class="badge badge-primary">Equity</span></td>
+      <td style="text-align: right; font-weight: bold;">15</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td><strong>MutFund</strong></td>
+      <td>মিউচুয়াল ফান্ড</td>
+      <td><span class="badge badge-primary">Fund</span></td>
+      <td style="text-align: right; font-weight: bold;">35</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td><strong>CorpBond</strong></td>
+      <td>কর্পোরেট বন্ড / সুকুক</td>
+      <td><span class="badge badge-primary">Debt</span></td>
+      <td style="text-align: right; font-weight: bold;">16</td>
+    </tr>
+    <tr>
+      <td>21</td>
+      <td><strong>Debenture</strong></td>
+      <td>ডিবেঞ্চার</td>
+      <td><span class="badge badge-primary">Debt</span></td>
+      <td style="text-align: right; font-weight: bold;">8</td>
+    </tr>
+    <tr>
+      <td>22</td>
+      <td><strong>TBond</strong></td>
+      <td>সরকারি ট্রেজারি বন্ড (BGTB)</td>
+      <td><span class="badge badge-primary">Debt</span></td>
+      <td style="text-align: right; font-weight: bold;">214</td>
+    </tr>
+    <tr style="background: #e2e8f0; font-weight: bold;">
+      <td colspan="4" style="text-align: right;">সর্বমোট সিকিউরিটিজ সংখ্যা (Total Securities):</td>
+      <td style="text-align: right; font-size: 12px; color: #1e3a8a;">633</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h3 style="font-size: 13px; margin: 0 0 12px 0; color: #1e3a8a;">২. সেক্টর অনুযায়ী সকল স্টকের ট্রেডিং কোড এবং সর্বশেষ দর (Detailed Stock List & LTP)</h3>
+<p style="font-size: 9.5px; color: #64748b; margin-top: -6px; margin-bottom: 14px;">(দর উল্লেখ করা হয়েছে বাংলাদেশী টাকা - ৳ তে। ০.০ ৳ নির্দেশ করে যে স্টকে সংশ্লিষ্ট সেশনে কোনো লেনদেন ঘটেনি বা সাময়িক স্থগিত)</p>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>Bank</span> 
+      <span style="font-weight: normal; color: #475569;">— ব্যাংকিং খাত</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 36 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">ABBANK<span class="sym-cat">(Z)</span></span>
+      <span class="price">4.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ALARABANK<span class="sym-cat">(Z)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BANKASIA<span class="sym-cat">(A)</span></span>
+      <span class="price">16.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BRACBANK<span class="sym-cat">(A)</span></span>
+      <span class="price">66.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CITYBANK<span class="sym-cat">(A)</span></span>
+      <span class="price">29.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DHAKABANK<span class="sym-cat">(A)</span></span>
+      <span class="price">10.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DUTCHBANGL<span class="sym-cat">(A)</span></span>
+      <span class="price">45.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">EBL<span class="sym-cat">(A)</span></span>
+      <span class="price">22.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">EXIMBANK<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">FIRSTSBANK<span class="sym-cat">(Z)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GIB<span class="sym-cat">(Z)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ICBIBANK<span class="sym-cat">(Z)</span></span>
+      <span class="price">2.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">IFIC<span class="sym-cat">(Z)</span></span>
+      <span class="price">4.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ISLAMIBANK<span class="sym-cat">(Z)</span></span>
+      <span class="price">25.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">JAMUNABANK<span class="sym-cat">(A)</span></span>
+      <span class="price">23.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MERCANBANK<span class="sym-cat">(Z)</span></span>
+      <span class="price">6.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MIDLANDBNK<span class="sym-cat">(B)</span></span>
+      <span class="price">16.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MTB<span class="sym-cat">(A)</span></span>
+      <span class="price">13.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NBL<span class="sym-cat">(Z)</span></span>
+      <span class="price">3.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NCCBANK<span class="sym-cat">(A)</span></span>
+      <span class="price">14.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NRBBANK<span class="sym-cat">(Z)</span></span>
+      <span class="price">6.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NRBCBANK<span class="sym-cat">(Z)</span></span>
+      <span class="price">9.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ONEBANKPLC<span class="sym-cat">(Z)</span></span>
+      <span class="price">7.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PREMIERBAN<span class="sym-cat">(Z)</span></span>
+      <span class="price">5.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PRIMEBANK<span class="sym-cat">(A)</span></span>
+      <span class="price">28.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PUBALIBANK<span class="sym-cat">(A)</span></span>
+      <span class="price">40.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RUPALIBANK<span class="sym-cat">(Z)</span></span>
+      <span class="price">16.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SBACBANK<span class="sym-cat">(Z)</span></span>
+      <span class="price">6.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SHAHJABANK<span class="sym-cat">(A)</span></span>
+      <span class="price">17.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SIBL<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SOUTHEASTB<span class="sym-cat">(A)</span></span>
+      <span class="price">11.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">STANDBANKL<span class="sym-cat">(Z)</span></span>
+      <span class="price">4.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TRUSTBANK<span class="sym-cat">(A)</span></span>
+      <span class="price">13.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">UCB<span class="sym-cat">(Z)</span></span>
+      <span class="price">8.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">UNIONBANK<span class="sym-cat">(Z)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">UTTARABANK<span class="sym-cat">(A)</span></span>
+      <span class="price">20.90 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>Financial In</span> 
+      <span style="font-weight: normal; color: #475569;">— আর্থিক প্রতিষ্ঠান (NBFI)</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 23 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">BAYLEASING<span class="sym-cat">(Z)</span></span>
+      <span class="price">4.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BDFINANCE<span class="sym-cat">(Z)</span></span>
+      <span class="price">10.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BIFC<span class="sym-cat">(Z)</span></span>
+      <span class="price">3.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DBH<span class="sym-cat">(A)</span></span>
+      <span class="price">39.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">FAREASTFIN<span class="sym-cat">(Z)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">FASFIN<span class="sym-cat">(Z)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">FIRSTFIN<span class="sym-cat">(Z)</span></span>
+      <span class="price">4.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GSPFINANCE<span class="sym-cat">(Z)</span></span>
+      <span class="price">3.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ICB<span class="sym-cat">(B)</span></span>
+      <span class="price">38.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">IDLC<span class="sym-cat">(A)</span></span>
+      <span class="price">41.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ILFSL<span class="sym-cat">(Z)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">IPDC<span class="sym-cat">(A)</span></span>
+      <span class="price">29.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ISLAMICFIN<span class="sym-cat">(Z)</span></span>
+      <span class="price">10.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">LANKABAFIN<span class="sym-cat">(A)</span></span>
+      <span class="price">13.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MIDASFIN<span class="sym-cat">(Z)</span></span>
+      <span class="price">4.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NHFIL<span class="sym-cat">(A)</span></span>
+      <span class="price">26.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PHOENIXFIN<span class="sym-cat">(Z)</span></span>
+      <span class="price">3.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PLFSL<span class="sym-cat">(Z)</span></span>
+      <span class="price">1.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PREMIERLEA<span class="sym-cat">(Z)</span></span>
+      <span class="price">1.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PRIMEFIN<span class="sym-cat">(Z)</span></span>
+      <span class="price">2.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">UNIONCAP<span class="sym-cat">(Z)</span></span>
+      <span class="price">4.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">UNITEDFIN<span class="sym-cat">(A)</span></span>
+      <span class="price">16.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">UTTARAFIN<span class="sym-cat">(Z)</span></span>
+      <span class="price">11.10 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>Insurance</span> 
+      <span style="font-weight: normal; color: #475569;">— বীমা খাত (সাধারণ ও জীবন)</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 58 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">AGRANINS<span class="sym-cat">(A)</span></span>
+      <span class="price">27.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ASIAINS<span class="sym-cat">(A)</span></span>
+      <span class="price">39.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ASIAPACINS<span class="sym-cat">(A)</span></span>
+      <span class="price">45.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BGIC<span class="sym-cat">(A)</span></span>
+      <span class="price">38.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BNIPLC<span class="sym-cat">(A)</span></span>
+      <span class="price">155.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CENTRALINS<span class="sym-cat">(A)</span></span>
+      <span class="price">43.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CITYGENINS<span class="sym-cat">(A)</span></span>
+      <span class="price">130.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CLICL<span class="sym-cat">(B)</span></span>
+      <span class="price">45.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CONTININS<span class="sym-cat">(B)</span></span>
+      <span class="price">30.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CRYSTALINS<span class="sym-cat">(A)</span></span>
+      <span class="price">64.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DELTALIFE<span class="sym-cat">(A)</span></span>
+      <span class="price">68.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DGIC<span class="sym-cat">(B)</span></span>
+      <span class="price">41.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DHAKAINS<span class="sym-cat">(A)</span></span>
+      <span class="price">42.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">EASTERNINS<span class="sym-cat">(A)</span></span>
+      <span class="price">57.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">EASTLAND<span class="sym-cat">(A)</span></span>
+      <span class="price">26.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">EIL<span class="sym-cat">(B)</span></span>
+      <span class="price">31.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">FAREASTLIF<span class="sym-cat">(Z)</span></span>
+      <span class="price">17.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">FEDERALINS<span class="sym-cat">(A)</span></span>
+      <span class="price">25.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GLOBALINS<span class="sym-cat">(A)</span></span>
+      <span class="price">40.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GREENDELT<span class="sym-cat">(A)</span></span>
+      <span class="price">65.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ICICL<span class="sym-cat">(A)</span></span>
+      <span class="price">36.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ISLAMIINS<span class="sym-cat">(A)</span></span>
+      <span class="price">71.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">JANATAINS<span class="sym-cat">(A)</span></span>
+      <span class="price">30.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">KARNAPHULI<span class="sym-cat">(A)</span></span>
+      <span class="price">49.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MEGHNAINS<span class="sym-cat">(A)</span></span>
+      <span class="price">31.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MEGHNALIFE<span class="sym-cat">(A)</span></span>
+      <span class="price">49.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MERCINS<span class="sym-cat">(A)</span></span>
+      <span class="price">44.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NATLIFEINS<span class="sym-cat">(A)</span></span>
+      <span class="price">90.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NITOLINS<span class="sym-cat">(A)</span></span>
+      <span class="price">54.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NORTHRNINS<span class="sym-cat">(A)</span></span>
+      <span class="price">33.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PADMALIFE<span class="sym-cat">(Z)</span></span>
+      <span class="price">15.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PARAMOUNT<span class="sym-cat">(A)</span></span>
+      <span class="price">63.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PEOPLESINS<span class="sym-cat">(A)</span></span>
+      <span class="price">57.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PHENIXINS<span class="sym-cat">(A)</span></span>
+      <span class="price">45.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PIONEERINS<span class="sym-cat">(A)</span></span>
+      <span class="price">65.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">POPULARLIF<span class="sym-cat">(A)</span></span>
+      <span class="price">54.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PRAGATIINS<span class="sym-cat">(A)</span></span>
+      <span class="price">69.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PRAGATILIF<span class="sym-cat">(A)</span></span>
+      <span class="price">135.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PRIMEINSUR<span class="sym-cat">(A)</span></span>
+      <span class="price">45.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PRIMELIFE<span class="sym-cat">(B)</span></span>
+      <span class="price">35.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PROGRESLIF<span class="sym-cat">(Z)</span></span>
+      <span class="price">34.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PROVATIINS<span class="sym-cat">(A)</span></span>
+      <span class="price">51.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PURABIGEN<span class="sym-cat">(A)</span></span>
+      <span class="price">26.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RELIANCINS<span class="sym-cat">(A)</span></span>
+      <span class="price">92.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">REPUBLIC<span class="sym-cat">(A)</span></span>
+      <span class="price">34.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RUPALIINS<span class="sym-cat">(A)</span></span>
+      <span class="price">26.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RUPALILIFE<span class="sym-cat">(A)</span></span>
+      <span class="price">78.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SANDHANINS<span class="sym-cat">(A)</span></span>
+      <span class="price">22.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SICL<span class="sym-cat">(B)</span></span>
+      <span class="price">32.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SIPLC<span class="sym-cat">(A)</span></span>
+      <span class="price">133.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SONALILIFE<span class="sym-cat">(A)</span></span>
+      <span class="price">106.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SONARBAINS<span class="sym-cat">(A)</span></span>
+      <span class="price">38.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">STANDARINS<span class="sym-cat">(A)</span></span>
+      <span class="price">46.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SUNLIFEINS<span class="sym-cat">(B)</span></span>
+      <span class="price">53.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TAKAFULINS<span class="sym-cat">(A)</span></span>
+      <span class="price">47.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TILIL<span class="sym-cat">(B)</span></span>
+      <span class="price">44.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">UNIONINS<span class="sym-cat">(A)</span></span>
+      <span class="price">44.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">UNITEDINS<span class="sym-cat">(A)</span></span>
+      <span class="price">57.10 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>FoodAllied</span> 
+      <span style="font-weight: normal; color: #475569;">— খাদ্য ও আনুষঙ্গিক</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 21 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">AMCL(PRAN)<span class="sym-cat">(A)</span></span>
+      <span class="price">211.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">APEXFOODS<span class="sym-cat">(A)</span></span>
+      <span class="price">312.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BANGAS<span class="sym-cat">(B)</span></span>
+      <span class="price">113.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BATBC<span class="sym-cat">(A)</span></span>
+      <span class="price">218.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BDTHAIFOOD<span class="sym-cat">(B)</span></span>
+      <span class="price">17.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BEACHHATCH<span class="sym-cat">(Z)</span></span>
+      <span class="price">23.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">EMERALDOIL<span class="sym-cat">(Z)</span></span>
+      <span class="price">27.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">FINEFOODS<span class="sym-cat">(A)</span></span>
+      <span class="price">437.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">FUWANGFOOD<span class="sym-cat">(Z)</span></span>
+      <span class="price">9.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GEMINISEA<span class="sym-cat">(Z)</span></span>
+      <span class="price">107.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GHAIL<span class="sym-cat">(B)</span></span>
+      <span class="price">11.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">LOVELLO<span class="sym-cat">(A)</span></span>
+      <span class="price">49.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MEGCONMILK<span class="sym-cat">(Z)</span></span>
+      <span class="price">28.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MEGHNAPET<span class="sym-cat">(Z)</span></span>
+      <span class="price">73.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NTC<span class="sym-cat">(Z)</span></span>
+      <span class="price">152.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">OLYMPIC<span class="sym-cat">(A)</span></span>
+      <span class="price">139.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RAHIMAFOOD<span class="sym-cat">(Z)</span></span>
+      <span class="price">68.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RDFOOD<span class="sym-cat">(B)</span></span>
+      <span class="price">22.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SHYAMPSUG<span class="sym-cat">(Z)</span></span>
+      <span class="price">303.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">UNILEVERCL<span class="sym-cat">(A)</span></span>
+      <span class="price">1,978.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ZEALBANGLA<span class="sym-cat">(Z)</span></span>
+      <span class="price">176.90 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>PharmaChem</span> 
+      <span style="font-weight: normal; color: #475569;">— ওষুধ ও রসায়ন</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 34 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">ACI<span class="sym-cat">(A)</span></span>
+      <span class="price">180.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ACIFORMULA<span class="sym-cat">(A)</span></span>
+      <span class="price">151.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ACMELAB<span class="sym-cat">(A)</span></span>
+      <span class="price">77.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ACMEPL<span class="sym-cat">(B)</span></span>
+      <span class="price">24.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ACTIVEFINE<span class="sym-cat">(Z)</span></span>
+      <span class="price">4.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ADVENT<span class="sym-cat">(Z)</span></span>
+      <span class="price">13.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">AFCAGRO<span class="sym-cat">(Z)</span></span>
+      <span class="price">5.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">AMBEEPHA<span class="sym-cat">(A)</span></span>
+      <span class="price">735.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ASIATICLAB<span class="sym-cat">(A)</span></span>
+      <span class="price">103.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BEACONPHAR<span class="sym-cat">(A)</span></span>
+      <span class="price">101.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BXPHARMA<span class="sym-cat">(A)</span></span>
+      <span class="price">145.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CENTRALPHL<span class="sym-cat">(Z)</span></span>
+      <span class="price">8.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">FARCHEM<span class="sym-cat">(B)</span></span>
+      <span class="price">15.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GHCL<span class="sym-cat">(Z)</span></span>
+      <span class="price">19.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">IBNSINA<span class="sym-cat">(A)</span></span>
+      <span class="price">309.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">IBP<span class="sym-cat">(B)</span></span>
+      <span class="price">13.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">JHRML<span class="sym-cat">(B)</span></span>
+      <span class="price">41.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">JMISMDL<span class="sym-cat">(A)</span></span>
+      <span class="price">127.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">KEYACOSMET<span class="sym-cat">(Z)</span></span>
+      <span class="price">5.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">KOHINOOR<span class="sym-cat">(A)</span></span>
+      <span class="price">511.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">LIBRAINFU<span class="sym-cat">(Z)</span></span>
+      <span class="price">522.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MARICO<span class="sym-cat">(A)</span></span>
+      <span class="price">2,646.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NAVANAPHAR<span class="sym-cat">(A)</span></span>
+      <span class="price">61.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ORIONINFU<span class="sym-cat">(A)</span></span>
+      <span class="price">251.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ORIONPHARM<span class="sym-cat">(Z)</span></span>
+      <span class="price">29.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PHARMAID<span class="sym-cat">(A)</span></span>
+      <span class="price">553.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RECKITTBEN<span class="sym-cat">(A)</span></span>
+      <span class="price">3,250.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RENATA<span class="sym-cat">(A)</span></span>
+      <span class="price">449.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SALVO<span class="sym-cat">(B)</span></span>
+      <span class="price">28.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SILCOPHL<span class="sym-cat">(B)</span></span>
+      <span class="price">15.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SILVAPHL<span class="sym-cat">(B)</span></span>
+      <span class="price">9.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SQURPHARMA<span class="sym-cat">(A)</span></span>
+      <span class="price">219.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TECHNODRUG<span class="sym-cat">(A)</span></span>
+      <span class="price">33.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">WATACHEM<span class="sym-cat">(A)</span></span>
+      <span class="price">127.80 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>Textile</span> 
+      <span style="font-weight: normal; color: #475569;">— বস্ত্র ও পোশাক শিল্প</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 58 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">ACFL<span class="sym-cat">(A)</span></span>
+      <span class="price">21.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">AIL<span class="sym-cat">(Z)</span></span>
+      <span class="price">28.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">AL-HAJTEX<span class="sym-cat">(B)</span></span>
+      <span class="price">75.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ALIF<span class="sym-cat">(Z)</span></span>
+      <span class="price">4.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ALLTEX<span class="sym-cat">(Z)</span></span>
+      <span class="price">27.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ANLIMAYARN<span class="sym-cat">(Z)</span></span>
+      <span class="price">30.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">APEXSPINN<span class="sym-cat">(A)</span></span>
+      <span class="price">408.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ARGONDENIM<span class="sym-cat">(A)</span></span>
+      <span class="price">20.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CNATEX<span class="sym-cat">(Z)</span></span>
+      <span class="price">2.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DACCADYE<span class="sym-cat">(Z)</span></span>
+      <span class="price">15.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DELTASPINN<span class="sym-cat">(Z)</span></span>
+      <span class="price">7.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DSHGARME<span class="sym-cat">(B)</span></span>
+      <span class="price">141.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DSSL<span class="sym-cat">(B)</span></span>
+      <span class="price">9.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DULAMIACOT<span class="sym-cat">(Z)</span></span>
+      <span class="price">200.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ENVOYTEX<span class="sym-cat">(A)</span></span>
+      <span class="price">69.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ESQUIRENIT<span class="sym-cat">(A)</span></span>
+      <span class="price">21.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ETL<span class="sym-cat">(B)</span></span>
+      <span class="price">14.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">FAMILYTEX<span class="sym-cat">(Z)</span></span>
+      <span class="price">2.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">FEKDIL<span class="sym-cat">(A)</span></span>
+      <span class="price">20.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GENNEXT<span class="sym-cat">(Z)</span></span>
+      <span class="price">2.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">HFL<span class="sym-cat">(Z)</span></span>
+      <span class="price">10.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">HRTEX<span class="sym-cat">(Z)</span></span>
+      <span class="price">16.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">HWAWELLTEX<span class="sym-cat">(A)</span></span>
+      <span class="price">45.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">KTL<span class="sym-cat">(Z)</span></span>
+      <span class="price">13.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MAKSONSPIN<span class="sym-cat">(Z)</span></span>
+      <span class="price">4.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MALEKSPIN<span class="sym-cat">(A)</span></span>
+      <span class="price">45.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MATINSPINN<span class="sym-cat">(A)</span></span>
+      <span class="price">73.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">METROSPIN<span class="sym-cat">(Z)</span></span>
+      <span class="price">9.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MHSML<span class="sym-cat">(B)</span></span>
+      <span class="price">17.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MITHUNKNIT<span class="sym-cat">(Z)</span></span>
+      <span class="price">12.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MLDYEING<span class="sym-cat">(B)</span></span>
+      <span class="price">10.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MONNOFABR<span class="sym-cat">(B)</span></span>
+      <span class="price">17.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NEWLINE<span class="sym-cat">(Z)</span></span>
+      <span class="price">4.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NURANI<span class="sym-cat">(Z)</span></span>
+      <span class="price">2.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PDL<span class="sym-cat">(Z)</span></span>
+      <span class="price">5.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PRIMETEX<span class="sym-cat">(Z)</span></span>
+      <span class="price">13.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PTL<span class="sym-cat">(A)</span></span>
+      <span class="price">75.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">QUEENSOUTH<span class="sym-cat">(B)</span></span>
+      <span class="price">12.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RAHIMTEXT<span class="sym-cat">(A)</span></span>
+      <span class="price">174.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">REGENTTEX<span class="sym-cat">(Z)</span></span>
+      <span class="price">5.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RINGSHINE<span class="sym-cat">(Z)</span></span>
+      <span class="price">3.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SAFKOSPINN<span class="sym-cat">(Z)</span></span>
+      <span class="price">21.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SAIHAMCOT<span class="sym-cat">(B)</span></span>
+      <span class="price">21.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SAIHAMTEX<span class="sym-cat">(B)</span></span>
+      <span class="price">46.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SHARPIND<span class="sym-cat">(B)</span></span>
+      <span class="price">13.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SHASHADNIM<span class="sym-cat">(B)</span></span>
+      <span class="price">27.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SHEPHERD<span class="sym-cat">(B)</span></span>
+      <span class="price">11.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SIMTEX<span class="sym-cat">(A)</span></span>
+      <span class="price">25.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SONARGAON<span class="sym-cat">(B)</span></span>
+      <span class="price">119.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SQUARETEXT<span class="sym-cat">(A)</span></span>
+      <span class="price">48.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">STYLECRAFT<span class="sym-cat">(Z)</span></span>
+      <span class="price">50.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TALLUSPIN<span class="sym-cat">(Z)</span></span>
+      <span class="price">5.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TAMIJTEX<span class="sym-cat">(A)</span></span>
+      <span class="price">109.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TOSRIFA<span class="sym-cat">(B)</span></span>
+      <span class="price">18.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TUNGHAI<span class="sym-cat">(Z)</span></span>
+      <span class="price">5.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">VFSTDL<span class="sym-cat">(B)</span></span>
+      <span class="price">11.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ZAHEENSPIN<span class="sym-cat">(Z)</span></span>
+      <span class="price">4.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ZAHINTEX<span class="sym-cat">(Z)</span></span>
+      <span class="price">7.40 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>Engineering</span> 
+      <span style="font-weight: normal; color: #475569;">— প্রকৌশল খাত</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 42 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">AFTABAUTO<span class="sym-cat">(Z)</span></span>
+      <span class="price">25.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ANWARGALV<span class="sym-cat">(A)</span></span>
+      <span class="price">119.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">APOLOISPAT<span class="sym-cat">(Z)</span></span>
+      <span class="price">2.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ATLASBANG<span class="sym-cat">(Z)</span></span>
+      <span class="price">82.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">AZIZPIPES<span class="sym-cat">(Z)</span></span>
+      <span class="price">99.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BBS<span class="sym-cat">(B)</span></span>
+      <span class="price">9.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BBSCABLES<span class="sym-cat">(B)</span></span>
+      <span class="price">14.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BDAUTOCA<span class="sym-cat">(B)</span></span>
+      <span class="price">182.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BDLAMPS<span class="sym-cat">(A)</span></span>
+      <span class="price">245.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BDTHAI<span class="sym-cat">(B)</span></span>
+      <span class="price">12.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BENGALWTL<span class="sym-cat">(B)</span></span>
+      <span class="price">20.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BSRMLTD<span class="sym-cat">(A)</span></span>
+      <span class="price">96.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BSRMSTEEL<span class="sym-cat">(A)</span></span>
+      <span class="price">89.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">COPPERTECH<span class="sym-cat">(B)</span></span>
+      <span class="price">21.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DESHBANDHU<span class="sym-cat">(B)</span></span>
+      <span class="price">15.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DOMINAGE<span class="sym-cat">(B)</span></span>
+      <span class="price">62.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ECABLES<span class="sym-cat">(B)</span></span>
+      <span class="price">121.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GOLDENSON<span class="sym-cat">(B)</span></span>
+      <span class="price">10.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GPHISPAT<span class="sym-cat">(B)</span></span>
+      <span class="price">15.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">IFADAUTOS<span class="sym-cat">(B)</span></span>
+      <span class="price">22.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">KAY&QUE<span class="sym-cat">(B)</span></span>
+      <span class="price">400.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">KDSALTD<span class="sym-cat">(A)</span></span>
+      <span class="price">41.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MIRAKHTER<span class="sym-cat">(A)</span></span>
+      <span class="price">32.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MONNOAGML<span class="sym-cat">(B)</span></span>
+      <span class="price">299.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NAHEEACP<span class="sym-cat">(B)</span></span>
+      <span class="price">37.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NAVANACNG<span class="sym-cat">(Z)</span></span>
+      <span class="price">18.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NPOLYMER<span class="sym-cat">(B)</span></span>
+      <span class="price">28.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NTLTUBES<span class="sym-cat">(B)</span></span>
+      <span class="price">59.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">OAL<span class="sym-cat">(Z)</span></span>
+      <span class="price">5.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">OIMEX<span class="sym-cat">(Z)</span></span>
+      <span class="price">13.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">QUASEMIND<span class="sym-cat">(A)</span></span>
+      <span class="price">37.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RANFOUNDRY<span class="sym-cat">(A)</span></span>
+      <span class="price">149.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RENWICKJA<span class="sym-cat">(Z)</span></span>
+      <span class="price">842.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RSRMSTEEL<span class="sym-cat">(Z)</span></span>
+      <span class="price">6.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RUNNERAUTO<span class="sym-cat">(A)</span></span>
+      <span class="price">43.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SALAMCRST<span class="sym-cat">(Z)</span></span>
+      <span class="price">11.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SHURWID<span class="sym-cat">(Z)</span></span>
+      <span class="price">4.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SINGERBD<span class="sym-cat">(Z)</span></span>
+      <span class="price">76.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SSSTEEL<span class="sym-cat">(Z)</span></span>
+      <span class="price">5.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">WALTONHIL<span class="sym-cat">(A)</span></span>
+      <span class="price">330.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">WMSHIPYARD<span class="sym-cat">(Z)</span></span>
+      <span class="price">7.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">YPL<span class="sym-cat">(Z)</span></span>
+      <span class="price">20.10 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>FuelPower</span> 
+      <span style="font-weight: normal; color: #475569;">— জ্বালানি ও বিদ্যুৎ</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 23 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">AOL<span class="sym-cat">(Z)</span></span>
+      <span class="price">17.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BARKAPOWER<span class="sym-cat">(Z)</span></span>
+      <span class="price">9.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BDWELDING<span class="sym-cat">(Z)</span></span>
+      <span class="price">10.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BPPL<span class="sym-cat">(B)</span></span>
+      <span class="price">19.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CVOPRL<span class="sym-cat">(A)</span></span>
+      <span class="price">159.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DESCO<span class="sym-cat">(Z)</span></span>
+      <span class="price">23.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DOREENPWR<span class="sym-cat">(A)</span></span>
+      <span class="price">31.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">EASTRNLUB<span class="sym-cat">(A)</span></span>
+      <span class="price">2,015.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">EPGL<span class="sym-cat">(B)</span></span>
+      <span class="price">15.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GBBPOWER<span class="sym-cat">(Z)</span></span>
+      <span class="price">11.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">INTRACO<span class="sym-cat">(Z)</span></span>
+      <span class="price">23.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">JAMUNAOIL<span class="sym-cat">(A)</span></span>
+      <span class="price">179.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">KPCL<span class="sym-cat">(Z)</span></span>
+      <span class="price">10.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">LINDEBD<span class="sym-cat">(A)</span></span>
+      <span class="price">656.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">LRBDL<span class="sym-cat">(Z)</span></span>
+      <span class="price">12.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MJLBD<span class="sym-cat">(A)</span></span>
+      <span class="price">90.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MPETROLEUM<span class="sym-cat">(A)</span></span>
+      <span class="price">204.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PADMAOIL<span class="sym-cat">(A)</span></span>
+      <span class="price">194.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">POWERGRID<span class="sym-cat">(Z)</span></span>
+      <span class="price">37.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SPCL<span class="sym-cat">(A)</span></span>
+      <span class="price">52.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SUMITPOWER<span class="sym-cat">(A)</span></span>
+      <span class="price">15.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TITASGAS<span class="sym-cat">(B)</span></span>
+      <span class="price">17.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">UPGDCL<span class="sym-cat">(A)</span></span>
+      <span class="price">113.20 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>Cement</span> 
+      <span style="font-weight: normal; color: #475569;">— সিমেন্ট শিল্প</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 7 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">ARAMITCEM<span class="sym-cat">(Z)</span></span>
+      <span class="price">11.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CONFIDCEM<span class="sym-cat">(A)</span></span>
+      <span class="price">58.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CROWNCEMNT<span class="sym-cat">(A)</span></span>
+      <span class="price">57.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">HEIDELBCEM<span class="sym-cat">(A)</span></span>
+      <span class="price">207.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">LHB<span class="sym-cat">(A)</span></span>
+      <span class="price">52.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MEGHNACEM<span class="sym-cat">(Z)</span></span>
+      <span class="price">29.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PREMIERCEM<span class="sym-cat">(A)</span></span>
+      <span class="price">41.30 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>Telecom</span> 
+      <span style="font-weight: normal; color: #475569;">— টেলিযোগাযোগ</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 3 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">BSCPLC<span class="sym-cat">(A)</span></span>
+      <span class="price">146.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GP<span class="sym-cat">(A)</span></span>
+      <span class="price">238.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ROBI<span class="sym-cat">(A)</span></span>
+      <span class="price">29.70 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>IT</span> 
+      <span style="font-weight: normal; color: #475569;">— তথ্যপ্রযুক্তি</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 11 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">AAMRANET<span class="sym-cat">(Z)</span></span>
+      <span class="price">18.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">AAMRATECH<span class="sym-cat">(Z)</span></span>
+      <span class="price">16.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ADNTEL<span class="sym-cat">(A)</span></span>
+      <span class="price">56.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">AGNISYSL<span class="sym-cat">(B)</span></span>
+      <span class="price">26.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BDCOM<span class="sym-cat">(A)</span></span>
+      <span class="price">26.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DAFODILCOM<span class="sym-cat">(B)</span></span>
+      <span class="price">156.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">EGEN<span class="sym-cat">(B)</span></span>
+      <span class="price">20.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GENEXIL<span class="sym-cat">(B)</span></span>
+      <span class="price">30.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">INTECH<span class="sym-cat">(Z)</span></span>
+      <span class="price">22.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ISNLTD<span class="sym-cat">(B)</span></span>
+      <span class="price">49.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ITC<span class="sym-cat">(A)</span></span>
+      <span class="price">40.70 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>Ceramic</span> 
+      <span style="font-weight: normal; color: #475569;">— সিরামিক শিল্প</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 5 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">FUWANGCER<span class="sym-cat">(B)</span></span>
+      <span class="price">11.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MONNOCERA<span class="sym-cat">(B)</span></span>
+      <span class="price">78.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RAKCERAMIC<span class="sym-cat">(A)</span></span>
+      <span class="price">24.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SPCERAMICS<span class="sym-cat">(B)</span></span>
+      <span class="price">22.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">STANCERAM<span class="sym-cat">(Z)</span></span>
+      <span class="price">64.90 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>Tannery</span> 
+      <span style="font-weight: normal; color: #475569;">— চামড়া শিল্প</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 6 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">APEXFOOT<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">APEXTANRY<span class="sym-cat">(Z)</span></span>
+      <span class="price">76.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BATASHOE<span class="sym-cat">(A)</span></span>
+      <span class="price">894.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">FORTUNE<span class="sym-cat">(Z)</span></span>
+      <span class="price">13.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">LEGACYFOOT<span class="sym-cat">(B)</span></span>
+      <span class="price">66.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SAMATALETH<span class="sym-cat">(B)</span></span>
+      <span class="price">96.10 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>PaperPrint</span> 
+      <span style="font-weight: normal; color: #475569;">— কাগজ ও প্রকাশনা</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 6 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">BPML<span class="sym-cat">(Z)</span></span>
+      <span class="price">28.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">HAKKANIPUL<span class="sym-cat">(B)</span></span>
+      <span class="price">67.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">KPPL<span class="sym-cat">(Z)</span></span>
+      <span class="price">13.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MAGURAPLEX<span class="sym-cat">(A)</span></span>
+      <span class="price">79.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MONOSPOOL<span class="sym-cat">(A)</span></span>
+      <span class="price">103.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SONALIPAPR<span class="sym-cat">(A)</span></span>
+      <span class="price">221.90 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>Jute</span> 
+      <span style="font-weight: normal; color: #475569;">— পাট শিল্প</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 3 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">JUTESPINN<span class="sym-cat">(Z)</span></span>
+      <span class="price">204.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NORTHERN<span class="sym-cat">(Z)</span></span>
+      <span class="price">95.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SONALIANSH<span class="sym-cat">(A)</span></span>
+      <span class="price">238.40 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>ServRealEst</span> 
+      <span style="font-weight: normal; color: #475569;">— সেবা ও আবাসন</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 4 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">EHL<span class="sym-cat">(A)</span></span>
+      <span class="price">76.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SAIFPOWER<span class="sym-cat">(Z)</span></span>
+      <span class="price">6.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SAMORITA<span class="sym-cat">(B)</span></span>
+      <span class="price">84.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SAPORTL<span class="sym-cat">(A)</span></span>
+      <span class="price">57.20 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>TravelLeisur</span> 
+      <span style="font-weight: normal; color: #475569;">— ভ্রমণ ও অবকাশ</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 5 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">BDSERVICE<span class="sym-cat">(Z)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BESTHLDNG<span class="sym-cat">(Z)</span></span>
+      <span class="price">14.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PENINSULA<span class="sym-cat">(B)</span></span>
+      <span class="price">17.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SEAPEARL<span class="sym-cat">(B)</span></span>
+      <span class="price">34.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">UNIQUEHRL<span class="sym-cat">(A)</span></span>
+      <span class="price">40.30 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>Misc</span> 
+      <span style="font-weight: normal; color: #475569;">— বিবিধ খাত</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Equity]</span>
+      <span class="badge-count">মোট 15 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">AMANFEED<span class="sym-cat">(A)</span></span>
+      <span class="price">28.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ARAMIT<span class="sym-cat">(A)</span></span>
+      <span class="price">174.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BERGERPBL<span class="sym-cat">(A)</span></span>
+      <span class="price">1,459.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BEXIMCO<span class="sym-cat">(B)</span></span>
+      <span class="price">21.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BSC<span class="sym-cat">(A)</span></span>
+      <span class="price">107.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GQBALLPEN<span class="sym-cat">(A)</span></span>
+      <span class="price">610.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">HAMI<span class="sym-cat">(Z)</span></span>
+      <span class="price">145.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">INDEXAGRO<span class="sym-cat">(A)</span></span>
+      <span class="price">68.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">KBPPWBIL<span class="sym-cat">(A)</span></span>
+      <span class="price">33.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MIRACLEIND<span class="sym-cat">(Z)</span></span>
+      <span class="price">25.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NFML<span class="sym-cat">(B)</span></span>
+      <span class="price">13.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SAVAREFR<span class="sym-cat">(Z)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SINOBANGLA<span class="sym-cat">(A)</span></span>
+      <span class="price">46.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SKTRIMS<span class="sym-cat">(Z)</span></span>
+      <span class="price">13.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">USMANIAGL<span class="sym-cat">(Z)</span></span>
+      <span class="price">54.20 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>MutFund</span> 
+      <span style="font-weight: normal; color: #475569;">— মিউচুয়াল ফান্ড</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Fund]</span>
+      <span class="badge-count">মোট 35 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">1JANATAMF<span class="sym-cat">(A)</span></span>
+      <span class="price">3.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">1STPRIMFMF<span class="sym-cat">(A)</span></span>
+      <span class="price">30.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ABB1STMF<span class="sym-cat">(A)</span></span>
+      <span class="price">3.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">AIBL1STIMF<span class="sym-cat">(A)</span></span>
+      <span class="price">5.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CAPITECGBF<span class="sym-cat">(A)</span></span>
+      <span class="price">8.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CAPMBDBLMF<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CAPMIBBLMF<span class="sym-cat">(A)</span></span>
+      <span class="price">15.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DBH1STMF<span class="sym-cat">(A)</span></span>
+      <span class="price">5.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">EBL1STMF<span class="sym-cat">(A)</span></span>
+      <span class="price">4.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">EBLNRBMF<span class="sym-cat">(A)</span></span>
+      <span class="price">3.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">EXIM1STMF<span class="sym-cat">(A)</span></span>
+      <span class="price">5.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">FBFIF<span class="sym-cat">(A)</span></span>
+      <span class="price">3.30 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GLDNJMF<span class="sym-cat">(A)</span></span>
+      <span class="price">8.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GRAMEENS2<span class="sym-cat">(A)</span></span>
+      <span class="price">11.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">GREENDELMF<span class="sym-cat">(A)</span></span>
+      <span class="price">4.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ICB3RDNRB<span class="sym-cat">(A)</span></span>
+      <span class="price">6.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ICBAGRANI1<span class="sym-cat">(A)</span></span>
+      <span class="price">7.90 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ICBAMCL2ND<span class="sym-cat">(A)</span></span>
+      <span class="price">9.70 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ICBEPMF1S1<span class="sym-cat">(A)</span></span>
+      <span class="price">6.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">ICBSONALI1<span class="sym-cat">(A)</span></span>
+      <span class="price">8.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">IFIC1STMF<span class="sym-cat">(A)</span></span>
+      <span class="price">3.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">IFILISLMF1<span class="sym-cat">(A)</span></span>
+      <span class="price">5.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">LRGLOBMF1<span class="sym-cat">(A)</span></span>
+      <span class="price">4.20 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MBL1STMF<span class="sym-cat">(A)</span></span>
+      <span class="price">9.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">NCCBLMF1<span class="sym-cat">(A)</span></span>
+      <span class="price">6.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PF1STMF<span class="sym-cat">(A)</span></span>
+      <span class="price">12.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PHPMF1<span class="sym-cat">(A)</span></span>
+      <span class="price">3.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">POPULAR1MF<span class="sym-cat">(A)</span></span>
+      <span class="price">3.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PRIME1ICBA<span class="sym-cat">(A)</span></span>
+      <span class="price">7.10 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">RELIANCE1<span class="sym-cat">(A)</span></span>
+      <span class="price">11.60 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SEMLFBSLGF<span class="sym-cat">(A)</span></span>
+      <span class="price">6.80 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SEMLIBBLSF<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TRUSTB1MF<span class="sym-cat">(A)</span></span>
+      <span class="price">3.40 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">VAMLBDMF1<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">VAMLRBBF<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>CorpBond</span> 
+      <span style="font-weight: normal; color: #475569;">— কর্পোরেট বন্ড / সুকুক</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Debt]</span>
+      <span class="badge-count">মোট 16 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">ABBLPBOND<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">AIBLPBOND<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">APSCLBOND<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BANKASI1PB<span class="sym-cat">(N)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">BEXGSUKUK<span class="sym-cat">(A)</span></span>
+      <span class="price">73.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">CBLPBOND<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DBLPBOND<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">IBBL2PBOND<span class="sym-cat">(N)</span></span>
+      <span class="price">3,657.50 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">IBBLPBOND<span class="sym-cat">(A)</span></span>
+      <span class="price">645.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MBPLCPBOND<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">MTBPBOND<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PBLPBOND<span class="sym-cat">(A)</span></span>
+      <span class="price">4,900.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">PREBPBOND<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SEB1PBOND<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">SJIBLPBOND<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">UCB2PBOND<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>Debenture</span> 
+      <span style="font-weight: normal; color: #475569;">— ডিবেঞ্চার</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Debt]</span>
+      <span class="badge-count">মোট 8 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">DEBARACEM<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DEBBDLUGG<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DEBBDWELD<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DEBBDZIPP<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DEBBXDENIM<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DEBBXFISH<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DEBBXKNI<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">DEBBXTEX<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="sector-section">
+  <div class="sector-header">
+    <div>
+      <span>TBond</span> 
+      <span style="font-weight: normal; color: #475569;">— সরকারি ট্রেজারি বন্ড (BGTB)</span>
+    </div>
+    <div>
+      <span class="sec-type" style="margin-right: 8px;">[Debt]</span>
+      <span class="badge-count">মোট 214 টি</span>
+    </div>
+  </div>
+  <div class="stock-grid">
+    <div class="stock-item">
+      <span class="sym">TB10Y0127<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0130<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0132<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0135<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0231<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0234<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0333<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0335<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0429<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0434<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0530<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0531<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0532<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0535<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0628<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0629<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0630<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0632<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0634<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0730<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0731<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0735<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0829<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0833<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y0932<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y1027<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y1030<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y1031<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y1128<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y1135<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y1229<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB10Y1232<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0127<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0128<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0129<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0227<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0228<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0229<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0327<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0328<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0329<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0339<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0340<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0427<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0428<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0429<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0431<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0437<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0527<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0528<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0529<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0535<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0627<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0628<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0629<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0635<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0637<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0727<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0728<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0729<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0730<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0736<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0828<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0829<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0840<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0927<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0928<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0929<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0930<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y0933<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y1026<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y1027<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y1028<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y1029<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y1126<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y1127<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y1128<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y1129<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y1133<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y1226<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y1227<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB15Y1228<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0128<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0129<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0131<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0132<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0133<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0134<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0143<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0228<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0229<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0230<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0231<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0232<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0233<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0234<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0328<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0329<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0330<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0331<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0332<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0333<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0334<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0342<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0428<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0429<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0430<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0431<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0432<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0433<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0434<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0436<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0528<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0529<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0530<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0531<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0532<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0533<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0534<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0540<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0545<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0628<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0629<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0630<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0631<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0632<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0633<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0634<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0639<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0640<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0641<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0642<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0727<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0728<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0729<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0730<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0731<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0732<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0733<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0734<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0735<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0744<span class="sym-cat">(A)</span></span>
+      <span class="price">140.12 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0827<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0828<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0829<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0830<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0831<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0832<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0833<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0834<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0845<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0927<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0928<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0930<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0931<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0932<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0933<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y0934<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1027<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1028<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1029<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1030<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1031<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1032<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1033<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1034<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1127<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1128<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1130<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1131<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1132<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1133<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1134<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1135<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1138<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1227<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1228<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1229<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1230<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1231<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1232<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1233<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB20Y1242<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB2Y0127<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB2Y0227<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB2Y0327<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB2Y0427<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB2Y0527<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB2Y0627<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB2Y0727<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB2Y0927<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB2Y1126<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB2Y1127<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y0128<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y0230<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y0327<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y0428<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y0429<span class="sym-cat">(A)</span></span>
+      <span class="price">110.29 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y0430<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y0527<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y0529<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y0628<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y0630<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y0727<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y0828<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y0928<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y0930<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y1029<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y1126<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y1127<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y1128<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y1130<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y1228<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+    <div class="stock-item">
+      <span class="sym">TB5Y1229<span class="sym-cat">(A)</span></span>
+      <span class="price zero">0.00 ৳</span>
+    </div>
+  </div>
+</div>
+
+<div class="footer-note">
+  This document was automatically compiled from Dhaka Stock Exchange (DSE) official market data. Prepared for technical analysis, systematic research & signal automation in D:\My DSE signal.
+</div>
+
+</body>
+</html>
