@@ -149,6 +149,20 @@ def run_smoke_tests():
         log_test("GET /api/analyst/verdicts", r.status_code == 200 and counts.get("BUY_SETUP", 0) > 0,
                  f"BUY_SETUP: {counts.get('BUY_SETUP')}, WAIT: {counts.get('WAIT')}, AVOID: {counts.get('AVOID')}")
 
+        # 2.10 AI Stock Auditor (FEKDIL Real Backtest Forensics)
+        r = client.get("/api/ai/audit?symbol=FEKDIL&period=6M")
+        data = r.json()
+        trades = data.get("trades", [])
+        log_test("FastAPI: GET /api/ai/audit?symbol=FEKDIL", r.status_code == 200 and len(trades) > 0,
+                 f"Setups: {len(trades)}, Win Rate: {data.get('win_rate')}%, Bot Score: {data.get('bot_score')}/100")
+
+        # 2.11 Walk-Forward Incremental Training Status
+        r = client.get("/api/ai/model-status")
+        data = r.json()
+        phases = data.get("phases", [])
+        log_test("FastAPI: GET /api/ai/model-status", r.status_code == 200 and len(phases) >= 1,
+                 f"Methodology: {data.get('methodology')}, Overall Score: {data.get('overall_bot_score')}/100")
+
     except Exception as e:
         log_test("FastAPI Unified Backend Engine", False, str(e))
 
@@ -218,6 +232,23 @@ def run_smoke_tests():
             j = json.loads(raw)
             log_test("Live HTTP: GET /api/analyst/GP", resp.status == 200 and "trade_plan" in j,
                      f"HTTP {resp.status}, Verdict: {j.get('verdict')}")
+
+        # 3.5 Live GET /api/ai/audit?symbol=FEKDIL (Forensics & avoided traps)
+        url_ai = f"http://127.0.0.1:{test_port}/api/ai/audit?symbol=FEKDIL&period=6M"
+        with urllib.request.urlopen(url_ai, timeout=3) as resp:
+            raw = resp.read().decode('utf-8')
+            j = json.loads(raw)
+            log_test("Live HTTP: GET /api/ai/audit?symbol=FEKDIL", resp.status == 200 and len(j.get("trades", [])) > 0,
+                     f"HTTP {resp.status}, Total Trades: {len(j.get('trades', []))}, Avoided Traps: {len(j.get('avoided_traps', []))}")
+
+        # 3.6 Live GET /api/ai/model-status (Walk-Forward Report)
+        url_status = f"http://127.0.0.1:{test_port}/api/ai/model-status"
+        with urllib.request.urlopen(url_status, timeout=3) as resp:
+            raw = resp.read().decode('utf-8')
+            j = json.loads(raw)
+            log_test("Live HTTP: GET /api/ai/model-status", resp.status == 200 and j.get("overall_bot_score", 0) > 0,
+                     f"HTTP {resp.status}, Bot Score: {j.get('overall_bot_score')}/100, Grade: {j.get('overall_grade')}")
+
 
     except Exception as e:
         log_test("Live HTTP Loopback Test", False, str(e))

@@ -1,0 +1,67 @@
+{
+  "status": "success",
+  "methodology": "Walk-Forward Incremental Learning (Year 1 Baseline -> Rolling 3-Month Out-of-Sample Audits)",
+  "framework_steps": [
+    "1. Train strictly on Year 1 (240 sessions), no lookahead bias.",
+    "2. Test out-of-sample on next 3 months, audit false breakouts vs confirmed wins.",
+    "3. Absorb the 3-month audited experience, retrain rolling model.",
+    "4. Test next 3 months (covering FEKDIL April 2026 breakout), verify win rate consistency."
+  ],
+  "total_sessions_analyzed": 482,
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Phase 1 (Year 1 Train -> 3M Test)",
+      "train_range": "2024-10-15 to 2025-10-15",
+      "train_samples": 14077,
+      "test_range": "2025-10-16 to 2026-01-12",
+      "test_samples": 3536,
+      "accuracy": 71.4,
+      "precision": 53.2,
+      "high_conf_win_rate": 68.5,
+      "mark": 82,
+      "status": "PASSED"
+    },
+    {
+      "phase": 2,
+      "name": "Phase 2 (1Y + 3M Train -> Next 3M Test)",
+      "train_range": "2024-10-15 to 2026-01-12",
+      "train_samples": 17613,
+      "test_range": "2026-01-13 to 2026-04-20",
+      "test_samples": 3565,
+      "accuracy": 59.6,
+      "precision": 82.0,
+      "high_conf_win_rate": 72.0,
+      "mark": 85,
+      "status": "PASSED"
+    },
+    {
+      "phase": 3,
+      "name": "Phase 3 (1Y + 6M Train -> Next 3M Test - FEKDIL Breakout Period)",
+      "train_range": "2024-10-15 to 2026-04-20",
+      "train_samples": 21178,
+      "test_range": "2026-04-21 to 2026-07-20",
+      "test_samples": 3577,
+      "accuracy": 59.1,
+      "precision": 53.4,
+      "high_conf_win_rate": 78.5,
+      "mark": 88,
+      "status": "EXCELLENT"
+    }
+  ],
+  "overall_bot_score": 86,
+  "overall_grade": "A",
+  "feature_importances": {
+    "feat_range_pct": 25.23,
+    "feat_ema20_dist": 11.27,
+    "feat_ret_1d": 11.16,
+    "feat_ema50_dist": 10.51,
+    "feat_high20_dist": 10.31,
+    "feat_rsi14": 9.57,
+    "feat_ret_20d": 8.37,
+    "feat_vol_ratio": 8.35,
+    "feat_ret_5d": 5.23
+  },
+  "active_model_file": "stock_model_y1.joblib",
+  "latest_model_file": "stock_model_latest.joblib"
+}

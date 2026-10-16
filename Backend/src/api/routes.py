@@ -142,3 +142,30 @@ def get_analyst_decision(symbol: str):
             }
     raise HTTPException(status_code=404, detail=f"Analysis for symbol '{sym}' not found")
 
+@router.get("/ai/audit")
+def get_ai_stock_audit(
+    symbol: str = Query("FEKDIL", description="Stock symbol"),
+    period: str = Query("6M", description="Period: 3M, 6M, 1Y, ALL"),
+    strategy: str = Query("ALL", description="Strategy filter: ALL, BREAKOUT, VOLUME, EMA_ALIGN")
+):
+    try:
+        from src.prediction.stock_auditor import audit_stock_history
+        res = audit_stock_history(symbol=symbol, period=period, strategy_filter=strategy)
+        if res.get("status") == "error":
+            raise HTTPException(status_code=404, detail=res.get("message", "Symbol audit failed"))
+        return res
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/ai/model-status")
+def get_ai_model_status():
+    """Returns Walk-Forward incremental training status and validation scorecard."""
+    try:
+        from src.prediction.train import get_model_status
+        return get_model_status()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+

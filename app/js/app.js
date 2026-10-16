@@ -2521,181 +2521,180 @@ function initPortfolioEvents() {
 // PAGE 6: AI STOCK ANALYST & BACKTEST AUDITOR CONTROLLER
 // ========================================================
 
-const sampleAiTradeData = {
-  FEKDIL: [
-    {
-      date: '2025-04-18',
-      strategy: '⚡ 20-Day High Breakout + Volume Surge',
-      entry: 19.80,
-      sl: 19.20,
-      slPct: -3.0,
-      tp: 21.60,
-      tpPct: +9.1,
-      rrr: '3.0:1',
-      outcome: 'win',
-      gain: '+9.1%',
-      rationale: 'প্রাইস ২০ দিনের সর্বোচ্চ রেজিস্ট্যান্স ২.৪ গুণ ভলিউমসহ ব্রেকআউট করেছিল। RSI ছিল ৫৮ (সুইট-স্পট মোমেন্টাম)।'
-    },
-    {
-      date: '2025-06-11',
-      strategy: '📈 EMA 20/50 Golden Pullback Entry',
-      entry: 20.40,
-      sl: 19.80,
-      slPct: -2.9,
-      tp: 22.00,
-      tpPct: +7.8,
-      rrr: '2.7:1',
-      outcome: 'win',
-      gain: '+7.8%',
-      rationale: 'আপট্রেন্ড চলাকালীন প্রাইস EMA 20 সাপোর্টে টেস্ট করে শক্তিশালী বুলিশ হ্যামার তৈরি করেছিল।'
-    },
-    {
-      date: '2025-08-05',
-      strategy: '🐋 Smart Money Accumulation (Vol 2.8x)',
-      entry: 21.10,
-      sl: 20.50,
-      slPct: -2.8,
-      tp: 23.20,
-      tpPct: +10.0,
-      rrr: '3.5:1',
-      outcome: 'win',
-      gain: '+10.0%',
-      rationale: 'টানা ৪ দিন ন্যারো কনসলিডেশন রেঞ্জে প্রাতিষ্ঠানিক এক্যুমুলেশন ভলিউম শনাক্ত হয়েছিল।'
-    },
-    {
-      date: '2025-09-14',
-      strategy: '⚡ 20-Day Breakout Attempt',
-      entry: 21.90,
-      sl: 21.30,
-      slPct: -2.7,
-      tp: 23.80,
-      tpPct: +8.7,
-      rrr: '3.2:1',
-      outcome: 'loss',
-      gain: '-2.7%',
-      rationale: 'ব্রেকআউট লেভেলে এন্ট্রি হলেও সামগ্রিক সেক্টরে প্রফিট টেকিং আসায় স্টপ-লস ট্রিগার হয়।'
-    }
-  ]
-};
-
 function initAiAnalystEvents() {
   const periodBtns = document.querySelectorAll('.ai-period-btn');
-  let activeAiPeriod = 'Last 6 Months';
+  let activeAiPeriodCode = '6M';
+  let activeAiPeriodText = 'Last 6 Months';
 
   periodBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       periodBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      activeAiPeriod = btn.innerText;
-      const subtitle = document.getElementById('aiPeriodSubtitle');
-      const input = document.getElementById('aiSymbolQueryInput');
-      const sym = input ? input.value.trim().toUpperCase() || 'FEKDIL' : 'FEKDIL';
-      if (subtitle) subtitle.innerText = `Analyzed Period: ${activeAiPeriod} (${sym})`;
+      activeAiPeriodCode = btn.getAttribute('data-period') || '6M';
+      activeAiPeriodText = btn.innerText.trim();
+      const symInput = document.getElementById('aiSymbolQueryInput');
+      const sym = symInput ? symInput.value.trim().toUpperCase() || 'FEKDIL' : 'FEKDIL';
+      renderAiReport(sym);
     });
   });
 
   const runBtn = document.getElementById('runAiAnalysisBtn');
   const symInput = document.getElementById('aiSymbolQueryInput');
+  const stratSelect = document.getElementById('aiStrategyFilterSelect');
 
-  function renderAiReport(sym) {
-    const symbol = (sym || 'FEKDIL').toUpperCase();
+  if (stratSelect) {
+    stratSelect.addEventListener('change', () => {
+      const sym = symInput ? symInput.value.trim().toUpperCase() || 'FEKDIL' : 'FEKDIL';
+      renderAiReport(sym);
+    });
+  }
+
+  async function renderAiReport(sym) {
+    const symbol = (sym || 'FEKDIL').trim().toUpperCase();
     const container = document.getElementById('aiTradesListContainer');
     if (!container) return;
 
-    const trades = sampleAiTradeData[symbol] || [
-      {
-        date: '2025-04-12',
-        strategy: '⚡ 20-Day High Breakout + Volume Surge',
-        entry: 242.00,
-        sl: 236.00,
-        slPct: -2.5,
-        tp: 258.00,
-        tpPct: +6.6,
-        rrr: '2.6:1',
-        outcome: 'win',
-        gain: '+6.6%',
-        rationale: 'প্রাইস শক্তিশালী রেজিস্ট্যান্স ভলিউমসহ অতিক্রম করেছে এবং RSI ছিল ৬০।'
-      },
-      {
-        date: '2025-06-25',
-        strategy: '📈 EMA 20 Pullback Bounce',
-        entry: 246.50,
-        sl: 240.00,
-        slPct: -2.6,
-        tp: 262.00,
-        tpPct: +6.3,
-        rrr: '2.4:1',
-        outcome: 'win',
-        gain: '+6.3%',
-        rationale: 'EMA 20 সাপোর্টে টেস্ট করে প্রাতিষ্ঠানিক বাই ভলিউম প্রবেশ করেছিল।'
-      },
-      {
-        date: '2025-08-19',
-        strategy: '⚡ Breakout Attempt',
-        entry: 254.00,
-        sl: 248.00,
-        slPct: -2.4,
-        tp: 270.00,
-        tpPct: +6.3,
-        rrr: '2.6:1',
-        outcome: 'loss',
-        gain: '-2.4%',
-        rationale: 'মার্কেটের সার্বিক কারেকশনে ফলস ব্রেকআউট হয়ে স্টপ-লস ট্রিগার হয়েছে।'
-      }
-    ];
-
-    container.innerHTML = trades.map((t, i) => `
-      <div class="ai-trade-card">
-        <div class="ai-trade-card-top">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 12px; font-weight: 800; color: #fff;">#${i + 1} • ${t.date}</span>
-            <span class="ai-strategy-tag">${t.strategy}</span>
-          </div>
-          <span class="ai-outcome-tag ${t.outcome}">${t.outcome === 'win' ? '🟢 TARGET HIT (' + t.gain + ')' : '🔴 STOP LOSS (' + t.gain + ')'}</span>
-        </div>
-
-        <div class="ai-trade-plan-row">
-          <span>Entry: <b>৳${t.entry.toFixed(2)}</b></span>
-          <span class="sl-val">SL: <b>৳${t.sl.toFixed(2)} (${t.slPct}%)</b></span>
-          <span class="tp-val">TP: <b>৳${t.tp.toFixed(2)} (${t.tpPct}%)</b></span>
-          <span class="rrr-val">RRR: <b>${t.rrr}</b></span>
-          <button class="btn-primary" style="margin-left: auto; font-size: 10px; padding: 3px 8px; cursor: pointer;" onclick="loadSymbolData('${symbol}'); switchToPage('chart');">📈 View on Chart</button>
-        </div>
-
-        <div class="ai-trade-rationale">
-          <span style="color: var(--text-dim);">লজিক: </span>${t.rationale}
-        </div>
+    const strategy = stratSelect ? stratSelect.value : 'ALL';
+    
+    // Show loading state
+    container.innerHTML = `
+      <div style="text-align: center; padding: 50px 20px; color: var(--text-dim);">
+        <div style="font-size: 24px; margin-bottom: 10px;">⏳</div>
+        <div style="font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 6px;">Scanning historical bars for ${symbol}...</div>
+        <div style="font-size: 11px;">Auditing candlestick patterns, EMA confluences, and volume breakouts...</div>
       </div>
-    `).join('');
+    `;
 
-    const countBadge = document.getElementById('aiTradesCountBadge');
-    if (countBadge) countBadge.innerText = `${trades.length} Setups Found`;
+    try {
+      const url = `/api/ai/audit?symbol=${encodeURIComponent(symbol)}&period=${encodeURIComponent(activeAiPeriodCode)}&strategy=${encodeURIComponent(strategy)}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+      const data = await res.json();
 
-    const totalVal = document.getElementById('aiTotalTradesVal');
-    if (totalVal) totalVal.innerText = `${trades.length} Trades`;
+      const trades = data.trades || [];
+      const traps = data.avoided_traps || [];
 
-    const subtitle = document.getElementById('aiPeriodSubtitle');
-    if (subtitle) subtitle.innerText = `Analyzed Period: ${activeAiPeriod} (${symbol})`;
+      // Render Trades Timeline
+      if (trades.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 40px 20px; color: var(--text-dim);">
+            <div style="font-size: 22px; margin-bottom: 8px;">🛡️</div>
+            <div style="font-size: 13px; font-weight: 600; color: #e2e8f0; margin-bottom: 4px;">উক্ত পিরিয়ডে কোনো কনফার্মড বাই সিগন্যাল পাওয়া যায়নি</div>
+            <div style="font-size: 11px;">বটটি ক্যাপিটাল সুরক্ষার লক্ষ্যে কোনো হাই-রিস্ক ট্রেড নেয়নি এবং ফলস ব্রেকআউট এড়িয়েছে।</div>
+          </div>
+        `;
+      } else {
+        container.innerHTML = trades.map((t, i) => {
+          const isWin = t.outcome === 'win';
+          const outcomeClass = isWin ? 'win' : 'loss';
+          const outcomeLabel = isWin ? `🟢 TARGET HIT (+${t.gain_pct}%)` : `🔴 STOP LOSS (${t.gain_pct}%)`;
+          const gainPrefix = t.gain_pct > 0 ? '+' : '';
 
-    const winCount = trades.filter(t => t.outcome === 'win').length;
-    const lossCount = trades.length - winCount;
-    const winRate = ((winCount / trades.length) * 100).toFixed(1);
+          return `
+            <div class="ai-trade-card">
+              <div class="ai-trade-card-top">
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-size: 12px; font-weight: 800; color: #fff;">#${i + 1} • ${t.date}</span>
+                  <span class="ai-strategy-tag">${t.strategy}</span>
+                </div>
+                <span class="ai-outcome-tag ${outcomeClass}">${outcomeLabel}</span>
+              </div>
 
-    const winRateEl = document.getElementById('aiWinRateVal');
-    if (winRateEl) winRateEl.innerText = `${winRate}%`;
+              <div class="ai-trade-plan-row">
+                <span>Entry: <b>৳${Number(t.entry).toFixed(2)}</b></span>
+                <span class="sl-val">SL: <b>৳${Number(t.sl).toFixed(2)} (${t.sl_pct}%)</b></span>
+                <span class="tp-val">TP: <b>৳${Number(t.tp).toFixed(2)} (+${t.tp_pct}%)</b></span>
+                <span class="rrr-val">RRR: <b>${t.rrr}</b></span>
+                <button class="btn-primary" style="margin-left: auto; font-size: 10px; padding: 3px 8px; cursor: pointer;" onclick="loadSymbolData('${data.symbol}'); switchToPage('chart');">📈 View on Chart</button>
+              </div>
 
-    const winCountSub = document.getElementById('aiWinCountSub');
-    if (winCountSub) winCountSub.innerText = `${winCount} Target Hits vs ${lossCount} Stop Loss`;
+              <div class="ai-trade-rationale">
+                <span style="color: var(--text-dim);">লজিক: </span>${t.rationale}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Update Hero Scorecards
+      const countBadge = document.getElementById('aiTradesCountBadge');
+      if (countBadge) countBadge.innerText = `${trades.length} Setups Found`;
+
+      const totalVal = document.getElementById('aiTotalTradesVal');
+      if (totalVal) totalVal.innerText = `${trades.length} Trades`;
+
+      const subtitle = document.getElementById('aiPeriodSubtitle');
+      if (subtitle) subtitle.innerText = `Analyzed Period: ${activeAiPeriodText} (${data.symbol})`;
+
+      const winRateEl = document.getElementById('aiWinRateVal');
+      if (winRateEl) {
+        winRateEl.innerText = `${data.win_rate}%`;
+        winRateEl.style.color = data.win_rate >= 60 ? 'var(--color-green)' : (data.win_rate >= 40 ? '#fbbf24' : '#ef4444');
+      }
+
+      const winCountSub = document.getElementById('aiWinCountSub');
+      if (winCountSub) winCountSub.innerText = `${data.win_count} Target Hits vs ${data.loss_count} Stop Loss`;
+
+      const profitFactorVal = document.getElementById('aiProfitFactorVal');
+      if (profitFactorVal) profitFactorVal.innerText = `${data.profit_factor}x`;
+
+      const profitFactorCard = profitFactorVal ? profitFactorVal.closest('.dash-card') : null;
+      if (profitFactorCard) {
+        const sub = profitFactorCard.querySelector('.dash-card-sub');
+        if (sub) sub.innerText = `Avg Gain: +${data.avg_gain}% | Avg Loss: -${data.avg_loss}%`;
+      }
+
+      const scoreMarkVal = document.getElementById('aiScoreMarkVal');
+      if (scoreMarkVal) scoreMarkVal.innerText = `${data.bot_score} / 100`;
+
+      const scoreMarkCard = scoreMarkVal ? scoreMarkVal.closest('.dash-card') : null;
+      if (scoreMarkCard) {
+        const sub = scoreMarkCard.querySelector('.dash-card-sub');
+        if (sub) sub.innerText = `Grade ${data.bot_grade} • Traps Filtered: ${traps.length} Avoided`;
+      }
+
+      // Update Avoided Traps List (Why we didn't trade)
+      const avoidedList = document.getElementById('aiAvoidedReasonsList');
+      if (avoidedList) {
+        if (traps.length > 0) {
+          avoidedList.innerHTML = traps.map(trap => `
+            <li><b>${trap.title}:</b> ${trap.reason}</li>
+          `).join('');
+        } else {
+          avoidedList.innerHTML = `<li>উক্ত পিরিয়ডে কোনো ঝুঁকিপূর্ণ লো-ভলিউম ট্র্যাপ বা ওভারবট কন্ডিশন তৈরি হয়নি।</li>`;
+        }
+      }
+
+      // Update Teacher Evaluation Commentary
+      const teacherEl = document.getElementById('aiTeacherComments');
+      if (teacherEl && data.teacher_comments) {
+        teacherEl.innerText = data.teacher_comments;
+      }
+
+      // Update Teacher Bar Metric
+      const barFill = document.querySelector('.ai-teacher-card .ai-bar-metric div[style*="width"]');
+      const barPct = document.querySelector('.ai-teacher-card .ai-bar-metric span:last-child');
+      if (barFill) barFill.style.width = `${data.bot_score}%`;
+      if (barPct) barPct.innerText = `${data.bot_score}%`;
+
+    } catch (err) {
+      console.error('Failed to load AI audit report:', err);
+      container.innerHTML = `
+        <div style="text-align: center; padding: 40px; color: #ef4444;">
+          <div style="font-size: 20px; margin-bottom: 6px;">⚠️</div>
+          <div>Failed to audit stock data: ${err.message}</div>
+        </div>
+      `;
+    }
   }
 
   if (runBtn && symInput) {
     runBtn.addEventListener('click', () => {
       const sym = symInput.value.trim().toUpperCase() || 'FEKDIL';
       runBtn.innerHTML = '<span>⏳ Scanning Data...</span>';
-      setTimeout(() => {
-        renderAiReport(sym);
+      renderAiReport(sym).finally(() => {
         runBtn.innerHTML = '<span>🔍 Scan & Audit Trades</span>';
-      }, 350);
+      });
     });
 
     symInput.addEventListener('keydown', (e) => {
@@ -2703,6 +2702,7 @@ function initAiAnalystEvents() {
     });
   }
 
-  // Initial render preview
+  // Initial render preview with real backend data
   renderAiReport('FEKDIL');
 }
+

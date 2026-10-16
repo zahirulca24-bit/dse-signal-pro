@@ -410,6 +410,30 @@ class DSEHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_json({'error': 'Symbol not found'}, status=404)
                 return
 
+        elif path in ('/api/ai/audit', '/api/v1/ai/audit'):
+            sym = query.get('symbol', ['FEKDIL'])[0].upper()
+            period = query.get('period', ['6M'])[0].upper()
+            strategy = query.get('strategy', ['ALL'])[0].upper()
+            try:
+                from src.prediction.stock_auditor import audit_stock_history
+                res = audit_stock_history(symbol=sym, period=period, strategy_filter=strategy)
+                if res.get('status') == 'error':
+                    self.send_json(res, status=404)
+                else:
+                    self.send_json(res)
+            except Exception as e:
+                self.send_json({'error': str(e)}, status=500)
+            return
+
+        elif path in ('/api/ai/model-status', '/api/v1/ai/model-status'):
+            try:
+                from src.prediction.train import get_model_status
+                res = get_model_status()
+                self.send_json(res)
+            except Exception as e:
+                self.send_json({'error': str(e)}, status=500)
+            return
+
         elif path.startswith('/api/analyst/') or path.startswith('/api/v1/analyst/'):
             parts = path.rstrip('/').split('/')
             target = parts[-1].upper()
