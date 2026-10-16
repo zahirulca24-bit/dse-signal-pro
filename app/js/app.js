@@ -114,12 +114,28 @@ function switchToPage(target) {
         chartPrice.priceScale('right').applyOptions({ autoScale: true });
         chartPrice.timeScale().fitContent();
       }
+      if (chartRSI) {
+        chartRSI.priceScale('right').applyOptions({ autoScale: true });
+        chartRSI.timeScale().fitContent();
+      }
+      if (chartMACD) {
+        chartMACD.priceScale('right').applyOptions({ autoScale: true });
+        chartMACD.timeScale().fitContent();
+      }
     });
     setTimeout(() => {
       handleResize();
       if (chartPrice) {
         chartPrice.priceScale('right').applyOptions({ autoScale: true });
         chartPrice.timeScale().fitContent();
+      }
+      if (chartRSI) {
+        chartRSI.priceScale('right').applyOptions({ autoScale: true });
+        chartRSI.timeScale().fitContent();
+      }
+      if (chartMACD) {
+        chartMACD.priceScale('right').applyOptions({ autoScale: true });
+        chartMACD.timeScale().fitContent();
       }
     }, 120);
   }
@@ -604,10 +620,17 @@ function initPaneResizers() {
   if (saved) {
     try {
       const parsed = JSON.parse(saved);
-      if (parsed.price && parsed.rsi && parsed.macd) {
+      if (parsed.price >= 0.35 && parsed.price <= 0.72 && parsed.rsi >= 0.15 && parsed.macd >= 0.15) {
         paneRatios = parsed;
+      } else {
+        localStorage.removeItem('dse_pane_ratios');
+        paneRatios = { price: 0.56, rsi: 0.22, macd: 0.22 };
       }
-    } catch (e) {}
+    } catch (e) {
+      paneRatios = { price: 0.56, rsi: 0.22, macd: 0.22 };
+    }
+  } else {
+    paneRatios = { price: 0.56, rsi: 0.22, macd: 0.22 };
   }
 
   const stack = document.getElementById('panesStack');
@@ -627,7 +650,7 @@ function initPaneResizers() {
     const p3 = document.getElementById('paneMACDWrapper');
 
     initialHeights = {
-      price: p1 ? p1.getBoundingClientRect().height : 300,
+      price: p1 ? p1.getBoundingClientRect().height : 320,
       rsi: p2 ? p2.getBoundingClientRect().height : 120,
       macd: p3 ? p3.getBoundingClientRect().height : 120
     };
@@ -649,12 +672,13 @@ function initPaneResizers() {
     const totalAvailH = initialHeights.price + initialHeights.rsi + initialHeights.macd;
     if (totalAvailH <= 0) return;
 
+    const minPrice = 180;
+    const minRsi = 90;
+    const minMacd = 90;
+
     if (activeResizer === 'price-rsi') {
       let newPriceH = initialHeights.price + dy;
       let newRsiH = initialHeights.rsi - dy;
-
-      const minPrice = 120;
-      const minRsi = 50;
 
       if (newPriceH < minPrice) {
         newPriceH = minPrice;
@@ -671,9 +695,6 @@ function initPaneResizers() {
     } else if (activeResizer === 'rsi-macd') {
       let newRsiH = initialHeights.rsi + dy;
       let newMacdH = initialHeights.macd - dy;
-
-      const minRsi = 50;
-      const minMacd = 50;
 
       if (newRsiH < minRsi) {
         newRsiH = minRsi;
@@ -715,12 +736,23 @@ function applyPaneHeights() {
 
   if (!stack || !chartPrice || !chartRSI || !chartMACD) return;
 
-  const stackW = stack.clientWidth;
-  const totalH = Math.max(260, stack.clientHeight - 10);
+  const stackW = stack.clientWidth || 900;
+  const totalH = Math.max(380, stack.clientHeight - 12);
 
-  const priceH = Math.max(120, Math.floor(totalH * paneRatios.price));
-  const rsiH = Math.max(50, Math.floor(totalH * paneRatios.rsi));
-  const macdH = Math.max(50, totalH - priceH - rsiH);
+  const minRsi = 100;
+  const minMacd = 100;
+  const minPrice = 180;
+
+  let rsiH = Math.max(minRsi, Math.floor(totalH * paneRatios.rsi));
+  let macdH = Math.max(minMacd, Math.floor(totalH * paneRatios.macd));
+  let priceH = totalH - rsiH - macdH;
+
+  if (priceH < minPrice) {
+    priceH = minPrice;
+    const remaining = Math.max(minRsi + minMacd, totalH - priceH);
+    rsiH = Math.floor(remaining * 0.5);
+    macdH = remaining - rsiH;
+  }
 
   if (wPrice) { wPrice.style.flex = 'none'; wPrice.style.height = `${priceH}px`; }
   if (wRSI) { wRSI.style.flex = 'none'; wRSI.style.height = `${rsiH}px`; }
@@ -807,14 +839,30 @@ async function loadSymbolData(symbol) {
     updateReadoutToLatest();
     updateChartAnalystDeck(symbol);
 
-    // Auto-fit both axes (X: timeScale, Y: priceScale)
+    // Auto-fit both axes (X: timeScale, Y: priceScale) across ALL 3 PANES
     chartPrice.timeScale().fitContent();
     chartPrice.priceScale('right').applyOptions({ autoScale: true });
+    if (chartRSI) {
+      chartRSI.timeScale().fitContent();
+      chartRSI.priceScale('right').applyOptions({ autoScale: true });
+    }
+    if (chartMACD) {
+      chartMACD.timeScale().fitContent();
+      chartMACD.priceScale('right').applyOptions({ autoScale: true });
+    }
 
     setTimeout(() => {
+      handleResize();
       chartPrice.timeScale().fitContent();
       chartPrice.priceScale('right').applyOptions({ autoScale: true });
-      handleResize();
+      if (chartRSI) {
+        chartRSI.timeScale().fitContent();
+        chartRSI.priceScale('right').applyOptions({ autoScale: true });
+      }
+      if (chartMACD) {
+        chartMACD.timeScale().fitContent();
+        chartMACD.priceScale('right').applyOptions({ autoScale: true });
+      }
     }, 60);
   } catch (err) {
     console.error(`Error loading ${symbol}:`, err);

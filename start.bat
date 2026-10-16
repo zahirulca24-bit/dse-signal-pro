@@ -18,12 +18,12 @@ if exist "%VENV_PY%" (
 
 echo [*] Python Path: %PYTHON_CMD%
 echo [*] Checking port 8080...
-for /f "tokens=5" %%a in ('netstat -aon 2^>nul ^| findstr /r ":8080 .*LISTENING"') do (
-    echo [*] Closing previous server process (PID %%a)...
+for /f "tokens=5" %%a in ('netstat -ano 2^>nul ^| findstr :8080 ^| findstr LISTENING') do (
+    echo [*] Closing previous server process PID %%a
     taskkill /f /pid %%a >nul 2>&1
 )
 echo [*] Starting Unified Server at http://localhost:8080 ...
-echo [*] Frontend & Backend are running together in this terminal!
+echo [*] Frontend and Backend are running together in this terminal!
 echo [*] Opening browser in 2 seconds...
 echo.
 

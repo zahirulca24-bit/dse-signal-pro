@@ -517,15 +517,15 @@ body {
 }
 
 #panePriceWrapper {
-  min-height: 120px;
+  min-height: 180px;
 }
 
 #paneRSIWrapper {
-  min-height: 50px;
+  min-height: 100px;
 }
 
 #paneMACDWrapper {
-  min-height: 50px;
+  min-height: 100px;
 }
 
 /* Horizontal Multi-Pane Resizer Splitters */
