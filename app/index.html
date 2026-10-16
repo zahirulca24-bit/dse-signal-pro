@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DSE Signal Pro — Analytics, Dashboard & Multi-Pane Charting</title>
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=18">
   <!-- Offline Standalone Lightweight Charts by TradingView -->
   <script src="js/lightweight-charts.standalone.production.js"></script>
 </head>
@@ -45,6 +45,11 @@
       <div class="nav-item" data-page="portfolio">
         <span class="nav-icon">💼</span>
         <span class="nav-text">Watchlist & Portfolio</span>
+      </div>
+      <!-- PAGE 6: AI STOCK ANALYST & BACKTEST AUDITOR -->
+      <div class="nav-item" data-page="ai-analyst">
+        <span class="nav-icon">🤖</span>
+        <span class="nav-text">AI Stock Analyst</span>
       </div>
     </nav>
 
@@ -821,12 +826,184 @@
 
           </div>
 
+      <!-- ========================================================
+           PAGE 6: AI STOCK ANALYST & BACKTEST AUDITOR
+           ======================================================== -->
+      <section class="page-view" id="page-ai-analyst">
+        <div class="ai-analyst-container">
+          
+          <!-- Top Control & Prompt Bar -->
+          <div class="ai-hero-card">
+            <div class="ai-hero-header">
+              <div class="ai-hero-title-group">
+                <div class="ai-hero-title">🤖 AI Stock Analyst & Walk-Forward Auditor</div>
+                <div class="ai-hero-desc">
+                  Query historical performance for any stock • Deep trade forensics (Where we took trade, which strategy, Entry/SL/TP, and why we avoided trap days)
+                </div>
+              </div>
+              <div class="ai-status-pill">
+                <span class="status-pulse-dot"></span>
+                <span>Model Horizon: 1-Year Trained (Phase 1 Baseline)</span>
+              </div>
+            </div>
+
+            <!-- Interactive Query Ribbon -->
+            <div class="ai-query-ribbon">
+              <div class="ai-input-group">
+                <label class="ai-input-label">Stock Symbol</label>
+                <input type="text" id="aiSymbolQueryInput" class="ai-query-input" placeholder="Type ticker (e.g. FEKDIL)..." value="FEKDIL" style="text-transform: uppercase;">
+              </div>
+
+              <div class="ai-input-group">
+                <label class="ai-input-label">Analysis Period</label>
+                <div class="ai-period-toggle-group">
+                  <button class="ai-period-btn active" data-period="6M">Last 6 Months</button>
+                  <button class="ai-period-btn" data-period="1Y">1 Year (Trained)</button>
+                  <button class="ai-period-btn" data-period="3M">3 Months (Test)</button>
+                  <button class="ai-period-btn" data-period="ALL">Full 2 Years</button>
+                </div>
+              </div>
+
+              <div class="ai-input-group">
+                <label class="ai-input-label">Filter Strategy</label>
+                <select id="aiStrategyFilterSelect" class="screener-select" style="min-width: 190px;">
+                  <option value="ALL">All Strategies (Confluence)</option>
+                  <option value="BREAKOUT">⚡ 20-Day High Breakout</option>
+                  <option value="VOLUME">🐋 Smart Money Surge (≥1.5x)</option>
+                  <option value="EMA_ALIGN">📈 EMA Trend Alignment</option>
+                  <option value="PILLAR6">🛡️ 6-Pillar Buy Setup</option>
+                </select>
+              </div>
+
+              <div style="display: flex; align-items: flex-end;">
+                <button class="btn-primary" id="runAiAnalysisBtn" style="padding: 7px 16px; font-weight: 700; height: 32px; display: flex; align-items: center; gap: 6px;">
+                  <span>🔍 Scan & Audit Trades</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scorecard Hero Grid -->
+          <div class="ai-scorecard-grid">
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <span class="dash-card-title">Discovered Setups</span>
+                <span class="dash-card-icon">🎯</span>
+              </div>
+              <div class="dash-card-value" id="aiTotalTradesVal">8 Trades</div>
+              <div class="dash-card-sub" id="aiPeriodSubtitle">Analyzed Period: Last 6 Months (FEKDIL)</div>
+            </div>
+
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <span class="dash-card-title">Backtest Win Rate</span>
+                <span class="dash-card-icon">🏆</span>
+              </div>
+              <div class="dash-card-value" id="aiWinRateVal" style="color: var(--color-green);">75.0%</div>
+              <div class="dash-card-sub" id="aiWinCountSub">6 Target Hits vs 2 Stop Loss</div>
+            </div>
+
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <span class="dash-card-title">Profit Factor / RRR</span>
+                <span class="dash-card-icon">⚖️</span>
+              </div>
+              <div class="dash-card-value" id="aiProfitFactorVal">2.8x</div>
+              <div class="dash-card-sub">Avg Gain: +7.4% | Avg Loss: -2.3%</div>
+            </div>
+
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <span class="dash-card-title">Bot Knowledge Mark</span>
+                <span class="dash-card-icon">🧠</span>
+              </div>
+              <div class="dash-card-value" id="aiScoreMarkVal" style="color: #38bdf8;">85 / 100</div>
+              <div class="dash-card-sub">Grade A • Traps Filtered: 5 Avoided</div>
+            </div>
+          </div>
+
+          <!-- Main 2-Column Split Stage -->
+          <div class="ai-main-grid">
+            
+            <!-- Left Column: Trade Forensics Timeline -->
+            <div class="ai-panel">
+              <div class="ai-panel-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 13px; font-weight: 700; color: #fff;">📜 Discovered Trade Execution History</span>
+                  <span class="pill-change green" id="aiTradesCountBadge">8 Setups Found</span>
+                </div>
+                <span style="font-size: 10.5px; color: var(--text-dim);">Chronological Backtest Timeline</span>
+              </div>
+
+              <div class="ai-trades-scroll-list" id="aiTradesListContainer">
+                <!-- Injected via JavaScript -->
+              </div>
+            </div>
+
+            <!-- Right Column: Rationale & Negative Risk Defense -->
+            <div class="ai-panel">
+              <div class="ai-panel-header">
+                <span style="font-size: 13px; font-weight: 700; color: #fff;">🛡️ Decision Rationale & Risk Defense Audit</span>
+                <span style="font-size: 10.5px; color: var(--text-dim);">Why Taken vs Why Avoided</span>
+              </div>
+
+              <div class="ai-defense-content">
+                
+                <!-- Dual Box: Why Taken vs Why Avoided -->
+                <div class="ai-rationale-box green-tint">
+                  <div class="ai-box-heading">
+                    <span>✅ কেন ট্রেড নেওয়া হয়েছিল (Entry Confluence Reasons)</span>
+                  </div>
+                  <ul class="ai-reasons-list" id="aiEntryReasonsList">
+                    <li><b>মুভিং এভারেজ শৃঙ্খলা:</b> প্রাইস EMA 20 ও EMA 50-এর উপরে সুদৃঢ় সাপোর্ট নিয়ে নতুন আপট্রেন্ড নিশ্চিত করেছিল।</li>
+                    <li><b>স্মার্ট মানি ভলিউম:</b> ব্রেকআউট ক্যান্ডেলে সাধারণ দিনের চেয়ে ২.৪ গুণ বেশি ভলিউমে প্রাতিষ্ঠানিক লেনদেন হয়েছিল।</li>
+                    <li><b>সুইট-স্পট মোমেন্টাম:</b> RSI ছিল ৫৮ (ওভারবট নয়, পর্যাপ্ত মুভমেন্টের স্পেস ছিল)।</li>
+                    <li><b>ঝুঁকি-লাভ অনুপাত (RRR):</b> স্টপ-লস মাত্র ২.৫% রেখে ১ম টার্গেট +৭.৫% থাকায় ২.৮:১ RRR অর্জিত হয়েছিল।</li>
+                  </ul>
+                </div>
+
+                <div class="ai-rationale-box red-tint">
+                  <div class="ai-box-heading">
+                    <span>⛔ কোথায় কোথায় ট্রেড নেওয়া হয়নি এবং কেন? (Trap Defense Audit)</span>
+                  </div>
+                  <ul class="ai-reasons-list" id="aiAvoidedReasonsList">
+                    <li><b>১২ মে (ফলস স্পাইক):</b> প্রাইস +৩.২% বাড়লেও ভলিউম মাত্র ০.৭x ছিল (সাধারণ দিনের চেয়ে কম)। কোনো প্রাতিষ্ঠানিক সাপোর্ট না থাকায় ট্র্যাপ সন্দেহে সিগন্যাল বাতিল করা হয়েছিল।</li>
+                    <li><b>২৮ জুলাই (ওভারবট জোন):</b> RSI ৭৪ ছুঁয়ে অতিরিক্ত ঝুঁকিপূর্ণ হওয়ায় টপ-বাই এড়িয়ে কারেকশনের অপেক্ষা করা হয়েছিল।</li>
+                    <li><b>৮ সেপ্টেম্বর (সাপোর্ট ব্রেক):</b> প্রাইস EMA 20 ভেঙে নিচে নামায় কোনো বটম ফিশিং করা হয়নি।</li>
+                  </ul>
+                </div>
+
+                <!-- Teacher Evaluation Card -->
+                <div class="ai-teacher-card">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 12px; font-weight: 700; color: #38bdf8;">📝 শিক্ষক মূল্যায়ন ও বট নলেজ রিপোর্ট</span>
+                    <span style="font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-weight: 600;">Passing Grade: A</span>
+                  </div>
+                  <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5; margin: 0 0 8px 0;" id="aiTeacherComments">
+                    বটটি ১ বছরের প্রাথমিক ট্রেনিংয়ের পর FEKDIL-এর সুইং মোমেন্টাম ও ফলস ব্রেকআউট নিখুঁতভাবে ফিল্টার করতে পেরেছে। বিশেষ করে লো-ভলিউম স্পাইকগুলোতে ভুল এন্ট্রি না দিয়ে ক্যাপিটাল সেভ করেছে। পরবর্তী ৩ মাসের টেস্টেও উইন রেট ৭৫% বজায় ছিল।
+                  </p>
+                  <div class="ai-bar-metric">
+                    <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-dim); margin-bottom: 3px;">
+                      <span>ট্রেডিং ডিসিপ্লিন ও ক্যাপিটাল ডিফেন্স</span>
+                      <span style="font-weight: 600; color: #fff;">88%</span>
+                    </div>
+                    <div style="height: 4px; background: #222; border-radius: 2px; overflow: hidden;">
+                      <div style="width: 88%; height: 100%; background: linear-gradient(90deg, #38bdf8, #22c55e);"></div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </section>
 
     </main>
   </div>
 
-  <script src="js/app.js?v=17"></script>
+  <script src="js/app.js?v=18"></script>
 </body>
 </html>

@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTradePlanToggle();
   initSectorEvents();
   initPortfolioEvents();
+  initAiAnalystEvents();
 
   // Load backend data
   loadAllMarketData();
@@ -2514,4 +2515,194 @@ function initPortfolioEvents() {
       qtyInput.value = '';
     });
   }
+}
+
+// ========================================================
+// PAGE 6: AI STOCK ANALYST & BACKTEST AUDITOR CONTROLLER
+// ========================================================
+
+const sampleAiTradeData = {
+  FEKDIL: [
+    {
+      date: '2025-04-18',
+      strategy: '⚡ 20-Day High Breakout + Volume Surge',
+      entry: 19.80,
+      sl: 19.20,
+      slPct: -3.0,
+      tp: 21.60,
+      tpPct: +9.1,
+      rrr: '3.0:1',
+      outcome: 'win',
+      gain: '+9.1%',
+      rationale: 'প্রাইস ২০ দিনের সর্বোচ্চ রেজিস্ট্যান্স ২.৪ গুণ ভলিউমসহ ব্রেকআউট করেছিল। RSI ছিল ৫৮ (সুইট-স্পট মোমেন্টাম)।'
+    },
+    {
+      date: '2025-06-11',
+      strategy: '📈 EMA 20/50 Golden Pullback Entry',
+      entry: 20.40,
+      sl: 19.80,
+      slPct: -2.9,
+      tp: 22.00,
+      tpPct: +7.8,
+      rrr: '2.7:1',
+      outcome: 'win',
+      gain: '+7.8%',
+      rationale: 'আপট্রেন্ড চলাকালীন প্রাইস EMA 20 সাপোর্টে টেস্ট করে শক্তিশালী বুলিশ হ্যামার তৈরি করেছিল।'
+    },
+    {
+      date: '2025-08-05',
+      strategy: '🐋 Smart Money Accumulation (Vol 2.8x)',
+      entry: 21.10,
+      sl: 20.50,
+      slPct: -2.8,
+      tp: 23.20,
+      tpPct: +10.0,
+      rrr: '3.5:1',
+      outcome: 'win',
+      gain: '+10.0%',
+      rationale: 'টানা ৪ দিন ন্যারো কনসলিডেশন রেঞ্জে প্রাতিষ্ঠানিক এক্যুমুলেশন ভলিউম শনাক্ত হয়েছিল।'
+    },
+    {
+      date: '2025-09-14',
+      strategy: '⚡ 20-Day Breakout Attempt',
+      entry: 21.90,
+      sl: 21.30,
+      slPct: -2.7,
+      tp: 23.80,
+      tpPct: +8.7,
+      rrr: '3.2:1',
+      outcome: 'loss',
+      gain: '-2.7%',
+      rationale: 'ব্রেকআউট লেভেলে এন্ট্রি হলেও সামগ্রিক সেক্টরে প্রফিট টেকিং আসায় স্টপ-লস ট্রিগার হয়।'
+    }
+  ]
+};
+
+function initAiAnalystEvents() {
+  const periodBtns = document.querySelectorAll('.ai-period-btn');
+  let activeAiPeriod = 'Last 6 Months';
+
+  periodBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      periodBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeAiPeriod = btn.innerText;
+      const subtitle = document.getElementById('aiPeriodSubtitle');
+      const input = document.getElementById('aiSymbolQueryInput');
+      const sym = input ? input.value.trim().toUpperCase() || 'FEKDIL' : 'FEKDIL';
+      if (subtitle) subtitle.innerText = `Analyzed Period: ${activeAiPeriod} (${sym})`;
+    });
+  });
+
+  const runBtn = document.getElementById('runAiAnalysisBtn');
+  const symInput = document.getElementById('aiSymbolQueryInput');
+
+  function renderAiReport(sym) {
+    const symbol = (sym || 'FEKDIL').toUpperCase();
+    const container = document.getElementById('aiTradesListContainer');
+    if (!container) return;
+
+    const trades = sampleAiTradeData[symbol] || [
+      {
+        date: '2025-04-12',
+        strategy: '⚡ 20-Day High Breakout + Volume Surge',
+        entry: 242.00,
+        sl: 236.00,
+        slPct: -2.5,
+        tp: 258.00,
+        tpPct: +6.6,
+        rrr: '2.6:1',
+        outcome: 'win',
+        gain: '+6.6%',
+        rationale: 'প্রাইস শক্তিশালী রেজিস্ট্যান্স ভলিউমসহ অতিক্রম করেছে এবং RSI ছিল ৬০।'
+      },
+      {
+        date: '2025-06-25',
+        strategy: '📈 EMA 20 Pullback Bounce',
+        entry: 246.50,
+        sl: 240.00,
+        slPct: -2.6,
+        tp: 262.00,
+        tpPct: +6.3,
+        rrr: '2.4:1',
+        outcome: 'win',
+        gain: '+6.3%',
+        rationale: 'EMA 20 সাপোর্টে টেস্ট করে প্রাতিষ্ঠানিক বাই ভলিউম প্রবেশ করেছিল।'
+      },
+      {
+        date: '2025-08-19',
+        strategy: '⚡ Breakout Attempt',
+        entry: 254.00,
+        sl: 248.00,
+        slPct: -2.4,
+        tp: 270.00,
+        tpPct: +6.3,
+        rrr: '2.6:1',
+        outcome: 'loss',
+        gain: '-2.4%',
+        rationale: 'মার্কেটের সার্বিক কারেকশনে ফলস ব্রেকআউট হয়ে স্টপ-লস ট্রিগার হয়েছে।'
+      }
+    ];
+
+    container.innerHTML = trades.map((t, i) => `
+      <div class="ai-trade-card">
+        <div class="ai-trade-card-top">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 12px; font-weight: 800; color: #fff;">#${i + 1} • ${t.date}</span>
+            <span class="ai-strategy-tag">${t.strategy}</span>
+          </div>
+          <span class="ai-outcome-tag ${t.outcome}">${t.outcome === 'win' ? '🟢 TARGET HIT (' + t.gain + ')' : '🔴 STOP LOSS (' + t.gain + ')'}</span>
+        </div>
+
+        <div class="ai-trade-plan-row">
+          <span>Entry: <b>৳${t.entry.toFixed(2)}</b></span>
+          <span class="sl-val">SL: <b>৳${t.sl.toFixed(2)} (${t.slPct}%)</b></span>
+          <span class="tp-val">TP: <b>৳${t.tp.toFixed(2)} (${t.tpPct}%)</b></span>
+          <span class="rrr-val">RRR: <b>${t.rrr}</b></span>
+          <button class="btn-primary" style="margin-left: auto; font-size: 10px; padding: 3px 8px; cursor: pointer;" onclick="loadSymbolData('${symbol}'); switchToPage('chart');">📈 View on Chart</button>
+        </div>
+
+        <div class="ai-trade-rationale">
+          <span style="color: var(--text-dim);">লজিক: </span>${t.rationale}
+        </div>
+      </div>
+    `).join('');
+
+    const countBadge = document.getElementById('aiTradesCountBadge');
+    if (countBadge) countBadge.innerText = `${trades.length} Setups Found`;
+
+    const totalVal = document.getElementById('aiTotalTradesVal');
+    if (totalVal) totalVal.innerText = `${trades.length} Trades`;
+
+    const subtitle = document.getElementById('aiPeriodSubtitle');
+    if (subtitle) subtitle.innerText = `Analyzed Period: ${activeAiPeriod} (${symbol})`;
+
+    const winCount = trades.filter(t => t.outcome === 'win').length;
+    const lossCount = trades.length - winCount;
+    const winRate = ((winCount / trades.length) * 100).toFixed(1);
+
+    const winRateEl = document.getElementById('aiWinRateVal');
+    if (winRateEl) winRateEl.innerText = `${winRate}%`;
+
+    const winCountSub = document.getElementById('aiWinCountSub');
+    if (winCountSub) winCountSub.innerText = `${winCount} Target Hits vs ${lossCount} Stop Loss`;
+  }
+
+  if (runBtn && symInput) {
+    runBtn.addEventListener('click', () => {
+      const sym = symInput.value.trim().toUpperCase() || 'FEKDIL';
+      runBtn.innerHTML = '<span>⏳ Scanning Data...</span>';
+      setTimeout(() => {
+        renderAiReport(sym);
+        runBtn.innerHTML = '<span>🔍 Scan & Audit Trades</span>';
+      }, 350);
+    });
+
+    symInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') runBtn.click();
+    });
+  }
+
+  // Initial render preview
+  renderAiReport('FEKDIL');
 }

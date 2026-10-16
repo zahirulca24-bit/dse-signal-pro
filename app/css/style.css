@@ -1824,3 +1824,317 @@ body {
   text-overflow: ellipsis;
 }
 
+
+/* ========================================================
+   PAGE 6: AI STOCK ANALYST & BACKTEST AUDITOR STYLES
+   ======================================================== */
+
+.ai-analyst-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.ai-hero-card {
+  background: #0d0d0f;
+  border: 1px solid #1e1e24;
+  border-radius: 8px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ai-hero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ai-hero-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ai-hero-desc {
+  font-size: 11.5px;
+  color: #94a3b8;
+  margin-top: 3px;
+}
+
+.ai-status-pill {
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  color: #38bdf8;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+}
+
+.ai-query-ribbon {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 6px;
+  border-top: 1px solid #18181c;
+}
+
+.ai-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ai-input-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ai-query-input {
+  background: #141416;
+  border: 1px solid #27272a;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 12px;
+  font-weight: 700;
+  width: 140px;
+  outline: none;
+}
+
+.ai-query-input:focus {
+  border-color: #38bdf8;
+}
+
+.ai-period-toggle-group {
+  display: flex;
+  gap: 3px;
+  background: #141416;
+  padding: 2px;
+  border-radius: 4px;
+  border: 1px solid #27272a;
+}
+
+.ai-period-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ai-period-btn:hover {
+  color: #fff;
+}
+
+.ai-period-btn.active {
+  background: #27272a;
+  color: #fff;
+  border-color: #444;
+}
+
+.ai-scorecard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.ai-main-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 16px;
+  flex: 1;
+  min-height: 480px;
+}
+
+.ai-panel {
+  background: #0d0d0f;
+  border: 1px solid #1e1e24;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ai-panel-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid #1e1e24;
+  background: #121215;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ai-trades-scroll-list {
+  padding: 12px;
+  overflow-y: auto;
+  max-height: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ai-trade-card {
+  background: #131316;
+  border: 1px solid #242429;
+  border-radius: 6px;
+  padding: 12px 14px;
+  transition: border-color 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ai-trade-card:hover {
+  border-color: #38bdf8;
+}
+
+.ai-trade-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ai-strategy-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.ai-outcome-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.ai-outcome-tag.win {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.ai-outcome-tag.loss {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.ai-trade-plan-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: #94a3b8;
+  background: #09090b;
+  padding: 6px 10px;
+  border-radius: 4px;
+  flex-wrap: wrap;
+}
+
+.ai-trade-plan-row b {
+  color: #fff;
+}
+
+.ai-trade-plan-row .sl-val b { color: #f87171; }
+.ai-trade-plan-row .tp-val b { color: #4ade80; }
+.ai-trade-plan-row .rrr-val b { color: #38bdf8; }
+
+.ai-trade-rationale {
+  font-size: 11px;
+  color: #cbd5e1;
+  line-height: 1.45;
+}
+
+.ai-defense-content {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  max-height: 540px;
+}
+
+.ai-rationale-box {
+  border-radius: 6px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ai-rationale-box.green-tint {
+  background: rgba(34, 197, 94, 0.04);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.ai-rationale-box.red-tint {
+  background: rgba(239, 68, 68, 0.04);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.ai-box-heading {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ai-reasons-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 11px;
+  color: #94a3b8;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  line-height: 1.45;
+}
+
+.ai-reasons-list b {
+  color: #f1f5f9;
+}
+
+.ai-teacher-card {
+  background: #131317;
+  border: 1px solid #2a2a35;
+  border-radius: 6px;
+  padding: 12px 14px;
+}
