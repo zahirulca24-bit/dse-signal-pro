@@ -164,6 +164,56 @@
             </div>
           </div>
 
+          <!-- Trader's Active Positions & Portfolio Live Tracker -->
+          <div class="dash-positions-card" id="dashPositionsCard">
+            <div class="dash-positions-header">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="dash-positions-title">💼 My Active Positions & Open Trades</span>
+                <span class="pill-change green" id="dashPositionsCountBadge">3 Open Trades</span>
+              </div>
+              <div class="dash-positions-stats">
+                <span>Invested: <b id="dashPortCost">৳0.00</b></span>
+                <span style="color: #2e2e38;">|</span>
+                <span>Current Value: <b id="dashPortValue">৳0.00</b></span>
+                <span style="color: #2e2e38;">|</span>
+                <span>Unrealized P/L: <b id="dashPortPl" style="color: var(--color-green);">+৳0.00 (+0.00%)</b></span>
+                <button class="btn-primary" id="dashQuickAddBtn" style="font-size: 10.5px; padding: 4px 10px; margin-left: 10px;">+ Record Buy</button>
+              </div>
+            </div>
+
+            <!-- Quick Add Form (Collapsible) -->
+            <div class="dash-quick-add-form" id="dashQuickAddForm" style="display: none;">
+              <span style="font-size: 11px; font-weight: 700; color: #fff;">New Trade Entry:</span>
+              <input type="text" id="dashPosSymInput" placeholder="Symbol (e.g. FEKDIL)" style="width: 140px; text-transform: uppercase;" class="screener-input">
+              <input type="number" id="dashPosPriceInput" placeholder="Buy Price (৳)" style="width: 120px;" step="0.1" class="screener-input">
+              <input type="number" id="dashPosQtyInput" placeholder="Quantity" style="width: 110px;" step="1" class="screener-input">
+              <button class="btn-primary" id="dashPosSaveBtn" style="font-size: 10.5px; padding: 4px 12px;">Save Trade</button>
+              <button class="btn-secondary" id="dashPosCancelBtn" style="font-size: 10.5px; padding: 4px 8px;">Cancel</button>
+            </div>
+
+            <!-- Active Positions Table -->
+            <div class="dash-positions-table-wrap">
+              <table class="dash-positions-table">
+                <thead>
+                  <tr>
+                    <th>Security</th>
+                    <th style="text-align: right;">Shares</th>
+                    <th style="text-align: right;">Buy Price</th>
+                    <th style="text-align: right;">LTP (৳)</th>
+                    <th style="text-align: right;">Cost (৳)</th>
+                    <th style="text-align: right;">Current Value</th>
+                    <th style="text-align: right;">Unrealized P/L</th>
+                    <th style="text-align: center;">Chart</th>
+                    <th style="text-align: center;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="dashPositionsTableBody">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
           <!-- Middle Row: Market Overview & Top Movers -->
           <div class="dash-mid-grid">
             

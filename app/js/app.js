@@ -874,6 +874,11 @@ async function loadSymbolData(symbol, options = {}) {
     }
   } catch (err) {
     console.error(`Error loading ${symbol}:`, err);
+    const badge = document.getElementById('chartBadge');
+    if (badge) {
+      badge.innerText = `⚠️ Data Load Error`;
+      badge.className = `pill-change red`;
+    }
   }
 }
 
@@ -1004,6 +1009,29 @@ async function updateChartAnalystDeck(symbol) {
           title: `TARGET 2 ৳${plan.target_2.toFixed(1)}`
         });
         activePlanLines.push(t2Line);
+      }
+
+      // Draw User's Active Position Line (if stock is in portfolio)
+      if (typeof userHoldings !== 'undefined' && Array.isArray(userHoldings)) {
+        const myHolding = userHoldings.find(h => h.symbol === sym);
+        if (myHolding && myHolding.buy_price > 0) {
+          try {
+            const currentClose = (rawHistoryData && rawHistoryData.length > 0) ? rawHistoryData[rawHistoryData.length - 1].close : myHolding.buy_price;
+            const diffPct = (((currentClose - myHolding.buy_price) / myHolding.buy_price) * 100).toFixed(1);
+            const sign = diffPct >= 0 ? '+' : '';
+            const myPosLine = candleSeries.createPriceLine({
+              price: myHolding.buy_price,
+              color: '#eab308', // Distinctive Golden Yellow
+              lineWidth: 2,
+              lineStyle: 0, // Solid line
+              axisLabelVisible: true,
+              title: `MY POSITION: ৳${myHolding.buy_price.toFixed(2)} (${myHolding.qty} Qty | P/L: ${sign}${diffPct}%)`
+            });
+            activePlanLines.push(myPosLine);
+          } catch (err) {
+            console.warn("Could not draw my position price line:", err);
+          }
+        }
       }
     } catch (err) {
       console.warn("Could not draw plan price lines:", err);
@@ -2380,6 +2408,9 @@ function saveWatchlists() {
 function saveHoldings() {
   try {
     localStorage.setItem('dse_holdings', JSON.stringify(userHoldings));
+    if (typeof renderDashboardPositions === 'function') {
+      renderDashboardPositions();
+    }
   } catch (e) {
     console.error('Error saving holdings:', e);
   }
@@ -2751,6 +2782,163 @@ function initPortfolioEvents() {
       symInput.value = '';
       priceInput.value = '';
       qtyInput.value = '';
+    });
+  }
+
+  initDashboardPositionEvents();
+}
+
+// --- Dashboard Active Positions & Open Trades Engine ---
+function renderDashboardPositions() {
+  const tbody = document.getElementById('dashPositionsTableBody');
+  const countBadge = document.getElementById('dashPositionsCountBadge');
+  const costEl = document.getElementById('dashPortCost');
+  const valEl = document.getElementById('dashPortValue');
+  const plEl = document.getElementById('dashPortPl');
+
+  if (!tbody) return;
+
+  let totalCost = 0;
+  let totalValue = 0;
+
+  if (!userHoldings || userHoldings.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; color: var(--text-dim); padding: 25px;">No open positions recorded yet. Click <b>+ Record Buy</b> above to track your trade!</td></tr>`;
+    if (countBadge) countBadge.innerText = '0 Open Trades';
+    if (costEl) costEl.innerText = '৳0.00';
+    if (valEl) valEl.innerText = '৳0.00';
+    if (plEl) {
+      plEl.innerText = '৳0.00 (0.00%)';
+      plEl.style.color = '#94a3b8';
+    }
+    return;
+  }
+
+  tbody.innerHTML = userHoldings.map((h, idx) => {
+    const stock = (rawScreenerData || []).find(s => s.symbol === h.symbol) ||
+                  (allSymbolsData || []).find(s => s.symbol === h.symbol) || {
+                    symbol: h.symbol,
+                    name: h.symbol,
+                    ltp: h.buy_price,
+                    change_pct: 0
+                  };
+
+    const ltp = stock.ltp || h.buy_price;
+    const cost = h.buy_price * h.qty;
+    const marketVal = ltp * h.qty;
+    const pl = marketVal - cost;
+    const plPct = cost > 0 ? (pl / cost * 100) : 0;
+
+    totalCost += cost;
+    totalValue += marketVal;
+
+    const plColor = pl >= 0 ? '#4ade80' : '#f87171';
+    const plSign = pl >= 0 ? '+' : '';
+    const daySign = stock.change_pct >= 0 ? '+' : '';
+    const dayCls = stock.change_pct >= 0 ? 'green' : 'red';
+
+    return `
+      <tr>
+        <td>
+          <div style="font-weight: 700; color: #fff;">${h.symbol}</div>
+          <div style="font-size: 10px; color: var(--text-dim);">${stock.name || ''}</div>
+        </td>
+        <td style="text-align: right; font-weight: 600;">${h.qty.toLocaleString()}</td>
+        <td style="text-align: right;">৳${h.buy_price.toFixed(2)}</td>
+        <td style="text-align: right; font-weight: 700; color: #fff;">
+          ৳${ltp.toFixed(2)}
+          <span class="pill-change ${dayCls}" style="font-size: 9px; padding: 1px 4px; margin-left: 4px;">${daySign}${stock.change_pct.toFixed(2)}%</span>
+        </td>
+        <td style="text-align: right;">৳${cost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+        <td style="text-align: right; font-weight: 700; color: #fff;">৳${marketVal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+        <td style="text-align: right; font-weight: 700; color: ${plColor};">
+          ${plSign}৳${pl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (${plSign}${plPct.toFixed(2)}%)
+        </td>
+        <td style="text-align: center;">
+          <button class="btn-primary" style="font-size: 9.5px; padding: 2px 7px; cursor: pointer;" onclick="loadSymbolData('${h.symbol}'); switchToPage('chart');">📈 Chart</button>
+        </td>
+        <td style="text-align: center;">
+          <button class="btn-icon-danger" style="font-size: 11px; padding: 1px 6px; cursor: pointer;" onclick="deleteUserHolding(${idx})" title="Close/Remove Trade">🗑️</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  const totalPl = totalValue - totalCost;
+  const totalPlPct = totalCost > 0 ? (totalPl / totalCost * 100) : 0;
+  const totalSign = totalPl >= 0 ? '+' : '';
+
+  if (countBadge) countBadge.innerText = `${userHoldings.length} Open Trades`;
+  if (costEl) costEl.innerText = `৳${totalCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  if (valEl) valEl.innerText = `৳${totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  if (plEl) {
+    plEl.innerText = `${totalSign}৳${totalPl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (${totalSign}${totalPlPct.toFixed(2)}%)`;
+    plEl.style.color = totalPl >= 0 ? 'var(--color-green)' : '#f87171';
+  }
+}
+
+window.deleteUserHolding = function(idx) {
+  if (idx >= 0 && idx < userHoldings.length) {
+    userHoldings.splice(idx, 1);
+    saveHoldings();
+    renderDashboardPositions();
+    renderPortfolio();
+    if (activeSymbol) {
+      updateChartAnalystDeck(activeSymbol);
+    }
+  }
+};
+
+function initDashboardPositionEvents() {
+  const dashQuickBtn = document.getElementById('dashQuickAddBtn');
+  const dashForm = document.getElementById('dashQuickAddForm');
+  const dashSaveBtn = document.getElementById('dashPosSaveBtn');
+  const dashCancelBtn = document.getElementById('dashPosCancelBtn');
+  const dashSym = document.getElementById('dashPosSymInput');
+  const dashPrice = document.getElementById('dashPosPriceInput');
+  const dashQty = document.getElementById('dashPosQtyInput');
+
+  if (dashQuickBtn && dashForm) {
+    dashQuickBtn.addEventListener('click', () => {
+      dashForm.style.display = dashForm.style.display === 'none' ? 'flex' : 'none';
+      if (dashForm.style.display === 'flex' && dashSym) dashSym.focus();
+    });
+  }
+
+  if (dashCancelBtn && dashForm) {
+    dashCancelBtn.addEventListener('click', () => {
+      dashForm.style.display = 'none';
+    });
+  }
+
+  if (dashSaveBtn && dashSym && dashPrice && dashQty) {
+    dashSaveBtn.addEventListener('click', () => {
+      const sym = dashSym.value.trim().toUpperCase();
+      const price = parseFloat(dashPrice.value);
+      const qty = parseInt(dashQty.value);
+
+      if (!sym || isNaN(price) || isNaN(qty) || price <= 0 || qty <= 0) {
+        alert('Please enter valid Symbol, Buy Price and Quantity.');
+        return;
+      }
+
+      userHoldings.push({ symbol: sym, buy_price: price, qty: qty });
+      saveHoldings();
+      renderDashboardPositions();
+      renderPortfolio();
+      if (activeSymbol) {
+        updateChartAnalystDeck(activeSymbol);
+      }
+
+      dashSym.value = '';
+      dashPrice.value = '';
+      dashQty.value = '';
+      dashForm.style.display = 'none';
+    });
+
+    [dashSym, dashPrice, dashQty].forEach(input => {
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') dashSaveBtn.click();
+      });
     });
   }
 }

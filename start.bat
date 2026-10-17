@@ -17,11 +17,8 @@ if exist "%VENV_PY%" (
 )
 
 echo [*] Python Path: %PYTHON_CMD%
-echo [*] Checking port 8080...
-for /f "tokens=5" %%a in ('netstat -ano 2^>nul ^| findstr :8080 ^| findstr LISTENING') do (
-    echo [*] Closing previous server process PID %%a
-    taskkill /f /pid %%a >nul 2>&1
-)
+echo [*] Checking and freeing port 8080 (IPv4 and IPv6)...
+powershell -NoProfile -Command "Get-NetTCPConnection -LocalPort 8080 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique | Where-Object { $_ -gt 4 } | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }" >nul 2>&1
 echo [*] Starting Unified Server at http://localhost:8080 ...
 echo [*] Frontend and Backend are running together in this terminal!
 echo [*] Opening browser in 2 seconds...
