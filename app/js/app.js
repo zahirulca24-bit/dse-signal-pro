@@ -771,12 +771,16 @@ function handleResize() {
 }
 
 // Load Stock Data & Calculate Technicals (With Auto Price Scale & Positioning)
-async function loadSymbolData(symbol) {
+async function loadSymbolData(symbol, options = {}) {
   activeSymbol = symbol;
   try {
     localStorage.setItem('dse_active_symbol', symbol);
   } catch (e) {}
   document.getElementById('chartSymbol').innerText = symbol;
+
+  if (!options.inspecting) {
+    clearAiTradeInspection();
+  }
 
   try {
     const res = await fetch(`/api/history?symbol=${encodeURIComponent(symbol)}`);
@@ -838,22 +842,11 @@ async function loadSymbolData(symbol) {
     }
 
     updateReadoutToLatest();
-    updateChartAnalystDeck(symbol);
 
-    // Auto-fit both axes (X: timeScale, Y: priceScale) across ALL 3 PANES
-    chartPrice.timeScale().fitContent();
-    chartPrice.priceScale('right').applyOptions({ autoScale: true });
-    if (chartRSI) {
-      chartRSI.timeScale().fitContent();
-      chartRSI.priceScale('right').applyOptions({ autoScale: true });
-    }
-    if (chartMACD) {
-      chartMACD.timeScale().fitContent();
-      chartMACD.priceScale('right').applyOptions({ autoScale: true });
-    }
+    if (!options.inspecting) {
+      updateChartAnalystDeck(symbol);
 
-    setTimeout(() => {
-      handleResize();
+      // Auto-fit both axes (X: timeScale, Y: priceScale) across ALL 3 PANES
       chartPrice.timeScale().fitContent();
       chartPrice.priceScale('right').applyOptions({ autoScale: true });
       if (chartRSI) {
@@ -864,7 +857,21 @@ async function loadSymbolData(symbol) {
         chartMACD.timeScale().fitContent();
         chartMACD.priceScale('right').applyOptions({ autoScale: true });
       }
-    }, 60);
+
+      setTimeout(() => {
+        handleResize();
+        chartPrice.timeScale().fitContent();
+        chartPrice.priceScale('right').applyOptions({ autoScale: true });
+        if (chartRSI) {
+          chartRSI.timeScale().fitContent();
+          chartRSI.priceScale('right').applyOptions({ autoScale: true });
+        }
+        if (chartMACD) {
+          chartMACD.timeScale().fitContent();
+          chartMACD.priceScale('right').applyOptions({ autoScale: true });
+        }
+      }, 60);
+    }
   } catch (err) {
     console.error(`Error loading ${symbol}:`, err);
   }
@@ -1015,6 +1022,237 @@ function initTradePlanToggle() {
     });
   }
 }
+
+// ========================================================
+// AI BACKTEST TRADE INSPECTION ENGINE (CHART OVERLAY)
+// ========================================================
+let currentInspectedTrade = null;
+let activeAiInspectionLines = [];
+window.currentAiTrades = [];
+
+async function inspectAiTradeOnChart(symbol, tradeIndex) {
+  const sym = (symbol || 'FEKDIL').toUpperCase();
+  const trade = (window.currentAiTrades && window.currentAiTrades[tradeIndex]) ? window.currentAiTrades[tradeIndex] : null;
+  if (!trade) return;
+
+  currentInspectedTrade = trade;
+
+  // 1. Switch to chart view first
+  switchToPage('chart');
+
+  // 2. Load symbol data with inspecting flag
+  await loadSymbolData(sym, { inspecting: true });
+
+  // 3. Render the trade overlay on the chart
+  renderAiTradeOverlay(sym, trade);
+}
+
+function renderAiTradeOverlay(symbol, trade) {
+  if (!candleSeries || !rawHistoryData || rawHistoryData.length === 0) return;
+
+  // Clear previous inspection lines and standard plan lines
+  clearAiInspectionLines();
+  activePlanLines.forEach(pl => {
+    try { candleSeries.removePriceLine(pl); } catch (e) {}
+  });
+  activePlanLines = [];
+
+  // 1. Show and populate the AI Inspection Banner
+  const banner = document.getElementById('aiInspectBanner');
+  if (banner) {
+    banner.style.display = 'flex';
+    const symEl = document.getElementById('inspectSymbolBadge');
+    if (symEl) symEl.innerText = symbol;
+    const stratEl = document.getElementById('inspectStratBadge');
+    if (stratEl) stratEl.innerText = trade.strategy;
+    const dateEl = document.getElementById('inspectDateBadge');
+    if (dateEl) dateEl.innerHTML = `📅 Entry: <b>${trade.date}</b> @ ৳${Number(trade.entry).toFixed(2)}`;
+    const outcomeEl = document.getElementById('inspectOutcomeBadge');
+    if (outcomeEl) {
+      outcomeEl.className = `ai-inspect-outcome ${trade.outcome}`;
+      const sign = trade.gain_pct >= 0 ? '+' : '';
+      outcomeEl.innerText = trade.outcome === 'win'
+        ? `🟢 TARGET HIT (${sign}${trade.gain_pct}%) @ ৳${Number(trade.exit_price).toFixed(2)}`
+        : `🔴 STOP LOSS (${trade.gain_pct}%) @ ৳${Number(trade.exit_price).toFixed(2)}`;
+    }
+  }
+
+  // 2. Create high-visibility Price Lines
+  try {
+    const entryLine = candleSeries.createPriceLine({
+      price: trade.entry,
+      color: '#38bdf8',
+      lineWidth: 2,
+      lineStyle: 2, // Dashed
+      axisLabelVisible: true,
+      title: `AI ENTRY ৳${Number(trade.entry).toFixed(2)} (${trade.date})`
+    });
+    activeAiInspectionLines.push(entryLine);
+
+    const slLine = candleSeries.createPriceLine({
+      price: trade.sl,
+      color: '#f6465d',
+      lineWidth: 2,
+      lineStyle: 2,
+      axisLabelVisible: true,
+      title: `STOP LOSS ৳${Number(trade.sl).toFixed(2)} (${trade.sl_pct}%)`
+    });
+    activeAiInspectionLines.push(slLine);
+
+    const tpLine = candleSeries.createPriceLine({
+      price: trade.tp,
+      color: '#2ebd85',
+      lineWidth: 2,
+      lineStyle: 2,
+      axisLabelVisible: true,
+      title: `TARGET ৳${Number(trade.tp).toFixed(2)} (+${trade.tp_pct}%)`
+    });
+    activeAiInspectionLines.push(tpLine);
+  } catch (err) {
+    console.warn("Could not draw inspection price lines:", err);
+  }
+
+  // 3. Set Candlestick Markers on the exact Entry & Exit dates
+  const markers = [];
+  if (trade.date) {
+    markers.push({
+      time: trade.date,
+      position: 'belowBar',
+      color: '#38bdf8',
+      shape: 'arrowUp',
+      text: `AI BUY ৳${Number(trade.entry).toFixed(2)}`,
+      size: 2
+    });
+  }
+
+  if (trade.exit_date) {
+    const isWin = trade.outcome === 'win';
+    const sign = trade.gain_pct >= 0 ? '+' : '';
+    markers.push({
+      time: trade.exit_date,
+      position: 'aboveBar',
+      color: isWin ? '#2ebd85' : '#f6465d',
+      shape: isWin ? 'circle' : 'arrowDown',
+      text: isWin ? `🎯 HIT TP (${sign}${trade.gain_pct}%)` : `🛑 HIT SL (${trade.gain_pct}%)`,
+      size: 2
+    });
+  }
+
+  markers.sort((a, b) => (a.time > b.time ? 1 : (a.time < b.time ? -1 : 0)));
+  try {
+    candleSeries.setMarkers(markers);
+  } catch (err) {
+    console.warn("Could not set markers:", err);
+  }
+
+  // 4. Auto-Focus/Zoom to the trade window
+  focusTradeTimeRange(trade);
+
+  // 5. Update Analyst Deck with Inspected Trade Details
+  updateDeckForInspectedTrade(symbol, trade);
+}
+
+function focusTradeTimeRange(trade) {
+  if (!rawHistoryData || rawHistoryData.length === 0 || !chartPrice || !trade) return;
+
+  const entryIdx = rawHistoryData.findIndex(c => c.time === trade.date);
+  if (entryIdx === -1) {
+    chartPrice.timeScale().fitContent();
+    return;
+  }
+
+  let exitIdx = trade.exit_date ? rawHistoryData.findIndex(c => c.time === trade.exit_date) : entryIdx + 5;
+  if (exitIdx === -1) exitIdx = Math.min(rawHistoryData.length - 1, entryIdx + 10);
+
+  // Window: 15 candles before entry and 25 candles after exit
+  const startIdx = Math.max(0, entryIdx - 15);
+  const endIdx = Math.min(rawHistoryData.length - 1, exitIdx + 25);
+
+  const fromTime = rawHistoryData[startIdx].time;
+  const toTime = rawHistoryData[endIdx].time;
+
+  try {
+    chartPrice.timeScale().setVisibleRange({ from: fromTime, to: toTime });
+    if (chartRSI) chartRSI.timeScale().setVisibleRange({ from: fromTime, to: toTime });
+    if (chartMACD) chartMACD.timeScale().setVisibleRange({ from: fromTime, to: toTime });
+
+    setTimeout(() => {
+      chartPrice.priceScale('right').applyOptions({ autoScale: true });
+      if (chartRSI) chartRSI.priceScale('right').applyOptions({ autoScale: true });
+      if (chartMACD) chartMACD.priceScale('right').applyOptions({ autoScale: true });
+    }, 50);
+  } catch (e) {
+    chartPrice.timeScale().fitContent();
+  }
+}
+
+function focusCurrentInspectedTrade() {
+  if (currentInspectedTrade) {
+    focusTradeTimeRange(currentInspectedTrade);
+  }
+}
+
+function updateDeckForInspectedTrade(symbol, trade) {
+  const vBadge = document.getElementById('deckVerdictBadge');
+  const cBadge = document.getElementById('deckCategoryBadge');
+  const eEl = document.getElementById('deckEntry');
+  const slEl = document.getElementById('deckSL');
+  const t1El = document.getElementById('deckT1');
+  const rrrEl = document.getElementById('deckRRR');
+  const ratBn = document.getElementById('deckRationaleBn');
+
+  if (vBadge) {
+    if (trade.outcome === 'win') {
+      const sign = trade.gain_pct >= 0 ? '+' : '';
+      vBadge.className = 'verdict-badge verdict-buy';
+      vBadge.innerText = `🟢 TARGET HIT (${sign}${trade.gain_pct}%)`;
+    } else {
+      vBadge.className = 'verdict-badge verdict-avoid';
+      vBadge.innerText = `🔴 STOP LOSS (${trade.gain_pct}%)`;
+    }
+  }
+
+  if (cBadge) {
+    cBadge.className = 'badge-cat badge-cat-a';
+    cBadge.innerText = 'AI AUDIT';
+  }
+
+  if (eEl) eEl.innerText = `৳${Number(trade.entry).toFixed(2)}`;
+  if (slEl) slEl.innerText = `৳${Number(trade.sl).toFixed(2)} (${trade.sl_pct}%)`;
+  if (t1El) t1El.innerText = `৳${Number(trade.tp).toFixed(2)} (+${trade.tp_pct}%)`;
+  if (rrrEl) rrrEl.innerText = trade.rrr || '2.2:1';
+  if (ratBn) {
+    ratBn.innerText = `${trade.strategy} • ${trade.rationale} (এন্ট্রি: ${trade.date} | এক্সিট: ${trade.exit_date})`;
+  }
+}
+
+function clearAiTradeInspection() {
+  currentInspectedTrade = null;
+  clearAiInspectionLines();
+  if (candleSeries) {
+    try { candleSeries.setMarkers([]); } catch (e) {}
+  }
+  const banner = document.getElementById('aiInspectBanner');
+  if (banner) banner.style.display = 'none';
+
+  if (activeSymbol) {
+    updateChartAnalystDeck(activeSymbol);
+  }
+  if (chartPrice) {
+    chartPrice.timeScale().fitContent();
+    chartPrice.priceScale('right').applyOptions({ autoScale: true });
+  }
+}
+
+function clearAiInspectionLines() {
+  if (candleSeries && activeAiInspectionLines.length > 0) {
+    activeAiInspectionLines.forEach(pl => {
+      try { candleSeries.removePriceLine(pl); } catch (e) {}
+    });
+    activeAiInspectionLines = [];
+  }
+}
+
 
 // Indicator Calculation Engine
 function computeAllIndicators(candles) {
@@ -2573,6 +2811,8 @@ function initAiAnalystEvents() {
 
       const trades = data.trades || [];
       const traps = data.avoided_traps || [];
+      window.currentAiTrades = trades;
+      window.currentAiSymbol = data.symbol;
 
       // Render Trades Timeline
       if (trades.length === 0) {
@@ -2605,7 +2845,7 @@ function initAiAnalystEvents() {
                 <span class="sl-val">SL: <b>৳${Number(t.sl).toFixed(2)} (${t.sl_pct}%)</b></span>
                 <span class="tp-val">TP: <b>৳${Number(t.tp).toFixed(2)} (+${t.tp_pct}%)</b></span>
                 <span class="rrr-val">RRR: <b>${t.rrr}</b></span>
-                <button class="btn-primary" style="margin-left: auto; font-size: 10px; padding: 3px 8px; cursor: pointer;" onclick="loadSymbolData('${data.symbol}'); switchToPage('chart');">📈 View on Chart</button>
+                <button class="btn-primary" style="margin-left: auto; font-size: 10px; padding: 3px 8px; cursor: pointer;" onclick="inspectAiTradeOnChart('${data.symbol}', ${i});">📈 View on Chart</button>
               </div>
 
               <div class="ai-trade-rationale">

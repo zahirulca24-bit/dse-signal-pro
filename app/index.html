@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DSE Signal Pro — Analytics, Dashboard & Multi-Pane Charting</title>
-  <link rel="stylesheet" href="css/style.css?v=19">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <!-- Offline Standalone Lightweight Charts by TradingView -->
   <script src="js/lightweight-charts.standalone.production.js"></script>
 </head>
@@ -303,6 +303,26 @@
                 <button class="tf-btn" data-range="6M">6M</button>
                 <button class="tf-btn" data-range="1Y">1Y</button>
                 <button class="tf-btn active" data-range="ALL">ALL (2Y)</button>
+              </div>
+            </div>
+
+            <!-- AI Historical Trade Inspection Sticky Ribbon (Shown on 'View on Chart') -->
+            <div class="ai-inspect-banner" id="aiInspectBanner" style="display: none;">
+              <div class="ai-inspect-banner-content">
+                <div class="ai-inspect-title-pill">
+                  <span class="status-pulse-dot"></span>
+                  <span>🤖 AI Trade Forensics</span>
+                </div>
+                <div class="ai-inspect-details">
+                  <span class="ai-inspect-symbol" id="inspectSymbolBadge">FEKDIL</span>
+                  <span class="ai-inspect-strat" id="inspectStratBadge">⚡ Breakout Setup</span>
+                  <span class="ai-inspect-date" id="inspectDateBadge">📅 Entry: 2026-04-19 @ ৳14.40</span>
+                  <span class="ai-inspect-outcome win" id="inspectOutcomeBadge">🟢 TARGET HIT (+7.6%)</span>
+                </div>
+              </div>
+              <div class="ai-inspect-actions">
+                <button class="ai-inspect-btn-zoom" id="aiInspectZoomBtn" onclick="focusCurrentInspectedTrade()" title="Focus chart view on this trade setup window">🔍 Focus Window</button>
+                <button class="ai-inspect-btn-exit" id="aiInspectExitBtn" onclick="clearAiTradeInspection()" title="Exit backtest inspection and return to live market view">✖ Exit Inspection</button>
               </div>
             </div>
 
@@ -1007,6 +1027,6 @@
     </main>
   </div>
 
-  <script src="js/app.js?v=20"></script>
+  <script src="js/app.js?v=21"></script>
 </body>
 </html>

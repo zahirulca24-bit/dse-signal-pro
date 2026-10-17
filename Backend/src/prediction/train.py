@@ -15,9 +15,7 @@ from pathlib import Path
 from typing import Dict, Any, List, Tuple
 import numpy as np
 import pandas as pd
-import joblib
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+
 
 ROOT = Path(__file__).resolve().parents[3]
 DATA_CSV = ROOT / "dse_all_stocks_2y_ohlcv.csv"
@@ -171,6 +169,10 @@ def run_walk_forward_pipeline() -> Dict[str, Any]:
     """
     Executes the 4-phase Walk-Forward training and out-of-sample testing pipeline.
     """
+    import joblib
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+
     df = prepare_multi_stock_dataset(sample_limit=60)
     unique_dates = sorted(df["trade_date"].unique())
     total_dates = len(unique_dates)
